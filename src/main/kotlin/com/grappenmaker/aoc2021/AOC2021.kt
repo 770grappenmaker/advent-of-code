@@ -18,6 +18,7 @@ fun main(args: Array<String>) {
             1 -> solveDay1()
             2 -> solveDay2()
             3 -> solveDay3()
+            4 -> solveDay4()
             else -> println("Couldn't find solution for day $index")
         }
     }.also {
