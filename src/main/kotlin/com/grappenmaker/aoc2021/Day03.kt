@@ -2,9 +2,9 @@ package com.grappenmaker.aoc2021
 
 import kotlin.math.pow
 
-fun solveDay3() {
+fun Context.solveDay3() {
     // Part one
-    val lines = getInputLines(3)
+    val lines = getInputLines()
     val width = lines.first().length
     val numbers = lines.map { it.toInt(2) }
 
