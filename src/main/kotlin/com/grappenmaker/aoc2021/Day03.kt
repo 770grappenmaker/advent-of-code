@@ -4,7 +4,7 @@ import kotlin.math.pow
 
 fun Context.solveDay3() {
     // Part one
-    val lines = getInputLines()
+    val lines = inputLines
     val width = lines.first().length
     val numbers = lines.map { it.toInt(2) }
 

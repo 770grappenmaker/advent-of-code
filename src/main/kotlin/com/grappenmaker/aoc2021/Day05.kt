@@ -6,7 +6,7 @@ import kotlin.math.min
 
 fun Context.solveDay5() {
     // Part one
-    val lines = getInputLines().map { line ->
+    val lines = inputLines.map { line ->
         val points = line.split(" -> ").map { pair ->
             val nums = pair.split(",")
             Point(nums[0].toInt(), nums[1].toInt())

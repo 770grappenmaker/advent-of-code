@@ -2,7 +2,7 @@ package com.grappenmaker.aoc2021
 
 fun Context.solveDay2() {
     // Part one
-    val instructions = getInputLines().map {
+    val instructions = inputLines.map {
         val split = it.split(' ')
         split[0] to split[1].toInt()
     }
@@ -34,5 +34,5 @@ fun Context.solveDay2() {
     println("Part two: ${sub2.horizontal * sub2.depth}")
 }
 
-// Aim is for part two, unused in part one (sorry heap for the four bytes extra :pleading_eyes:)
+// Aim is for part two, unused in part one
 data class Submarine(var horizontal: Int = 0, var depth: Int = 0, var aim: Int = 0)

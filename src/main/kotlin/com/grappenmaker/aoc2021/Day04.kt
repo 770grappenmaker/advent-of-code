@@ -8,7 +8,7 @@ val spacePattern = """\s+""".toRegex()
 
 fun Context.solveDay4() {
     // Part one
-    val lines = getInputLines()
+    val lines = inputLines
 
     // Read numbers
     val numbers = lines.first().split(",").map { it.toInt() }
