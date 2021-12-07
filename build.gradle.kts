@@ -26,17 +26,34 @@ tasks.jar {
 tasks.register("runSolution") {
     dependsOn("classes")
     doLast {
-        val paths = (getRuntimeClasspath().map { it.toURI().toURL() } +
-                sourceSets.main.get().output.classesDirs.map { it.toURI().toURL() }).toTypedArray()
-        val newLoader = URLClassLoader(paths)
-
         val parameters = arrayOf(properties["day"] as String? ?: "1")
-        try {
-            Class.forName(mainClassPath, true, newLoader).getMethod("main", parameters::class.java)(null, parameters)
-        } catch (e: InvocationTargetException) {
-            throw GradleScriptException("Exception while executing solution", e.targetException)
-        }
+        runClass(mainClassPath, parameters)
     }
+}
+
+tasks.register("benchmark") {
+    dependsOn("classes")
+    doLast {
+        val parameters = arrayOf(properties["day"] as String? ?: "1")
+        runClass("com.grappenmaker.aoc2021.Benchmark", parameters)
+    }
+}
+
+fun runClass(name: String, parameters: Array<String>) {
+    try {
+        val newLoader = getLoader()
+        Class.forName(name, true, newLoader)
+            .getMethod("main", parameters::class.java)(null, parameters)
+    } catch (e: InvocationTargetException) {
+        throw GradleScriptException("Exception while benchmarking solution", e.targetException)
+    }
+}
+
+fun getLoader(): ClassLoader {
+    val paths = (getRuntimeClasspath().map { it.toURI().toURL() } +
+            sourceSets.main.get().output.classesDirs.map { it.toURI().toURL() }).toTypedArray()
+
+    return URLClassLoader(paths)
 }
 
 fun getRuntimeClasspath() = configurations.runtimeClasspath.get()

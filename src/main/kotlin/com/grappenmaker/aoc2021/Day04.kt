@@ -33,12 +33,12 @@ fun Context.solveDay4() {
     println("Part two: ${game.lastNumber * lastWinner.score}")
 }
 
-class Game(val numbers: List<Int>, val boards: Set<Board>) {
+class Game(private val numbers: List<Int>, private val boards: Set<Board>) {
     var lastNumber = 0
         private set
     private var index = 0
 
-    fun step() {
+    private fun step() {
         if (index >= numbers.size) return
 
         this.lastNumber = numbers[index]
@@ -79,12 +79,12 @@ class Game(val numbers: List<Int>, val boards: Set<Board>) {
         boards.forEach { it.reset() }
     }
 
-    fun getWinners() = boards.filter { it.hasWon() }
+    private fun getWinners() = boards.filter { it.hasWon() }
 }
 
-class Board(val cells: Array<Cell>) {
-    val rows get() = (0 until BOARD_SIZE).map { i -> cells.filter { it.getX() == i } }
-    val cols get() = (0 until BOARD_SIZE).map { i -> cells.filter { it.getY() == i } }
+class Board(private val cells: Array<Cell>) {
+    private val rows get() = (0 until BOARD_SIZE).map { i -> cells.filter { it.getX() == i } }
+    private val cols get() = (0 until BOARD_SIZE).map { i -> cells.filter { it.getY() == i } }
     val score get() = cells.filter { !it.marked }.sumOf { it.number }
 
     fun hasWon(): Boolean {
@@ -97,7 +97,6 @@ class Board(val cells: Array<Cell>) {
 }
 
 data class Cell(val number: Int, val index: Int, var marked: Boolean = false) {
-    fun getCoords() = getX() to getY()
     fun getX() = index % BOARD_SIZE
     fun getY() = floor(index / BOARD_SIZE.toDouble()).toInt()
 }

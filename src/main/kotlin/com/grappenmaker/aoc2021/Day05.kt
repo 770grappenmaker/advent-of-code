@@ -50,8 +50,8 @@ data class Line(val a: Point, val b: Point) {
         }
     }
 
-    fun isHorizontal() = a.x == b.x
-    fun isVertical() = a.y == b.y
+    private fun isHorizontal() = a.x == b.x
+    private fun isVertical() = a.y == b.y
     fun isStraight() = isHorizontal() || isVertical()
 }
 

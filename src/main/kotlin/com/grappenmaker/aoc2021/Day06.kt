@@ -11,13 +11,13 @@ fun Context.solveDay6() {
         for (day in 1..count) {
             val newResult = mutableMapOf<Int, Long>()
 
-            for ((i, count) in result) {
+            for ((i, cnt) in result) {
                 if (i == 0) {
-                    newResult[6] = newResult.getOrDefault(6, 0) + count
-                    newResult[8] = newResult.getOrDefault(8, 0) + count
+                    newResult[6] = newResult.getOrDefault(6, 0) + cnt
+                    newResult[8] = newResult.getOrDefault(8, 0) + cnt
                 } else {
                     val newKey = i - 1
-                    newResult[newKey] = newResult.getOrDefault(newKey, 0) + count
+                    newResult[newKey] = newResult.getOrDefault(newKey, 0) + cnt
                 }
             }
 

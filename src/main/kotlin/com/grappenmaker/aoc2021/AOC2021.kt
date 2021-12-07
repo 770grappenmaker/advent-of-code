@@ -55,7 +55,7 @@ fun main(args: Array<String>) {
     // Print tree
     println(colorize(TREE))
 
-    // Print some "christmas lights"
+    // Print some "Christmas lights"
     val light = "o"
     val lightCount = 36
     val lights = colorize(light.repeat(lightCount)).split(light).joinToString("$light ")
@@ -72,20 +72,8 @@ fun main(args: Array<String>) {
     println(textColor)
 
     // Actually run the solution
-    val context = Context(index, args.getOrNull(1)?.let { File(it) })
-    measureTimeMillis {
-        context.run {
-            when (index) {
-                1 -> solveDay1()
-                2 -> solveDay2()
-                3 -> solveDay3()
-                4 -> solveDay4()
-                5 -> solveDay5()
-                6 -> solveDay6()
-                else -> println("Couldn't find solution for day $index")
-            }
-        }
-    }.also {
+    val context = Context(index, overrideFile = args.getOrNull(1)?.let { File(it) })
+    measureTimeMillis { context.run() }.also {
         println()
         println(lights)
         println()
@@ -95,9 +83,22 @@ fun main(args: Array<String>) {
 
 // Util to get input
 class Context(private val day: Int, private val overrideFile: File? = null) {
-    val inputFile get() = overrideFile ?: File("inputs", "day-${day.toString().padStart(2, '0')}.txt")
-    val input = inputFile.readText().trim()
-    val inputLines get() = input.split("[\\r\\n]".toRegex())
+    private val inputFile get() = overrideFile ?: File("inputs", "day-${day.toString().padStart(2, '0')}.txt")
+    val inputLines = inputFile.readLines()
+    val input get() = inputLines.joinToString("\n")
+
+    fun run() {
+        when (day) {
+            1 -> solveDay1()
+            2 -> solveDay2()
+            3 -> solveDay3()
+            4 -> solveDay4()
+            5 -> solveDay5()
+            6 -> solveDay6()
+            7 -> solveDay7()
+            else -> println("Couldn't find solution for day $day")
+        }
+    }
 }
 
 // Utility for color, idea from u/microhod_96
@@ -105,8 +106,12 @@ object Color {
     const val ESCAPE = "\u001B"
 
     enum class Codes(val code: Int) {
-        // Not exhaustive, i don't need more
-        RESET(0), RED(31), GREEN(32), WHITE(37), BRIGHT_YELLOW(93), BRIGHT_BLUE(94);
+        // Not exhaustive, I don't need more
+        RESET(0),
+        RED(31),
+        GREEN(32),
+        WHITE(37),
+        BRIGHT_BLUE(94);
 
         override fun toString() = "$ESCAPE[${code}m"
     }
