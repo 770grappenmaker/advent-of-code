@@ -55,7 +55,7 @@ fun main(args: Array<String>) {
     println("Avg: ${sum.toDouble() / runtimes.size} $measurement")
 
     val mid = runtimes.size / 2
-    val median = runtimes[mid] + if (runtimes.size % 2 != 0) runtimes[mid - 1] else 0
+    val median = sorted[mid] + if (sorted.size % 2 != 0) sorted[mid - 1] else 0
     println("Median: $median $measurement")
 
     val mode = sorted.groupingBy { it }.eachCount().maxByOrNull { it.value }!!.key
