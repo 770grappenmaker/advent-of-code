@@ -3,7 +3,7 @@ package com.grappenmaker.aoc2021
 import kotlin.math.abs
 import kotlin.math.min
 
-fun Context.solveDay7() {
+fun Solution.solveDay7() {
     // Part one
     val numbers = input.trim().split(",").map { it.toInt() }.sorted()
     val mid = numbers.size / 2

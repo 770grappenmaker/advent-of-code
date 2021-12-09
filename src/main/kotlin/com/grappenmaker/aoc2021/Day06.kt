@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Context.solveDay6() {
+fun Solution.solveDay6() {
     // Part one
     val fish = input.split(",").groupingBy { it.trim().toInt() }.eachCount()
         .mapValues { it.value.toLong() }

@@ -4,7 +4,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-fun Context.solveDay5() {
+fun Solution.solveDay5() {
     // Part one
     val lines = inputLines.map { line ->
         val points = line.split(" -> ").map { pair ->

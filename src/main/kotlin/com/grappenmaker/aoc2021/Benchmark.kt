@@ -33,12 +33,12 @@ fun main(args: Array<String>) {
     System.setOut(PrintStream(OutputStream.nullOutputStream()))
 
     // Create context
-    val context = Context(index, args.getOrNull(2)?.let { File(it) })
+    val solution = Solution(index, args.getOrNull(2)?.let { File(it) })
 
     // Run it
     val runtimes = mutableListOf<Long>()
     for (i in 1..amount) {
-        runtimes.add(measureNanoTime { context.run() } / 1000)
+        runtimes.add(measureNanoTime { solution.run() } / 1000)
     }
 
     // Enable logging again

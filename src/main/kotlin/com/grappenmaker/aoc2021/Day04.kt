@@ -6,7 +6,7 @@ import kotlin.math.floor
 const val BOARD_SIZE = 5
 val spacePattern = """\s+""".toRegex()
 
-fun Context.solveDay4() {
+fun Solution.solveDay4() {
     // Part one
     val lines = inputLines
 

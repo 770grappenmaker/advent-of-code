@@ -72,8 +72,8 @@ fun main(args: Array<String>) {
     println(textColor)
 
     // Actually run the solution
-    val context = Context(index, overrideFile = args.getOrNull(1)?.let { File(it) })
-    measureTimeMillis { context.run() }.also {
+    val solution = Solution(index, overrideFile = args.getOrNull(1)?.let { File(it) })
+    measureTimeMillis { solution.run() }.also {
         println()
         println(lights)
         println()
@@ -81,8 +81,8 @@ fun main(args: Array<String>) {
     }
 }
 
-// Util to get input
-class Context(private val day: Int, private val overrideFile: File? = null) {
+// Util to get input and run the solution
+class Solution(private val day: Int, private val overrideFile: File? = null) {
     private val inputFile get() = overrideFile ?: File("inputs", "day-${day.toString().padStart(2, '0')}.txt")
     val inputLines = inputFile.readLines()
     val input get() = inputLines.joinToString("\n")
@@ -96,7 +96,8 @@ class Context(private val day: Int, private val overrideFile: File? = null) {
             5 -> solveDay5()
             6 -> solveDay6()
             7 -> solveDay7()
-            else -> println("Couldn't find solution for day $day")
+            8 -> solveDay8()
+            else -> error("Couldn't find solution for day $day")
         }
     }
 }

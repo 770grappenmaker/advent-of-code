@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Context.solveDay1() {
+fun Solution.solveDay1() {
     // Part one
     val input = inputLines.map { it.toInt() }
     val countIncrements = { arr: List<Int> -> arr.asSequence().drop(1).filterIndexed { i, n -> n > arr[i] }.count() }

@@ -2,7 +2,7 @@ package com.grappenmaker.aoc2021
 
 import kotlin.math.pow
 
-fun Context.solveDay3() {
+fun Solution.solveDay3() {
     // Part one
     val lines = inputLines
     val width = lines.first().length

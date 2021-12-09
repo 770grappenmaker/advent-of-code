@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Context.solveDay2() {
+fun Solution.solveDay2() {
     // Part one
     val instructions = inputLines.map {
         val split = it.split(' ')
