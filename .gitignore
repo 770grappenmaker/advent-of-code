@@ -5,7 +5,8 @@
 build
 
 # Ignore inputs dir
-inputs/*
+inputs/*.txt
+inputs/*.ex
 
 # Ignore .idea
 .idea/

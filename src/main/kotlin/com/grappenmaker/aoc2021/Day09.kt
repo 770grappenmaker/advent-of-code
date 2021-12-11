@@ -1,7 +1,5 @@
 package com.grappenmaker.aoc2021
 
-import kotlin.math.floor
-
 fun Solution.solveDay9() {
     val width = inputLines.first().length
     val height = inputLines.size
@@ -10,17 +8,8 @@ fun Solution.solveDay9() {
     // (48 is '0'.code)
     val heightmap = inputLines.flatMap { line -> line.map { it.code - 48 } }
 
-    val getAdjacentsIndexes = { x: Int, y: Int ->
-        arrayOf(-1 to 0, 0 to -1, 1 to 0, 0 to 1)
-            .mapNotNull {
-                val newX = x + it.first
-                val newY = y + it.second
-                if (newX !in 0 until width || newY !in 0 until height) return@mapNotNull null
-
-                val index = asIndex(newX, newY, width)
-                if (index !in heightmap.indices) null else index
-            }
-    }
+    val getAdjacentsIndexes = { x: Int, y: Int -> getAdjacents(x, y, width, height)
+        .filter { it in heightmap.indices } }
 
     // Part one
     val lowPoints = heightmap.mapIndexedNotNull { idx, i ->
@@ -55,7 +44,3 @@ fun Solution.solveDay9() {
 
     println("Part two: ${basins[0] * basins[1] * basins[2]}")
 }
-
-// Util
-fun asIndex(x: Int, y: Int, width: Int) = x + y * width
-fun asXY(idx: Int, width: Int) = idx % width to floor(idx.toDouble() / width.toDouble()).toInt()
