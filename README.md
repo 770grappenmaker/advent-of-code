@@ -18,8 +18,8 @@ Inputs should go in the inputs dir, following the naming scheme:
 - [x] Day 7
 - [x] Day 8
 - [x] Day 9
-- [ ] Day 10
-- [ ] Day 11
+- [x] Day 10
+- [x] Day 11
 - [ ] Day 12
 - [ ] Day 13
 - [ ] Day 14
