@@ -7,7 +7,7 @@ private val toIndices = { pair: Pair<Int, Int>, x: Int, y: Int, width: Int, heig
     val newY = y + pair.second
     val index = asIndex(newX, newY, width)
 
-    if (newX !in 0 until width || newY !in 0 until height) null else index
+    if (newX in 0 until width && newY in 0 until height) index else null
 }
 
 fun asIndex(x: Int, y: Int, width: Int) = x + y * width
