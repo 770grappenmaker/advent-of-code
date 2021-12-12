@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Solution.solveDay12() {
+fun Solution.solveDay12(): Pair<Int, Int> {
     // Part one
     val graph = inputLines.generateGraph()
 
@@ -43,9 +43,8 @@ fun Solution.solveDay12() {
         }
     }
 
-    // Print out the results of the search
-    println("Part one: $result")
-    println("Part two: ${result + additional}")
+    // Return the results of the search
+    return result to result + additional
 }
 
 // Utility to check if full string is lowercase

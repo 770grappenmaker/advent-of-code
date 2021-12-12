@@ -3,8 +3,6 @@
 package com.grappenmaker.aoc2021
 
 import java.io.File
-import java.io.OutputStream
-import java.io.PrintStream
 import kotlin.system.measureNanoTime
 
 fun main(args: Array<String>) {
@@ -28,10 +26,6 @@ fun main(args: Array<String>) {
 
     println("Running day $index $amount times.")
 
-    // Disable logging and re-enable later
-    val logger = System.out
-    System.setOut(PrintStream(OutputStream.nullOutputStream()))
-
     // Create context
     val solution = Solution(index, args.getOrNull(2)?.let { File(it) })
 
@@ -40,9 +34,6 @@ fun main(args: Array<String>) {
     for (i in 1..amount) {
         runtimes.add(measureNanoTime { solution.run() } / 1000)
     }
-
-    // Enable logging again
-    System.setOut(logger)
 
     val measurement = "microseconds"
 

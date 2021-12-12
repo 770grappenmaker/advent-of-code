@@ -66,18 +66,22 @@ fun main(args: Array<String>) {
 
     // Don't mind the formatting magic
     println(" ".repeat(max(0, (lightCount - dayText.length / 2) - 1)) + textColor + dayText)
-
-    // Set result to blue
     println(lights)
-    println(textColor)
 
     // Actually run the solution
     val solution = Solution(index, overrideFile = args.getOrNull(1)?.let { File(it) })
-    measureTimeMillis { solution.run() }.also {
+    measureTimeMillisResult { solution.run() }.also {
+        val (time, result) = it
+        val (partOne, partTwo) = result
+
+        println()
+        println("${GREEN}Part one: ${BRIGHT_BLUE}$partOne")
+        println("${GREEN}Part two: ${BRIGHT_BLUE}$partTwo")
+
         println()
         println(lights)
         println()
-        println("${textColor}Took $RED${it}ms$RESET ${textColor}to run solution.")
+        println("${textColor}Took $RED${time}ms$RESET ${textColor}to run solution.")
     }
 }
 
@@ -87,23 +91,27 @@ class Solution(private val day: Int, private val overrideFile: File? = null) {
     val inputLines = inputFile.readLines()
     val input get() = inputLines.joinToString("\n")
 
-    fun run() {
-        when (day) {
-            1 -> solveDay1()
-            2 -> solveDay2()
-            3 -> solveDay3()
-            4 -> solveDay4()
-            5 -> solveDay5()
-            6 -> solveDay6()
-            7 -> solveDay7()
-            8 -> solveDay8()
-            9 -> solveDay9()
-            10 -> solveDay10()
-            11 -> solveDay11()
-            12 -> solveDay12()
-            else -> error("Couldn't find solution for day $day")
-        }
+    fun run(): Pair<Number, Number> = when (day) {
+        1 -> solveDay1()
+        2 -> solveDay2()
+        3 -> solveDay3()
+        4 -> solveDay4()
+        5 -> solveDay5()
+        6 -> solveDay6()
+        7 -> solveDay7()
+        8 -> solveDay8()
+        9 -> solveDay9()
+        10 -> solveDay10()
+        11 -> solveDay11()
+        12 -> solveDay12()
+        else -> error("Couldn't find solution for day $day")
     }
+}
+
+inline fun <T> measureTimeMillisResult(block: () -> T): Pair<Long, T> {
+    var result: T
+    val time = measureTimeMillis { result = block() }
+    return time to result
 }
 
 // Utility for color, idea from u/microhod_96

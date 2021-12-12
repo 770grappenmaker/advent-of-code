@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Solution.solveDay10() {
+fun Solution.solveDay10(): Pair<Int, Long> {
     // Part one and two
     // Opening to closing
     val map = mapOf('(' to ')', '[' to ']', '{' to '}', '<' to '>')
@@ -18,7 +18,7 @@ fun Solution.solveDay10() {
         for (c in line) {
             if (c in map) {
                 stack.add(c)
-                break
+                continue
             }
             if (map[stack.last()] != c) {
                 incorrectChar = c
@@ -35,12 +35,11 @@ fun Solution.solveDay10() {
 
     // Calculate scores for part one and two
     val partOne = incorrectLines.sumOf { partOnePoints.getValue(it) }
-    println("Part one: $partOne")
 
     val partTwoScores = incompleteLines.map {
         it.reversed().fold(0.toLong()) { acc, c -> (acc * 5L) + partTwoPoints.getValue(c).toLong() }
     }.sorted()
 
     val partTwo = partTwoScores[partTwoScores.size / 2]
-    println("Part two: $partTwo")
+    return partOne to partTwo
 }

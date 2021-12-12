@@ -5,13 +5,12 @@ import kotlin.math.pow
 // Maps segments count to the number (we do be lazy)
 val knownLengths = mapOf(1 to 2, 7 to 3, 4 to 4, 8 to 7)
 
-fun Solution.solveDay8() {
+fun Solution.solveDay8(): Pair<Int, Int> {
     // Part one
     val data = inputLines.map { it.split(" | ") }
 
     // All lengths we know
     val partOne = data.sumOf { it[1].split(" ").count { e -> e.length in knownLengths.values } }
-    println("Part one: $partOne")
 
     // Part two
     val partTwo = data.map { line ->
@@ -25,7 +24,7 @@ fun Solution.solveDay8() {
         }.toInt()
     }
 
-    println("Part two: $partTwo")
+    return partOne to partTwo
 }
 
 // Lot of magic going on here
@@ -55,7 +54,7 @@ private fun getMapping(segments: List<Set<Int>>): Map<Set<Int>, Int> {
     // Map digit 2 (has size of 5 and should NOT overlay with 3 or 5 at all)
     mapDigit(2, 5) { it != mapping[3] && it != mapping[5] }
 
-    // Invert the mapping, again because im a lazy fuck and ive spent way
+    // Invert the mapping, again because im a lazy f*ck and ive spent way
     // too much time on this puzzle.
     return mapping.map { it.value to it.key }.toMap()
 }

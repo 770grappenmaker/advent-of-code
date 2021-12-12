@@ -6,6 +6,7 @@ plugins {
 }
 
 val mainClassPath by extra("com.grappenmaker.aoc2021.AOC2021")
+val benchmarkClass by extra("com.grappenmaker.aoc2021.Benchmark")
 
 group = "com.grappenmaker"
 version = "1.0"
@@ -26,16 +27,14 @@ tasks.jar {
 tasks.register("runSolution") {
     dependsOn("classes")
     doLast {
-        val parameters = arrayOf(properties["day"] as String? ?: "1")
-        runClass(mainClassPath, parameters)
+        runClass(mainClassPath, getParameters())
     }
 }
 
 tasks.register("benchmark") {
     dependsOn("classes")
     doLast {
-        val parameters = arrayOf(properties["day"] as String? ?: "1")
-        runClass("com.grappenmaker.aoc2021.Benchmark", parameters)
+        runClass(benchmarkClass, getParameters())
     }
 }
 
@@ -57,3 +56,4 @@ fun getLoader(): ClassLoader {
 }
 
 fun getRuntimeClasspath() = configurations.runtimeClasspath.get()
+fun getParameters() = (properties["args"] as String? ?: "").split(" ").toTypedArray()

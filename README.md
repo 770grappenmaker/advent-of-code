@@ -3,7 +3,7 @@ My solutions for AOC this year. Don't expect great code :D
 If you want to run a solution without having to build it, you can use:
 ```bash
 # If you don't specify the day, it'll default to day 1
-./gradlew runSolution -Pday=<day>
+./gradlew runSolution -Pargs="<day> [inputfile]"
 ```
 Inputs should go in the inputs dir, following the naming scheme:
 "day-&lt;day&gt;.txt", and the day should be 2 characters

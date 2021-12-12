@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Solution.solveDay6() {
+fun Solution.solveDay6(): Pair<Long, Long> {
     // Part one
     val fish = input.split(",").groupingBy { it.trim().toInt() }.eachCount()
         .mapValues { it.value.toLong() }
@@ -28,8 +28,8 @@ fun Solution.solveDay6() {
     }
 
     val partOne = cyclePopulation(fish, 80)
-    println("Part one: ${partOne.values.sum()}")
-
     // Part two
-    println("Part two: ${cyclePopulation(partOne, 256 - 80).values.sum()}")
+    val partTwo = cyclePopulation(partOne, 256 - 80).values.sum()
+
+    return partOne.values.sum() to partTwo
 }

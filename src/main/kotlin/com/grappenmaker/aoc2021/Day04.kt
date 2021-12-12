@@ -6,7 +6,7 @@ import kotlin.math.floor
 const val BOARD_SIZE = 5
 val spacePattern = """\s+""".toRegex()
 
-fun Solution.solveDay4() {
+fun Solution.solveDay4(): Pair<Int, Int> {
     // Part one
     val lines = inputLines
 
@@ -25,12 +25,13 @@ fun Solution.solveDay4() {
 
     // Simulate game
     val game = Game(numbers, boards)
-    game.getEventualWinner()?.let { println("Part one: ${it.score * game.lastNumber}") }
+    val partOne = game.getEventualWinner()!!.score * game.lastNumber
 
     // Part two
     game.reset()
     val lastWinner = game.getRanking().last()
-    println("Part two: ${game.lastNumber * lastWinner.score}")
+
+    return partOne to game.lastNumber * lastWinner.score
 }
 
 class Game(private val numbers: List<Int>, private val boards: Set<Board>) {

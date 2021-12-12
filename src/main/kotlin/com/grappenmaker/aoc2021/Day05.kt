@@ -4,7 +4,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-fun Solution.solveDay5() {
+fun Solution.solveDay5(): Pair<Int, Int> {
     // Part one
     val lines = inputLines.map { line ->
         val points = line.split(" -> ").map { pair ->
@@ -25,11 +25,8 @@ fun Solution.solveDay5() {
             }.count { it.value >= 2 }
     }
 
-    val partOne = getAnswer(lines.asSequence().filter { it.isStraight() })
-    println("Part one: $partOne")
-
-    // Part two
-    println("Part two: ${getAnswer(lines.asSequence())}")
+    // Part one and two
+    return getAnswer(lines.asSequence().filter { it.isStraight() }) to getAnswer(lines.asSequence())
 }
 
 data class Line(val a: Point, val b: Point) {

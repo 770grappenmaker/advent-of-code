@@ -2,7 +2,7 @@ package com.grappenmaker.aoc2021
 
 import kotlin.math.pow
 
-fun Solution.solveDay3() {
+fun Solution.solveDay3(): Pair<Int, Int> {
     // Part one
     val lines = inputLines
     val width = lines.first().length
@@ -11,8 +11,6 @@ fun Solution.solveDay3() {
     val gamma = (0 until width)
         .reduceIndexed { idx, acc, v -> acc or (getMostCommon(width, v, numbers) shl width - idx - 1) }
     val epsilon = gamma.inv() and 2.0.pow(width).toInt() - 1
-
-    println("Part one: ${gamma to epsilon} -> ${gamma * epsilon}")
 
     // Part two
     val findRating = { doNegate: Boolean ->
@@ -31,7 +29,7 @@ fun Solution.solveDay3() {
     val oxygenRating = findRating(false)
     val co2ScrubRating = findRating(true)
 
-    println("Part two: ${oxygenRating to co2ScrubRating} -> ${oxygenRating * co2ScrubRating}")
+    return gamma * epsilon to oxygenRating * co2ScrubRating
 }
 
 fun Int.getBit(index: Int) = this shr index and 1

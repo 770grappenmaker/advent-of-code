@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Solution.solveDay9() {
+fun Solution.solveDay9(): Pair<Int, Int> {
     val width = inputLines.first().length
     val height = inputLines.size
 
@@ -8,7 +8,7 @@ fun Solution.solveDay9() {
     // (48 is '0'.code)
     val heightmap = inputLines.flatMap { line -> line.map { it.code - 48 } }
 
-    val getAdjacentsIndexes = { x: Int, y: Int -> getAdjacents(x, y, width, height)
+    val getAdjacentsIndexes = { x: Int, y: Int -> getAdjacentsStraight(x, y, width, height)
         .filter { it in heightmap.indices } }
 
     // Part one
@@ -20,7 +20,6 @@ fun Solution.solveDay9() {
     }
 
     val partOne = lowPoints.sumOf { heightmap[it] + 1 }
-    println("Part one: $partOne")
 
     // Part two
     val basins = lowPoints.map { num ->
@@ -42,5 +41,6 @@ fun Solution.solveDay9() {
         basinSize
     }.sortedDescending()
 
-    println("Part two: ${basins[0] * basins[1] * basins[2]}")
+    val partTwo = basins[0] * basins[1] * basins[2]
+    return partOne to partTwo
 }

@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Solution.solveDay11() {
+fun Solution.solveDay11(): Pair<Int, Int> {
     // Part one
     // Welp the parsing is the same as day 9
     val width = inputLines.first().length
@@ -18,7 +18,7 @@ fun Solution.solveDay11() {
         octos[idx].power = -1
 
         val (x, y) = asXY(idx, width)
-        val adjacent = getAdjacentsDiagonal(x, y, width, height)
+        val adjacent = getAllAdjacents(x, y, width, height)
 
         adjacent.forEach {
             val octo = octos[it]
@@ -37,7 +37,7 @@ fun Solution.solveDay11() {
     }
 
     repeat(100) { stepOctos(true) }
-    println("Part one: $totalFlashes")
+    val partOne = totalFlashes
 
     // Part two
     while (true) {
@@ -46,7 +46,7 @@ fun Solution.solveDay11() {
         resetFlashed()
     }
 
-    println("Part two: $steps")
+    return partOne to steps
 }
 
 data class Octopus(var power: Int)

@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc2021
 
-fun Solution.solveDay2() {
+fun Solution.solveDay2(): Pair<Int, Int> {
     // Part one
     val instructions = inputLines.map {
         val split = it.split(' ')
@@ -32,6 +32,8 @@ fun Solution.solveDay2() {
     }
 
     println("Part two: ${sub2.horizontal * sub2.depth}")
+
+    return sub1.horizontal * sub1.depth to sub2.horizontal * sub2.depth
 }
 
 // Aim is for part two, unused in part one
