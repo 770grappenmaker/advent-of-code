@@ -21,11 +21,11 @@ fun Solution.solveDay13(): Pair<Int, String> {
                 dir == Direction.Y && y > loc -> Point(x, loc - (y - loc))
                 else -> point
             }
-        }.distinct()
+        }
     }
 
     // Part two
-    val allFolded = folds.fold(points) { cur, fold -> doFold(cur, fold) }
+    val allFolded = folds.fold(points) { cur, fold -> doFold(cur, fold) }.distinct()
     val width = allFolded.maxOf { it.x }
     val height = allFolded.maxOf { it.y }
 
@@ -36,7 +36,7 @@ fun Solution.solveDay13(): Pair<Int, String> {
         }
     }
 
-    return doFold(points, folds.first()).size to sep + partTwo
+    return doFold(points, folds.first()).distinct().size to sep + partTwo
 }
 
 enum class Direction {
