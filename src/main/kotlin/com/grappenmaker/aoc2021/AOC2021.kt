@@ -4,6 +4,7 @@ package com.grappenmaker.aoc2021
 
 import com.grappenmaker.aoc2021.Color.Codes.*
 import java.io.File
+import java.io.Serializable
 import kotlin.math.max
 import kotlin.system.measureTimeMillis
 
@@ -85,13 +86,15 @@ fun main(args: Array<String>) {
     }
 }
 
+typealias Answer = Pair<Serializable, Serializable>
+
 // Util to get input and run the solution
 class Solution(private val day: Int, private val overrideFile: File? = null) {
     private val inputFile get() = overrideFile ?: File("inputs", "day-${day.toString().padStart(2, '0')}.txt")
     val inputLines = inputFile.readLines()
     val input get() = inputLines.joinToString("\n")
 
-    fun run(): Pair<Number, Number> = when (day) {
+    fun run(): Answer = when (day) {
         1 -> solveDay1()
         2 -> solveDay2()
         3 -> solveDay3()
@@ -104,6 +107,7 @@ class Solution(private val day: Int, private val overrideFile: File? = null) {
         10 -> solveDay10()
         11 -> solveDay11()
         12 -> solveDay12()
+        13 -> solveDay13()
         else -> error("Couldn't find solution for day $day")
     }
 }

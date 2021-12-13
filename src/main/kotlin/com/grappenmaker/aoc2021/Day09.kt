@@ -8,13 +8,12 @@ fun Solution.solveDay9(): Pair<Int, Int> {
     // (48 is '0'.code)
     val heightmap = inputLines.flatMap { line -> line.map { it.code - 48 } }
 
-    val getAdjacentsIndexes = { x: Int, y: Int -> getAdjacentsStraight(x, y, width, height)
-        .filter { it in heightmap.indices } }
+    val getAdjacentsIndexes =
+        { point: Point -> getAdjacentsStraight(point, width, height).filter { it in heightmap.indices } }
 
     // Part one
     val lowPoints = heightmap.mapIndexedNotNull { idx, i ->
-        val (x, y) = asXY(idx, width)
-        if (getAdjacentsIndexes(x, y).all { i < heightmap[it] }) {
+        if (getAdjacentsIndexes(asXY(idx, width)).all { i < heightmap[it] }) {
             idx
         } else null
     }
@@ -32,8 +31,7 @@ fun Solution.solveDay9(): Pair<Int, Int> {
             if (!seenIndexes.add(newIndex)) continue
             basinSize += 1
 
-            val (x, y) = asXY(newIndex, width)
-            val newAdjacents = getAdjacentsIndexes(x, y)
+            val newAdjacents = getAdjacentsIndexes(asXY(newIndex, width))
                 .filter { heightmap[it] != 9 && !seenIndexes.contains(it) }
             queue.addAll(newAdjacents)
         }

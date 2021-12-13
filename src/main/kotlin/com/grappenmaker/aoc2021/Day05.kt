@@ -1,9 +1,5 @@
 package com.grappenmaker.aoc2021
 
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-
 fun Solution.solveDay5(): Pair<Int, Int> {
     // Part one
     val lines = inputLines.map { line ->
@@ -28,30 +24,3 @@ fun Solution.solveDay5(): Pair<Int, Int> {
     // Part one and two
     return getAnswer(lines.asSequence().filter { it.isStraight() }) to getAnswer(lines.asSequence())
 }
-
-data class Line(val a: Point, val b: Point) {
-    val pointsOnLine by lazy {
-        if (isHorizontal()) {
-            val minY = min(a.y, b.y)
-            val maxY = max(a.y, b.y)
-            (minY..maxY).map { Point(a.x, it) }
-        } else if (isVertical()) {
-            val minX = min(a.x, b.x)
-            val maxX = max(a.x, b.x)
-            (minX..maxX).map { Point(it, a.y) }
-        } else {
-            // Diagonal
-            val xDir = if (b.x - a.x > 0) 1 else -1
-            val yDir = if (b.y - a.y > 0) 1 else -1
-            (0..abs(b.x - a.x)).map { Point(a.x + (xDir * it), a.y + (yDir * it)) }
-        }
-    }
-
-    private fun isHorizontal() = a.x == b.x
-    private fun isVertical() = a.y == b.y
-    fun isStraight() = isHorizontal() || isVertical()
-}
-
-data class Point(val x: Int, val y: Int)
-
-operator fun Point.rangeTo(other: Point) = Line(this, other)
