@@ -108,6 +108,7 @@ class Solution(private val day: Int, private val overrideFile: File? = null) {
         11 -> solveDay11()
         12 -> solveDay12()
         13 -> solveDay13()
+        14 -> solveDay14()
         else -> error("Couldn't find solution for day $day")
     }
 }
