@@ -16,7 +16,7 @@ fun Solution.solveDay11(): Pair<Int, Int> {
     fun flash(idx: Int) {
         totalFlashes++
         octos[idx].power = -1
-        getAllAdjacents(asXY(idx, width), width, height).forEach {
+        getAllAdjacents(asPoint(idx, width), width, height).forEach {
             val octo = octos[it]
             if (octo.power != -1) octo.power += 1
             if (octo.power >= 10) flash(it)

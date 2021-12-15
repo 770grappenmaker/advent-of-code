@@ -13,7 +13,7 @@ fun Solution.solveDay9(): Pair<Int, Int> {
 
     // Part one
     val lowPoints = heightmap.mapIndexedNotNull { idx, i ->
-        if (getAdjacentsIndexes(asXY(idx, width)).all { i < heightmap[it] }) {
+        if (getAdjacentsIndexes(asPoint(idx, width)).all { i < heightmap[it] }) {
             idx
         } else null
     }
@@ -31,7 +31,7 @@ fun Solution.solveDay9(): Pair<Int, Int> {
             if (!seenIndexes.add(newIndex)) continue
             basinSize += 1
 
-            val newAdjacents = getAdjacentsIndexes(asXY(newIndex, width))
+            val newAdjacents = getAdjacentsIndexes(asPoint(newIndex, width))
                 .filter { heightmap[it] != 9 && !seenIndexes.contains(it) }
             queue.addAll(newAdjacents)
         }

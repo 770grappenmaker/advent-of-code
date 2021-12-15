@@ -12,7 +12,7 @@ private val toIndices = { pair: Pair<Int, Int>, (x, y): Point, width: Int, heigh
 
 fun asIndex(point: Point, width: Int) = asIndex(point.x, point.y, width)
 fun asIndex(x: Int, y: Int, width: Int) = x + y * width
-fun asXY(idx: Int, width: Int) = Point(idx % width, floor(idx.toDouble() / width.toDouble()).toInt())
+fun asPoint(idx: Int, width: Int) = Point(idx % width, floor(idx.toDouble() / width.toDouble()).toInt())
 
 fun getAdjacentsStraight(point: Point, width: Int, height: Int) =
     arrayOf(-1 to 0, 0 to -1, 1 to 0, 0 to 1).mapNotNull { toIndices(it, point, width, height) }

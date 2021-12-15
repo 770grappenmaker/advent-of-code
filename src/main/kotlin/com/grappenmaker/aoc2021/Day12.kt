@@ -52,7 +52,7 @@ fun String.isLowerCase() = all { it.isLowerCase() }
 
 // Data class to keep track of all visited elements, and the current element
 // It's called node because it is a node in the queue (elements in BFS are called nodes)
-data class Node(val name: String, val visitedSmall: Set<String> = setOf(), var visitedSmallTwice: String? = null)
+private data class Node(val name: String, val visitedSmall: Set<String> = setOf(), var visitedSmallTwice: String? = null)
 
 // Generate graph (maths and cs data structure)
 fun List<String>.generateGraph(): Map<String, List<String>> {
