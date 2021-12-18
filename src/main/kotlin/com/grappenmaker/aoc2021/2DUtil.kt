@@ -28,6 +28,9 @@ data class Line(val a: Point, val b: Point) {
     fun isStraight() = isHorizontal() || isVertical()
 }
 
-data class Point(val x: Int, val y: Int)
+data class Point(val x: Int, val y: Int) {
+    operator fun plus(other: Point) = Point(x + other.x, y + other.y)
+    operator fun minus(other: Point) = Point(x - other.y, y - other.y)
+}
 
 operator fun Point.rangeTo(other: Point) = Line(this, other)
