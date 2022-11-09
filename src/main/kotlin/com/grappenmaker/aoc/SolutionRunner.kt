@@ -4,6 +4,7 @@ package com.grappenmaker.aoc
 
 import java.nio.file.Files
 import java.nio.file.Paths
+import kotlin.io.path.readLines
 import kotlin.io.path.readText
 import kotlin.system.exitProcess
 import kotlin.system.measureTimeMillis
@@ -31,7 +32,7 @@ fun main(args: Array<String>) {
     """.trimIndent()
     )
 
-    val input = inputFile.readText()
+    val input = inputFile.readLines()
     val context = SolveContext(puzzle, input)
     val timeTaken = measureTimeMillis { puzzle.implementation(context) }
 

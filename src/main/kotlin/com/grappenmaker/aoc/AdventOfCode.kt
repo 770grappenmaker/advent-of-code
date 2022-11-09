@@ -14,21 +14,23 @@ data class Puzzle(val year: Int, val day: Int, val implementation: SolveContext.
     val inputURL get() = "$dayURL/input"
 }
 
-class SolveContext(val puzzle: Puzzle, val input: String) {
-    val inputLines by lazy { input.lines().map { it.trim() }.filterNot { it.isEmpty() } }
+class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
+    val input by lazy { inputLines.joinToString("\n") }
 
     var partOne = "Not implemented"
     var partTwo = "Not implemented"
 
     val formatted
         get() = """
-        Day ${puzzle.day} (${puzzle.dayURL})
-        Part 1: $partOne
-        Part 2: $partTwo
-    """.trimIndent()
+        |Day ${puzzle.day} (${puzzle.dayURL})
+        |Part 1: $partOne
+        |Part 2: $partTwo
+    """.trimMargin()
 
     // Utility to convert to string
     // (felt shorter to use)
+    // Strings are used because the long, int, and string
+    // data types can be the result of a puzzle (afaik)
     fun Int.s() = toString()
     fun Long.s() = toString()
 }
