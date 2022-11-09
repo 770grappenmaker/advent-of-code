@@ -42,12 +42,7 @@ data class PuzzleSet(val year: Int) {
 
     val puzzles = mutableListOf<Puzzle>()
 
-    // If you rely on this, the order in which the puzzles get
-    // registered matters!
-    private var puzzleCount = 1
-        get() = field++
-
-    fun puzzle(day: Int = puzzleCount, implementation: SolveContext.() -> Unit) {
+    fun puzzle(day: Int = puzzles.size + 1, implementation: SolveContext.() -> Unit) {
         puzzles.add(Puzzle(year, day, implementation))
     }
 }

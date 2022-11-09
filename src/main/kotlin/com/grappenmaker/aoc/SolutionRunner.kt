@@ -4,6 +4,7 @@ package com.grappenmaker.aoc
 
 import java.nio.file.Files
 import java.nio.file.Paths
+import kotlin.io.path.absolutePathString
 import kotlin.io.path.readLines
 import kotlin.io.path.readText
 import kotlin.system.exitProcess
@@ -27,7 +28,7 @@ fun main(args: Array<String>) {
     val inputFile = inputsDir.resolve(inputFileName)
     if (!Files.exists(inputFile)) panic(
         """
-        No input found (for file $inputFile)
+        No input found (for file ${inputFile.absolutePathString()})
         Get your input here: ${puzzle.inputURL}
     """.trimIndent()
     )

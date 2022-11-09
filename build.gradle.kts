@@ -9,6 +9,13 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    val asmVersion = "9.4"
+    implementation("org.ow2.asm:asm:$asmVersion")
+    implementation("org.ow2.asm:asm-commons:$asmVersion")
+    implementation("org.ow2.asm:asm-util:$asmVersion")
+}
+
 tasks {
     withType<Jar>().configureEach {
         from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
