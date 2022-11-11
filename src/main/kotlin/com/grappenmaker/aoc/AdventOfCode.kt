@@ -1,5 +1,6 @@
 package com.grappenmaker.aoc
 
+import com.grappenmaker.aoc.year15.year2015
 import com.grappenmaker.aoc.year21.year2021
 import com.grappenmaker.aoc.year22.year2022
 import java.time.LocalDateTime
@@ -48,7 +49,7 @@ data class PuzzleSet(val year: Int) {
 }
 
 // TODO: add more years here
-val puzzles = listOf(year2021, year2022).flatMap { it.puzzles }
+val puzzles = listOf(year2015, year2021, year2022).flatMap { it.puzzles }
 
 // Quote the official Advent of Code website:
 // The first puzzles will unlock on December 1st at midnight EST (UTC-5). See you then!
