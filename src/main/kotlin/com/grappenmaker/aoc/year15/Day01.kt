@@ -3,12 +3,11 @@ package com.grappenmaker.aoc.year15
 import com.grappenmaker.aoc.PuzzleSet
 
 fun PuzzleSet.day1() = puzzle {
-    val chars = input.trim()
-    partOne = (chars.count { it == '(' } - chars.count { it == ')' }).s()
+    partOne = (input.count { it == '(' } - input.count { it == ')' }).s()
 
     var current = 0
-    partTwo = (chars.withIndex().find { (_, c) -> 
-        current += if (c == '(') 1 else -1
+    partTwo = (input.indexOfFirst { 
+        current += if (it == '(') 1 else -1
         current < 0
-    }!!.index + 1).s()
+    } + 1).s()
 }

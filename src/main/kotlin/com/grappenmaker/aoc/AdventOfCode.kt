@@ -16,7 +16,7 @@ data class Puzzle(val year: Int, val day: Int, val implementation: SolveContext.
 }
 
 class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
-    val input by lazy { inputLines.joinToString("\n") }
+    val input by lazy { inputLines.joinToString("\n").trim() }
 
     var partOne = "Not implemented"
     var partTwo = "Not implemented"
