@@ -34,14 +34,14 @@ fun Map<String, Operator>.solve(forWire: String) = buildMap<String, Int> {
                     val lhs = recurse(insn.lhs)
                     val rhs = recurse(insn.rhs)
 
-                    when(insn) {
+                    when (insn) {
                         is And -> lhs and rhs
                         is Or -> lhs or rhs
                         is LShift -> lhs shl rhs
                         is RShift -> lhs shr rhs
                     }
                 }
-                
+
                 is Not -> recurse(insn.operand).inv()
                 is Connect -> recurse(insn.from)
             } and 0xFFFF

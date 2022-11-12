@@ -5,7 +5,7 @@ import com.grappenmaker.aoc.PuzzleSet
 fun PuzzleSet.day3() = puzzle {
     val directions = input.map { it.toDirection() }
     val createPath = { startIdx: Int, jump: Int ->
-        generateSequence(House(0, 0) to startIdx) { (h, idx) -> 
+        generateSequence(House(0, 0) to startIdx) { (h, idx) ->
             directions.getOrNull(idx)?.let { dir ->
                 House(h.x + dir.dx, h.y + dir.dy) to idx + jump
             }
@@ -13,7 +13,7 @@ fun PuzzleSet.day3() = puzzle {
     }
 
     partOne = createPath(0, 1).toSet().size.s()
-    
+
     val santaPath = createPath(0, 2)
     val roboSantaPath = createPath(1, 2)
     partTwo = (santaPath + roboSantaPath).toSet().size.s()
@@ -25,7 +25,7 @@ enum class Direction(val dx: Int, val dy: Int) {
     NORTH(0, 1), SOUTH(0, -1), EAST(1, 0), WEST(-1, 0)
 }
 
-fun Char.toDirection() = when(this) {
+fun Char.toDirection() = when (this) {
     '^' -> Direction.NORTH
     'v' -> Direction.SOUTH
     '>' -> Direction.EAST

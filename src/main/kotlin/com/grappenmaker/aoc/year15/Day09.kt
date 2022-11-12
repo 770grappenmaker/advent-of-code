@@ -10,7 +10,7 @@ fun PuzzleSet.day9() = puzzle {
     }
 
     // I'm sure this can be done better
-    val vertices = edges.flatMap { listOf(it.from, it.to) }.toSet().toList()
+    val vertices = edges.flatMap { listOf(it.from, it.to) }.distinct()
 
     // Idea: take the permutations of all vertices and find the best path
     // Original idea: use dijkstra, somehow

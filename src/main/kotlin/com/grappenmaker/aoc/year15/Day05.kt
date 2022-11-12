@@ -9,10 +9,10 @@ fun PuzzleSet.day5() = puzzle {
 
     val partOneNice = inputLines.filter { str ->
         str.filter { it in vowels }.length >= 3 &&
-            disallowed.none { it in str } &&
-            str.windowedSequence(2).any { it[0] == it[1] }
+                disallowed.none { it in str } &&
+                str.windowedSequence(2).any { it[0] == it[1] }
     }
-    
+
     partOne = partOneNice.size.s()
 
     // This code is naughty

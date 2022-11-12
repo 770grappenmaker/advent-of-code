@@ -10,14 +10,15 @@ val md5 = MessageDigest.getInstance("MD5")
 fun PuzzleSet.day4() = puzzle {
     println("I'm telling you, this is going to take a while (~1 minute)")
 
-    val findSolution = { zeroes: Int ->
+    val findSolution = { startingPoint: Int, zeroes: Int ->
         val starting = "0".repeat(zeroes)
-        generateSequence(0) { it + 1 }
-            .first { (input + it).md5Hex().startsWith(starting) }.s()
+        generateSequence(startingPoint) { it + 1 }
+            .first { (input + it).md5Hex().startsWith(starting) }
     }
 
-    partOne = findSolution(5)
-    partTwo = findSolution(6)
+    val partOneEnd = findSolution(0, 5)
+    partOne = partOneEnd.s()
+    partTwo = findSolution(partOneEnd, 6).s()
 }
 
 fun String.md5Hex() = md5.digest(encodeToByteArray()).joinToString("") { "%02x".format(it) }

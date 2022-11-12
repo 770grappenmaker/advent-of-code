@@ -6,7 +6,7 @@ fun PuzzleSet.day1() = puzzle {
     partOne = (input.count { it == '(' } - input.count { it == ')' }).s()
 
     var current = 0
-    partTwo = (input.indexOfFirst { 
+    partTwo = (input.indexOfFirst {
         current += if (it == '(') 1 else -1
         current < 0
     } + 1).s()
