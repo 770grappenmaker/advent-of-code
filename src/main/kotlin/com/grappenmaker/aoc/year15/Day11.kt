@@ -15,12 +15,12 @@ fun PuzzleSet.day11() = puzzle {
 
 // Unlike incrementPassword, this one also skips if one of the illegal values is found
 fun List<Int>.nextPassword(max: Int = 26) = when (val pivot = indexOfFirst { it in passwordDisallowed }) {
-    -1 -> incrementPassword()
+    -1 -> incrementPassword(max)
     else -> {
         // 1. Cut off until the pivot
         // 2. Add pivot + 1
         // 3. Add zeroes
-        take(pivot) + (this[pivot] + 1) + (1..(size - pivot - 1)).map { 0 }
+        take(pivot) + (this[pivot] + 1) + (1 until size - pivot).map { 0 }
     }
 }
 
