@@ -4,6 +4,10 @@ package com.grappenmaker.aoc
 
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.OffsetDateTime
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.readLines
 import kotlin.io.path.readText
@@ -11,12 +15,14 @@ import kotlin.system.exitProcess
 import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) {
-    val day = args.firstOrNull()?.toIntOrNull() ?: eventDay()
+    val eventDay = eventDay()
+    val eventYear = eventYear()
+    val day = args.firstOrNull()?.toIntOrNull() ?: eventDay
         ?.also { println("Using today for the puzzle day ($it)") }
     ?: panic("Currently not AOC, specify a day to run!")
 
     val year = args.getOrNull(1)?.toInt()
-        ?: eventYear().also { println("Using the 'current' AOC year ($it)") }
+        ?: eventYear.also { println("Using the 'current' AOC year ($it)") }
 
     val puzzle = puzzles.find { it.day == day && it.year == year }
         ?: panic("Unknown puzzle for day $day and year $year (not yet implemented?)")
@@ -41,6 +47,17 @@ fun main(args: Array<String>) {
     println(context.formatted)
     println()
     println("Took ${timeTaken}ms to calculate the solution")
+
+    if (eventDay == day && eventYear == eventYear) {
+        val midnight = OffsetDateTime.of(LocalDate.now().atStartOfDay(), unlockOffset)
+        val currentHour = now().hour
+        val hoursUnlocked = currentHour - midnight.hour
+        val nextIn = 24 - currentHour
+
+        println()
+        println("Puzzle has been unlocked for $hoursUnlocked hours")
+        println("Next puzzle unlockes in $nextIn hours")
+    }
 }
 
 fun panic(error: String): Nothing {

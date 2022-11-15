@@ -53,7 +53,9 @@ val puzzles = listOf(year2015, year2021, year2022).flatMap { it.puzzles }
 
 // Quote the official Advent of Code website:
 // The first puzzles will unlock on December 1st at midnight EST (UTC-5). See you then!
-fun now(): OffsetDateTime = OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.ofHours(-5))
+val unlockOffset: ZoneOffset = ZoneOffset.ofHours(-5)
+
+fun now(): OffsetDateTime = OffsetDateTime.of(LocalDateTime.now(), unlockOffset)
 
 // Assumes november is the time to start prepping, I guess..?
 fun eventYear() = now().let { if (it.month.value < 11) it.year - 1 else it.year }
