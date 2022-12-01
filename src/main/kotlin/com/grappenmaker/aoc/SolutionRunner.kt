@@ -8,6 +8,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
+import java.time.ZoneId
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.readLines
 import kotlin.io.path.readText
@@ -48,15 +49,15 @@ fun main(args: Array<String>) {
     println()
     println("Took ${timeTaken}ms to calculate the solution")
 
-    if (eventDay == day && eventYear == eventYear) {
-        val midnight = OffsetDateTime.of(LocalDate.now().atStartOfDay(), unlockOffset)
+    if (eventDay == day && year == eventYear) {
+        val midnight = LocalDate.now(unlockOffset).atStartOfDay().atOffset(unlockOffset)
         val currentHour = now().hour
         val hoursUnlocked = currentHour - midnight.hour
         val nextIn = 24 - currentHour
 
         println()
         println("Puzzle has been unlocked for $hoursUnlocked hours")
-        println("Next puzzle unlockes in $nextIn hours")
+        println("Next puzzle unlocks in $nextIn hours")
     }
 }
 

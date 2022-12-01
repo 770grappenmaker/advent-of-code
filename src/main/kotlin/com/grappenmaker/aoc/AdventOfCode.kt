@@ -3,6 +3,7 @@ package com.grappenmaker.aoc
 import com.grappenmaker.aoc.year15.year2015
 import com.grappenmaker.aoc.year21.year2021
 import com.grappenmaker.aoc.year22.year2022
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.OffsetDateTime
@@ -55,7 +56,8 @@ val puzzles = listOf(year2015, year2021, year2022).flatMap { it.puzzles }
 // The first puzzles will unlock on December 1st at midnight EST (UTC-5). See you then!
 val unlockOffset: ZoneOffset = ZoneOffset.ofHours(-5)
 
-fun now(): OffsetDateTime = OffsetDateTime.of(LocalDateTime.now(), unlockOffset)
+fun now(): OffsetDateTime = OffsetDateTime.now().withOffsetSameInstant(unlockOffset)
+fun midnight(): OffsetDateTime = LocalDate.now(unlockOffset).atStartOfDay().atOffset(unlockOffset)
 
 // Assumes november is the time to start prepping, I guess..?
 fun eventYear() = now().let { if (it.month.value < 11) it.year - 1 else it.year }

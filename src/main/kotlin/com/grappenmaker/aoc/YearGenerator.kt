@@ -10,6 +10,9 @@ import java.io.PrintWriter
 // Package is an internal name (`.` -> `/`)
 // numToName convert a day index to a classname
 // (which means you have to use a consistent filename scheme)
+
+// This thing is completely redundant, not elegant,
+// can cause bugs etc. but I don't care, I like writing more code to write less code.
 fun generateYear(
     year: Int,
     packag: String,
