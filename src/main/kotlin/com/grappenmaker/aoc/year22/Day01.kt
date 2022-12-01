@@ -9,5 +9,5 @@ fun PuzzleSet.day1() = puzzle {
         .sortedDescending()
 
     partOne = elves.first().s()
-    partTwo = (elves[0] + elves[1] + elves[2]).s()
+    partTwo = elves.take(3).sum().s()
 }
