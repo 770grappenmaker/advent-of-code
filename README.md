@@ -17,9 +17,8 @@ You can also specify an alternative input file (relative to the inputs/year dire
 
 ## Years
 ### 2022
-Event is about to start, have a ToDo list.
-- [ ] Day 1
-- [ ] Day 2
+- [x] Day 1
+- [x] Day 2
 - [ ] Day 3
 - [ ] Day 4
 - [ ] Day 5
