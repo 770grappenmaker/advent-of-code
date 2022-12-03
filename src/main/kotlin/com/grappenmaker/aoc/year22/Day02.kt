@@ -5,7 +5,7 @@ import com.grappenmaker.aoc.year22.RPS.*
 
 // Today's code was very naughty
 fun PuzzleSet.day2() = puzzle {
-    val inputs = inputLines.map { Guide(rpsFrom(it[0].code - 65), rpsFrom(it[2].code - 88)) }
+    val inputs = inputLines.map { Guide(rpsFrom(it[0] - 'A'), rpsFrom(it[2] - 'X')) }
     partOne = inputs.score.s()
     partTwo = inputs.map { Guide(it.left, it.shouldPlay) }.score.s()
 }
