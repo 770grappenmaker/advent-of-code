@@ -50,7 +50,10 @@ tasks {
             val date = OffsetDateTime.now().withOffsetSameInstant(unlockOffset)
             val year = date.year
             val day = date.dayOfMonth
-            val inputFile = file("inputs/$year/day-${"%02d".format(day)}.txt").absolutePath
+            val inputFile = file("inputs/$year/day-${"%02d".format(day)}.txt")
+                .also { if (!it.exists()) throw GradleException("Input file $it is not available!") }
+                .absolutePath
+
             val args = arrayOf(day.toString(), year.toString(), inputFile)
 
             val classpath = sourceSets.main.get().output.classesDirs + configurations.runtimeClasspath.get().files
