@@ -56,7 +56,7 @@ interface PuzzleSetGenerator {
 var unnamedClassCounter = 0
     get() = field++
 
-object GenericClassDefiner : ClassLoader() {
+object GenericClassDefiner : ClassLoader(PuzzleSetGenerator::class.java.classLoader) {
     fun createClass(name: String, bytes: ByteArray): Class<*> =
         defineClass(name, bytes, 0, bytes.size).also { resolveClass(it) }
 }

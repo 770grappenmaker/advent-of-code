@@ -13,6 +13,7 @@ import kotlin.io.path.absolutePathString
 import kotlin.io.path.readLines
 import kotlin.io.path.readText
 import kotlin.system.exitProcess
+import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) {
@@ -42,12 +43,12 @@ fun main(args: Array<String>) {
 
     val input = inputFile.readLines()
     val context = SolveContext(puzzle, input)
-    val timeTaken = measureTimeMillis { puzzle.implementation(context) }
+    val timeTaken = measureNanoTime { puzzle.implementation(context) }
 
     println()
     println(context.formatted)
     println()
-    println("Took ${timeTaken}ms to calculate the solution")
+    println("Took ${timeTaken / 1_000_000}ms to calculate the solution")
 
     if (eventDay == day && year == eventYear) {
         val midnight = LocalDate.now(unlockOffset).atStartOfDay().atOffset(unlockOffset)

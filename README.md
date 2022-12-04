@@ -19,7 +19,7 @@ You can also specify an alternative input file (relative to the inputs/year dire
 ### 2022
 - [x] Day 1
 - [x] Day 2
-- [ ] Day 3
+- [x] Day 3
 - [ ] Day 4
 - [ ] Day 5
 - [ ] Day 6
@@ -45,3 +45,9 @@ You can also specify an alternative input file (relative to the inputs/year dire
 
 ### 2021
 Got to day 18.
+
+### 2020
+Got to day 6.
+
+### 2015
+Practiced 18 days (outside of event).
