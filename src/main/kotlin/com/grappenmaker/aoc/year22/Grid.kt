@@ -64,7 +64,6 @@ operator fun Line.contains(some: Point) = some.x in minX..maxX && some.y in minY
 interface Plane {
     val width: Int
     val height: Int
-    val allPoints get() = (0 until width * height).map { pointFromIndex(it) }
 
     fun Point.adjacentSides() = getAdjacent(dAdjacentSides, width, height)
     fun Point.adjacentSideIndices() = adjacentSides().toIndices()
@@ -73,11 +72,31 @@ interface Plane {
     fun Point.allAdjacent() = getAdjacent(dAllAdjacent, width, height)
     fun Point.allAdjacentIndices() = allAdjacent().toIndices()
 
+    // up->down
+    fun column(index: Int): List<Point> {
+        require(index in xRange) { "column out of bounds: $index in width $width" }
+        return yRange.map { Point(index, it) }
+    }
+
+    // left->right
+    fun row(index: Int): List<Point> {
+        require(index in yRange) { "row out of bounds: $index in height $height" }
+        return xRange.map { Point(it, index) }
+    }
+
     fun Point.toIndex() = x + y * width
     fun toPointIndex(x: Int, y: Int) = x + y * width
     fun pointFromIndex(index: Int) = Point(index % width, index / width)
     fun List<Point>.toIndices() = map { it.toIndex() }
 }
+
+val Plane.points get() = (0 until width * height).map { pointFromIndex(it) }
+val Plane.pointsSequence get() = sequence { (0 until width * height).forEach { yield(pointFromIndex(it)) } }
+val Plane.xRange get() = 0 until width
+val Plane.yRange get() = 0 until height
+
+val Plane.rows get() = yRange.map { y -> xRange.map { Point(it, y) } }
+val Plane.columns get() = xRange.map { x -> yRange.map { Point(x, it) } }
 
 val Plane.topLeftCorner get() = Point(0, 0)
 val Plane.topRightCorner get() = Point(width - 1, 0)
@@ -87,14 +106,20 @@ val Plane.bottomRightCorner get() = Point(width - 1, height - 1)
 val Plane.area get() = width * height
 operator fun Plane.contains(point: Point) = point.x in 0 until width && point.y in 0 until height
 
-data class Rectangle(val a: Point, val b: Point) : Plane {
-    override val width get() = abs(a.x - b.x)
-    override val height get() = abs(a.y - b.y)
+data class SimplePlane(override val width: Int, override val height: Int) : Plane
+
+data class Rectangle(val a: Point, val b: Point) {
+    val width get() = abs(a.x - b.x)
+    val height get() = abs(a.y - b.y)
+    val xRange get() = min(a.x, b.x)..max(a.x, b.x)
+    val yRange get() = min(a.y, b.y)..max(a.y, b.y)
 }
 
+fun Rectangle.asPlane() = SimplePlane(width, height)
+operator fun Rectangle.contains(point: Point) = point.x in xRange && point.y in yRange
 val Rectangle.points get() = (a.x..b.x).flatMap { x -> (a.y..b.y).map { Point(x, it) } }
 
-fun sizedRect(width: Int, height: Int) = Rectangle(Point(0, 0), Point(width, height))
+fun sizedRect(width: Int, height: Int) = Rectangle(Point(0, 0), Point(width - 1, height - 1))
 fun centeredRect(width: Int, height: Int) = Rectangle(Point(-width / 2, -height / 2), Point(width / 2, height / 2))
 
 interface GridLike<T> : Plane {
@@ -103,6 +128,9 @@ interface GridLike<T> : Plane {
     fun Point.adjacentSideElements() = adjacentSides().map { elements[it.toIndex()] }
     fun Point.adjacentDiagonalElements() = adjacentDiagonals().map { elements[it.toIndex()] }
     fun Point.allAdjacentElements() = allAdjacent().map { elements[it.toIndex()] }
+
+    fun rowValues(index: Int) = row(index).map { this[it] }
+    fun columnValues(index: Int) = column(index).map { this[it] }
 
     operator fun get(by: Point) = elements[by.toIndex()]
 }
@@ -117,6 +145,32 @@ class MutableGrid<T>(
     }
 
     operator fun set(by: Point, value: T) = set(by.toIndex(), value)
+}
+
+fun <T> MutableGrid<T>.setColumn(index: Int, values: List<T>) {
+    require(values.size == height) { "Invalid length ${values.size} for height $height" }
+    column(index).zip(values).forEach { (point, value) -> this[point] = value }
+}
+
+fun <T> MutableGrid<T>.setRow(index: Int, values: List<T>) {
+    require(values.size == width) { "Invalid length ${values.size} for width $width" }
+    row(index).zip(values).forEach { (point, value) -> this[point] = value }
+}
+
+fun <T> MutableGrid<T>.rotateRow(row: Int, amount: Int) {
+    val actualShift = if (amount < 1) width + (amount % width) else amount % width
+    if (actualShift == 0) return
+
+    val (l, r) = rowValues(row).splitAt(width - actualShift)
+    setRow(row, r + l)
+}
+
+fun <T> MutableGrid<T>.rotateColumn(column: Int, amount: Int) {
+    val actualShift = if (amount < 1) height + (amount % height) else amount % height
+    if (actualShift == 0) return
+
+    val (l, r) = columnValues(column).splitAt(height - actualShift)
+    setColumn(column, r + l)
 }
 
 fun <T> MutableGrid<T>.asGrid() = Grid(width, height, elements.toList())
@@ -175,8 +229,25 @@ fun booleanGrid(width: Int, height: Int) = Grid(width, height, BooleanArray(widt
 fun mutableBooleanGrid(width: Int, height: Int) =
     MutableGrid(width, height, BooleanArray(width * height).toMutableList())
 
+inline fun <T> grid(width: Int, height: Int, init: (Point) -> T) =
+    Grid(width, height, (0 until width * height).map { init(pointFromIndex(it, width)) })
+
 typealias BooleanGrid = GridLike<Boolean>
+typealias MutableBooleanGrid = MutableGrid<Boolean>
 typealias IntGrid = GridLike<Int>
+typealias MutableIntGrid = MutableGrid<Int>
+
+fun MutableBooleanGrid.toggle(point: Point) {
+    this[point] = !this[point]
+}
+
+fun MutableBooleanGrid.enable(point: Point) {
+    this[point] = true
+}
+
+fun MutableBooleanGrid.disable(point: Point) {
+    this[point] = false
+}
 
 fun BooleanGrid.countTrue() = elements.count { it }
 fun BooleanGrid.countFalse() = elements.count { !it }
@@ -271,3 +342,9 @@ fun <T> GridLike<T>.dijkstra(
 
 fun IntGrid.dijkstra(initial: Point, end: Point, diagonals: Boolean = false) =
     dijkstra(initial, end, { this[it] }, diagonals)
+
+@JvmName("debugInts")
+fun IntGrid.debug() = rows.joinToString("\n") { row -> row.joinToString("") { this[it].toString() } }
+
+@JvmName("debugBooleans")
+fun BooleanGrid.debug() = rows.joinToString("\n") { row -> row.joinToString("") { if (this[it]) "#" else "." } }

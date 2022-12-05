@@ -3,6 +3,7 @@
 package com.grappenmaker.aoc
 
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDate
 import kotlin.io.path.absolutePathString
@@ -23,8 +24,8 @@ fun main(args: Array<String>) {
     val puzzle = puzzles.find { it.day == day && it.year == year }
         ?: panic("Unknown puzzle for day $day and year $year (not yet implemented?)")
 
-    val inputFileName = args.getOrElse(2) { "day-${day.toString().padStart(2, '0')}.txt" }
-    val inputsDir = Paths.get("inputs", year.toString())
+    val inputFileName = args.getOrElse(2) { inputName(day) }
+    val inputsDir = inputsDir(year)
     Files.createDirectories(inputsDir)
 
     val inputFile = inputsDir.resolve(inputFileName)
@@ -35,7 +36,17 @@ fun main(args: Array<String>) {
     """.trimIndent()
     )
 
-    val input = inputFile.readLines()
+    runPuzzle(puzzle, inputFile.readLines())
+}
+
+fun panic(error: String): Nothing {
+    println(error)
+    exitProcess(-1)
+}
+
+fun runPuzzle(puzzle: Puzzle, input: List<String>) {
+    val eventDay = eventDay()
+    val eventYear = eventYear()
     val context = SolveContext(puzzle, input)
     val timeTaken = measureNanoTime { puzzle.implementation(context) }
 
@@ -44,7 +55,7 @@ fun main(args: Array<String>) {
     println()
     println("Took ${timeTaken / 1_000_000}ms to calculate the solution")
 
-    if (eventDay == day && year == eventYear) {
+    if (eventDay == puzzle.day && puzzle.year == eventYear) {
         val midnight = LocalDate.now(unlockOffset).atStartOfDay().atOffset(unlockOffset)
         val currentHour = now().hour
         val hoursUnlocked = currentHour - midnight.hour
@@ -56,7 +67,12 @@ fun main(args: Array<String>) {
     }
 }
 
-fun panic(error: String): Nothing {
-    println(error)
-    exitProcess(-1)
-}
+fun inputsDir(year: Int): Path = Paths.get("inputs", year.toString())
+fun inputName(day: Int) = "day-${day.toString().padStart(2, '0')}.txt"
+
+fun simplePuzzle(
+    day: Int,
+    year: Int,
+    input: Path = inputsDir(year).resolve(inputName(day)),
+    block: SolveContext.() -> Unit
+) = runPuzzle(Puzzle(year, day, block), input.readLines())
