@@ -1,45 +1,15 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.year22.asDigitGrid
+import com.grappenmaker.aoc.year22.floodFill
 
 fun PuzzleSet.day9() = puzzle(day = 9) {
-    val width = inputLines.first().length
-    val height = inputLines.size
+    with(inputLines.asDigitGrid()) {
+        val lowPoints = allPoints.filter { p -> p.adjacentSides().all { this[p] < this[it] } }
+        partOne = lowPoints.sumOf { this[it] + 1 }.s()
 
-    // 48 isn't magic: it is my wacky way to parse numbers
-    // (48 is '0'.code)
-    val heightmap = inputLines.flatMap { line -> line.map { it.code - 48 } }
-
-    val getAdjacentsIndexes =
-        { point: Point -> getAdjacentsStraight(point, width, height).filter { it in heightmap.indices } }
-
-    // Part one
-    val lowPoints = heightmap.mapIndexedNotNull { idx, i ->
-        if (getAdjacentsIndexes(asPoint(idx, width)).all { i < heightmap[it] }) {
-            idx
-        } else null
+        val basins = lowPoints.map { point -> floodFill(point, { this[it] != 9 }).size }.sortedDescending()
+        partTwo = (basins[0] * basins[1] * basins[2]).s()
     }
-
-    partOne = lowPoints.sumOf { heightmap[it] + 1 }.s()
-
-    // Part two
-    val basins = lowPoints.map { num ->
-        var basinSize = 0
-        val queue = ArrayDeque(listOf(num))
-        val seenIndexes = mutableSetOf<Int>()
-
-        while (queue.isNotEmpty()) {
-            val newIndex = queue.removeFirst()
-            if (!seenIndexes.add(newIndex)) continue
-            basinSize += 1
-
-            val newAdjacents = getAdjacentsIndexes(asPoint(newIndex, width))
-                .filter { heightmap[it] != 9 && !seenIndexes.contains(it) }
-            queue.addAll(newAdjacents)
-        }
-
-        basinSize
-    }.sortedDescending()
-
-    partTwo = (basins[0] * basins[1] * basins[2]).s()
 }

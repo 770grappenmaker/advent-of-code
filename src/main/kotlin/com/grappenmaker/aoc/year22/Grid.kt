@@ -1,6 +1,8 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.year22.Direction.*
+import java.util.*
+import kotlin.collections.ArrayDeque
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -62,14 +64,19 @@ operator fun Line.contains(some: Point) = some.x in minX..maxX && some.y in minY
 interface Plane {
     val width: Int
     val height: Int
+    val allPoints get() = (0 until width * height).map { pointFromIndex(it) }
 
     fun Point.adjacentSides() = getAdjacent(dAdjacentSides, width, height)
+    fun Point.adjacentSideIndices() = adjacentSides().toIndices()
     fun Point.adjacentDiagonals() = getAdjacent(dAdjacentDiagonals, width, height)
+    fun Point.adjacentDiagonalIndices() = adjacentDiagonals().toIndices()
     fun Point.allAdjacent() = getAdjacent(dAllAdjacent, width, height)
+    fun Point.allAdjacentIndices() = allAdjacent().toIndices()
 
     fun Point.toIndex() = x + y * width
     fun toPointIndex(x: Int, y: Int) = x + y * width
     fun pointFromIndex(index: Int) = Point(index % width, index / width)
+    fun List<Point>.toIndices() = map { it.toIndex() }
 }
 
 val Plane.topLeftCorner get() = Point(0, 0)
@@ -135,10 +142,11 @@ inline fun <T> List<String>.asGrid(transform: (Char) -> T) = Grid(
 )
 
 fun List<String>.asDigitGrid() = asGrid { it.code - 48 }
+fun List<String>.asMutableDigitGrid() = asDigitGrid().asMutableGrid()
 
 class PseudoGrid<T>(
-    private val actualWidth: Int,
-    private val actualHeight: Int,
+    val actualWidth: Int,
+    val actualHeight: Int,
     override val elements: List<T>,
     scalingFactor: Int
 ) : List<T> by elements, GridLike<T> {
@@ -167,5 +175,99 @@ fun booleanGrid(width: Int, height: Int) = Grid(width, height, BooleanArray(widt
 fun mutableBooleanGrid(width: Int, height: Int) =
     MutableGrid(width, height, BooleanArray(width * height).toMutableList())
 
-fun GridLike<Boolean>.countTrue() = elements.count { it }
-fun GridLike<Boolean>.countFalse() = elements.count { !it }
+typealias BooleanGrid = GridLike<Boolean>
+typealias IntGrid = GridLike<Int>
+
+fun BooleanGrid.countTrue() = elements.count { it }
+fun BooleanGrid.countFalse() = elements.count { !it }
+
+fun <T> queueOf() = ArrayDeque<T>()
+fun <T> queueOf(initial: T) = ArrayDeque<T>().also { it.add(initial) }
+fun <T> queueOf(vararg elements: T) = ArrayDeque<T>().also { it.addAll(elements) }
+
+inline fun <T> ArrayDeque<T>.drain(use: (T) -> Unit) {
+    while (isNotEmpty()) use(removeLast())
+}
+
+inline fun <T> Queue<T>.drain(use: (T) -> Unit) {
+    while (isNotEmpty()) use(remove()!!)
+}
+
+data class BFSResult<T>(val end: T?, val distance: Int, val seen: Set<T>)
+
+inline fun <T> bfs(initial: T, isEnd: (T) -> Boolean, neighbors: (T) -> Iterable<T>): BFSResult<T> {
+    val seen = hashSetOf(initial)
+    val queue = queueOf(initial)
+    var distance = -1 // -1 because for first element 1 gets added as well
+
+    queue.drain { next ->
+        distance++
+        if (isEnd(next)) return BFSResult(next, distance, seen)
+        else neighbors(next).forEach { if (seen.add(it)) queue.add(it) }
+    }
+
+    return BFSResult(null, distance, seen)
+}
+
+inline fun <T> floodFill(initial: T, neighbors: (T) -> Iterable<T>) = bfs(initial, { false }, neighbors).seen
+
+inline fun <T> GridLike<T>.bfs(start: Point, isEnd: (Point) -> Boolean, diagonals: Boolean = false) =
+    bfsPoint(start, isEnd, diagonals).let { p -> BFSResult(p.end?.let { get(it) }, p.distance, p.seen) }
+
+fun <T> GridLike<T>.bfs(start: Point, end: Point, diagonals: Boolean = false) = bfs(start, { it == end }, diagonals)
+
+inline fun <T> GridLike<T>.bfsPoint(start: Point, isEnd: (Point) -> Boolean, diagonals: Boolean = false) =
+    bfs(start, isEnd) { if (diagonals) it.allAdjacent() else it.adjacentSides() }
+
+fun <T> GridLike<T>.bfsPoint(start: Point, end: Point, diagonals: Boolean = false) =
+    bfsPoint(start, { it == end }, diagonals)
+
+inline fun <T> GridLike<T>.floodFill(start: Point, condition: (Point) -> Boolean, diagonals: Boolean = false) =
+    floodFill(start) { (if (diagonals) it.allAdjacent() else it.adjacentSides()).filter(condition) }
+
+data class DijkstraPath<T>(val end: T, val path: List<T>, val cost: Int)
+
+// element - cost
+typealias SearchNode<T> = Pair<T, Int>
+
+inline fun <T> dijkstra(
+    initial: T, // assuming start is cost zero
+    isEnd: (T) -> Boolean,
+    neighbors: (T) -> Iterable<T>,
+    crossinline findCost: (T) -> Int
+): DijkstraPath<T>? {
+    val seen = hashSetOf<T>()
+    val cameFrom = hashMapOf<T, T>()
+    val queue = PriorityQueue<SearchNode<T>>(compareBy { (_, c1) -> c1 })
+    queue.add(initial to 0)
+    seen.add(initial)
+
+    queue.drain { (current, currentCost) ->
+        if (isEnd(current)) return DijkstraPath(
+            end = current,
+            path = generateSequence(current) { cameFrom[it] }.toList().asReversed(),
+            cost = currentCost
+        )
+
+        neighbors(current).forEach { new -> if (seen.add(new)) queue.offer(new to currentCost + findCost(new)) }
+    }
+
+    return null
+}
+
+fun <T> GridLike<T>.dijkstra(
+    initial: Point,
+    isEnd: (Point) -> Boolean,
+    findCost: (Point) -> Int,
+    diagonals: Boolean = false
+) = dijkstra(initial, isEnd, { if (diagonals) it.allAdjacent() else it.adjacentSides() }, findCost)
+
+fun <T> GridLike<T>.dijkstra(
+    initial: Point,
+    end: Point,
+    findCost: (Point) -> Int,
+    diagonals: Boolean = false
+) = dijkstra(initial, { it == end }, findCost, diagonals)
+
+fun IntGrid.dijkstra(initial: Point, end: Point, diagonals: Boolean = false) =
+    dijkstra(initial, end, { this[it] }, diagonals)

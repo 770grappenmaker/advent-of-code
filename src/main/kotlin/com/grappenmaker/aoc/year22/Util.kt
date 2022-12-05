@@ -10,3 +10,5 @@ fun <T> Iterable<Iterable<T>>.swapOrder() = buildList {
         add(iterators.map { it.next() })
     }
 }
+
+fun List<Int>.product() = reduce { acc, curr -> acc * curr }

@@ -7,11 +7,6 @@ fun PuzzleSet.day5() = puzzle {
     val initialState = initial.lines().dropLast(1).asReversed().map { it.toList() }.swapOrder()
         .chunked(4) { p -> p[1].takeWhile { it.isUpperCase() } }
 
-//    val initialState = initial.lines().dropLast(1).flatMap { l ->
-//        l.mapIndexed { idx, c -> ((idx - 1) / 4) to c }
-//            .filter { (_, c) -> c.isUpperCase() }
-//    }.groupBy { (idx) -> idx }.mapValues { (_, v) -> v.map { (_, c) -> c }.asReversed() }.toSortedMap().values
-
     val moves = guide.lines().map { l -> l.split(" ").mapNotNull { it.toIntOrNull() } }
 
     fun solve(partTwo: Boolean): String {
