@@ -4,7 +4,6 @@ import com.grappenmaker.aoc.year15.year2015
 import com.grappenmaker.aoc.year21.year2021
 import com.grappenmaker.aoc.year22.year2022
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Month
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
@@ -18,6 +17,7 @@ data class Puzzle(val year: Int, val day: Int, val implementation: SolveContext.
 
 class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
     val input by lazy { inputLines.joinToString("\n").trim() }
+    val rawInput by lazy { inputLines.joinToString("\n") }
 
     var partOne = "Not implemented"
     var partTwo = "Not implemented"
@@ -29,12 +29,8 @@ class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
         |Part 2: $partTwo
     """.trimMargin()
 
-    // Utility to convert to string
-    // (felt shorter to use)
-    // Strings are used because the long, int, and string
-    // data types can be the result of a puzzle (afaik)
-    fun Int.s() = toString()
-    fun Long.s() = toString()
+    // Utility to convert to string (felt shorter to use)
+    fun <T> T.s() = toString()
 }
 
 data class PuzzleSet(val year: Int) {

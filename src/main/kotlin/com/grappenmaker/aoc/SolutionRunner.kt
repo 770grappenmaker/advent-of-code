@@ -5,16 +5,10 @@ package com.grappenmaker.aoc
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.OffsetDateTime
-import java.time.ZoneId
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.readLines
-import kotlin.io.path.readText
 import kotlin.system.exitProcess
 import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) {
     val eventDay = eventDay()
