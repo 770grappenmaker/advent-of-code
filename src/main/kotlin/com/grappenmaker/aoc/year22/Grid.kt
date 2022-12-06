@@ -333,7 +333,9 @@ fun <T> GridLike<T>.bfsPoint(start: Point, end: Point, diagonals: Boolean = fals
 inline fun <T> GridLike<T>.floodFill(start: Point, condition: (Point) -> Boolean, diagonals: Boolean = false) =
     floodFill(start) { (if (diagonals) it.allAdjacent() else it.adjacentSides()).filter(condition) }
 
-data class DijkstraPath<T>(val end: T, val path: List<T>, val cost: Int)
+data class DijkstraPath<T>(val end: T, val cameFrom: Map<T, T>, val cost: Int) {
+    val path by lazy { generateSequence(end) { cameFrom[it] }.toList().asReversed() }
+}
 
 // element - cost
 typealias SearchNode<T> = Pair<T, Int>
@@ -344,20 +346,29 @@ inline fun <T> dijkstra(
     neighbors: (T) -> Iterable<T>,
     crossinline findCost: (T) -> Int
 ): DijkstraPath<T>? {
-    val seen = hashSetOf<T>()
+    // I don't quite know why,
+    // but apparently it is a little faster if you don't
+    // store every tentative cost value, but instead only store it
+    // for the current path.
+    val costs = hashMapOf(initial to 0)
+    val getCost = { el: T -> costs[el] ?: Int.MAX_VALUE }
+
     val cameFrom = hashMapOf<T, T>()
-    val queue = PriorityQueue<SearchNode<T>>(compareBy { (_, c1) -> c1 })
+    val queue = PriorityQueue<SearchNode<T>>(compareBy { (_, c) -> c })
     queue.add(initial to 0)
-    seen.add(initial)
 
     queue.drain { (current, currentCost) ->
-        if (isEnd(current)) return DijkstraPath(
-            end = current,
-            path = generateSequence(current) { cameFrom[it] }.toList().asReversed(),
-            cost = currentCost
-        )
+        if (isEnd(current)) return DijkstraPath(current, cameFrom, currentCost)
+        neighbors(current).forEach { new ->
+            val tentativeCost = currentCost + findCost(new)
+            val previousCost = getCost(new)
 
-        neighbors(current).forEach { new -> if (seen.add(new)) queue.offer(new to currentCost + findCost(new)) }
+            if (tentativeCost < previousCost) {
+                costs[new] = tentativeCost
+                cameFrom[new] = current
+                queue.offer(new to tentativeCost)
+            }
+        }
     }
 
     return null
