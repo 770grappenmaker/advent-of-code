@@ -4,7 +4,9 @@ import com.grappenmaker.aoc.PuzzleSet
 
 fun PuzzleSet.day5() = puzzle {
     val (initial, guide) = rawInput.split("\n\n")
-    val initialState = initial.lines().dropLast(1).asReversed().map { it.toList() }.swapOrder()
+    val stackLines = initial.lines().dropLast(1)
+    val stackSize = stackLines.maxOf { it.length }
+    val initialState = stackLines.asReversed().map { it.padEnd(stackSize).toList() }.swapOrder()
         .chunked(4) { p -> p[1].takeWhile { it.isUpperCase() } }
 
     val moves = guide.lines().map { l -> l.split(" ").mapNotNull { it.toIntOrNull() } }
