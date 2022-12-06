@@ -33,6 +33,10 @@ operator fun Point.rem(with: Int) = Point(x % with, y % with)
 operator fun Point.unaryMinus() = Point(-x, -y)
 operator fun Point.rangeTo(other: Point) = Line(this, other)
 
+fun Point.map(block: (x: Int, y: Int) -> Pair<Int, Int>) = block(x, y).toPoint()
+fun Point.mapX(block: (x: Int) -> Int) = copy(x = block(x))
+fun Point.mapY(block: (y: Int) -> Int) = copy(y = block(y))
+
 val Point.manhattanDistance get() = abs(x) + abs(y)
 infix fun Point.manhattanDistanceTo(other: Point) = abs(x - other.x) + abs(y - other.y)
 
@@ -67,8 +71,10 @@ interface Plane {
 
     fun Point.adjacentSides() = getAdjacent(dAdjacentSides, width, height)
     fun Point.adjacentSideIndices() = adjacentSides().toIndices()
+
     fun Point.adjacentDiagonals() = getAdjacent(dAdjacentDiagonals, width, height)
     fun Point.adjacentDiagonalIndices() = adjacentDiagonals().toIndices()
+
     fun Point.allAdjacent() = getAdjacent(dAllAdjacent, width, height)
     fun Point.allAdjacentIndices() = allAdjacent().toIndices()
 
@@ -102,6 +108,7 @@ val Plane.topLeftCorner get() = Point(0, 0)
 val Plane.topRightCorner get() = Point(width - 1, 0)
 val Plane.bottomLeftCorner get() = Point(0, height - 1)
 val Plane.bottomRightCorner get() = Point(width - 1, height - 1)
+val Plane.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner)
 
 val Plane.area get() = width * height
 operator fun Plane.contains(point: Point) = point.x in 0 until width && point.y in 0 until height
@@ -125,9 +132,12 @@ fun centeredRect(width: Int, height: Int) = Rectangle(Point(-width / 2, -height 
 interface GridLike<T> : Plane {
     val elements: List<T>
 
-    fun Point.adjacentSideElements() = adjacentSides().map { elements[it.toIndex()] }
-    fun Point.adjacentDiagonalElements() = adjacentDiagonals().map { elements[it.toIndex()] }
-    fun Point.allAdjacentElements() = allAdjacent().map { elements[it.toIndex()] }
+    fun Point.adjacentSideElements() = adjacentSides().map { get(it) }
+    fun Point.adjacentSideIndexed() = adjacentSides().map { it to get(it) }
+    fun Point.adjacentDiagonalElements() = adjacentDiagonals().map { get(it) }
+    fun Point.adjacentDiagonalIndexed() = adjacentDiagonals().map { it to get(it) }
+    fun Point.allAdjacentElements() = allAdjacent().map { get(it) }
+    fun Point.allAdjacentIndexed() = allAdjacent().map { it to get(it) }
 
     fun rowValues(index: Int) = row(index).map { this[it] }
     fun columnValues(index: Int) = column(index).map { this[it] }
@@ -157,21 +167,8 @@ fun <T> MutableGrid<T>.setRow(index: Int, values: List<T>) {
     row(index).zip(values).forEach { (point, value) -> this[point] = value }
 }
 
-fun <T> MutableGrid<T>.rotateRow(row: Int, amount: Int) {
-    val actualShift = if (amount < 1) width + (amount % width) else amount % width
-    if (actualShift == 0) return
-
-    val (l, r) = rowValues(row).splitAt(width - actualShift)
-    setRow(row, r + l)
-}
-
-fun <T> MutableGrid<T>.rotateColumn(column: Int, amount: Int) {
-    val actualShift = if (amount < 1) height + (amount % height) else amount % height
-    if (actualShift == 0) return
-
-    val (l, r) = columnValues(column).splitAt(height - actualShift)
-    setColumn(column, r + l)
-}
+fun <T> MutableGrid<T>.rotateRow(row: Int, amount: Int) = setRow(row, rowValues(row).rotate(amount))
+fun <T> MutableGrid<T>.rotateColumn(column: Int, amount: Int) = setColumn(column, columnValues(column).rotate(amount))
 
 fun <T> MutableGrid<T>.asGrid() = Grid(width, height, elements.toList())
 
@@ -194,6 +191,11 @@ inline fun <T> List<String>.asGrid(transform: (Char) -> T) = Grid(
     height = size,
     elements = flatMap { it.map(transform) }.toMutableList()
 )
+
+inline fun <T> List<String>.asMutableGrid(transform: (Char) -> T) = asGrid(transform).asMutableGrid()
+
+fun <T> List<List<T>>.asGrid() = Grid(size, this[0].size, flatten())
+fun <T> List<T>.asGrid(width: Int) = Grid(width, size / width, this)
 
 fun List<String>.asDigitGrid() = asGrid { it.code - 48 }
 fun List<String>.asMutableDigitGrid() = asDigitGrid().asMutableGrid()
@@ -229,8 +231,39 @@ fun booleanGrid(width: Int, height: Int) = Grid(width, height, BooleanArray(widt
 fun mutableBooleanGrid(width: Int, height: Int) =
     MutableGrid(width, height, BooleanArray(width * height).toMutableList())
 
+inline fun <T> buildGrid(
+    width: Int,
+    height: Int,
+    default: (Point) -> T,
+    block: MutableGrid<T>.() -> Unit
+): Grid<T> {
+    val tempGrid = mutableGrid(width, height, default)
+    tempGrid.block()
+    return tempGrid.asGrid()
+}
+
+inline fun <T> buildGridDefault(width: Int, height: Int, default: T, block: MutableGrid<T>.() -> Unit) =
+    buildGrid(width, height, { default }, block)
+
+inline fun buildBooleanGrid(
+    width: Int,
+    height: Int,
+    default: Boolean = false,
+    block: MutableBooleanGrid.() -> Unit
+) = buildGrid(width, height, { default }, block)
+
+inline fun buildIntGrid(
+    width: Int,
+    height: Int,
+    default: Int = 0,
+    block: MutableIntGrid.() -> Unit
+) = buildGrid(width, height, { default }, block)
+
 inline fun <T> grid(width: Int, height: Int, init: (Point) -> T) =
     Grid(width, height, (0 until width * height).map { init(pointFromIndex(it, width)) })
+
+inline fun <T> mutableGrid(width: Int, height: Int, init: (Point) -> T) =
+    MutableGrid(width, height, (0 until width * height).map { init(pointFromIndex(it, width)) }.toMutableList())
 
 typealias BooleanGrid = GridLike<Boolean>
 typealias MutableBooleanGrid = MutableGrid<Boolean>
@@ -251,6 +284,10 @@ fun MutableBooleanGrid.disable(point: Point) {
 
 fun BooleanGrid.countTrue() = elements.count { it }
 fun BooleanGrid.countFalse() = elements.count { !it }
+
+inline fun <T, N> GridLike<T>.mapElements(transform: (T) -> N) = Grid(width, height, elements.map(transform))
+inline fun <T, N> GridLike<T>.mapIndexedElements(transform: (Point, T) -> N) =
+    Grid(width, height, elements.mapIndexed { idx, t -> transform(pointFromIndex(idx), t) })
 
 fun <T> queueOf() = ArrayDeque<T>()
 fun <T> queueOf(initial: T) = ArrayDeque<T>().also { it.add(initial) }
@@ -347,4 +384,7 @@ fun IntGrid.dijkstra(initial: Point, end: Point, diagonals: Boolean = false) =
 fun IntGrid.debug() = rows.joinToString("\n") { row -> row.joinToString("") { this[it].toString() } }
 
 @JvmName("debugBooleans")
-fun BooleanGrid.debug() = rows.joinToString("\n") { row -> row.joinToString("") { if (this[it]) "#" else "." } }
+fun BooleanGrid.debug(
+    on: String = "#",
+    off: String = "."
+) = rows.joinToString("\n") { row -> row.joinToString("") { if (this[it]) on else off } }

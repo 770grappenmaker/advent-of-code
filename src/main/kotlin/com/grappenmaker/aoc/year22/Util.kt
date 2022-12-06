@@ -1,11 +1,11 @@
 package com.grappenmaker.aoc.year22
 
-import kotlin.random.Random
-import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
+import java.util.*
 
 fun <T> List<T>.asPair() = this[0] to this[1]
+fun <A, B> Pair<A, B>.asList() = listOf(first, second)
 
+fun <T> MutableList<T>.removeFirstN(n: Int) = (0 until n).map { removeFirst() }.asReversed()
 fun <T> MutableList<T>.removeLastN(n: Int) = (0 until n).map { removeLast() }.asReversed()
 
 fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = buildList {
@@ -35,8 +35,58 @@ fun List<List<String>>.debug() = joinToString("\n") { it.joinToString("") }
 fun List<List<Char>>.debug() = joinToString("\n") { it.joinToString("") }
 
 fun <T> Iterable<T>.allDistinct(): Boolean {
-    val iterator = iterator()
     val set = hashSetOf<T>()
-    while (iterator.hasNext()) if (!set.add(iterator.next())) return false
+    iterator().drain { if (!set.add(it)) return false }
     return true
 }
+
+fun <T> List<T>.rotate(amount: Int): List<T> {
+    val actualShift = if (amount < 1) size + (amount % size) else amount % size
+    if (actualShift == 0) return this
+
+    val (l, r) = splitAt(size - actualShift)
+    return r + l
+}
+
+@JvmName("deepenIterable")
+fun <T> List<Iterable<T>>.deepen() = map { it.toList() }
+
+@JvmName("deepenString")
+fun List<String>.deepen() = map { it.toList() }
+
+fun String.deepen() = toList()
+
+inline fun <T> Iterator<T>.drain(use: (T) -> Unit) {
+    while (hasNext()) use(next())
+}
+
+// Heap's algorithm
+// See https://en.wikipedia.org/wiki/Heap%27s_algorithm
+fun <T> List<T>.permutations(): List<List<T>> = buildList {
+    fun recurse(list: List<T>, k: Int) {
+        if (k == 1) {
+            add(list.toList())
+            return
+        }
+
+        for (i in 0 until k) {
+            recurse(list, k - 1)
+            Collections.swap(list, if (k % 2 == 0) i else 0, k - 1)
+        }
+    }
+
+    recurse(this@permutations.toList(), this@permutations.size)
+}
+
+fun <T> List<T>.permutationPairs(): List<Pair<T, T>> {
+    val result = mutableListOf<Pair<T, T>>()
+    forEach { a -> mapTo(result) { a to it } }
+    return result
+}
+
+fun String.parseRange(inclusive: Boolean = true) = split("-").map(String::toInt).asPair().toRange(inclusive)
+fun Pair<Int, Int>.toRange(inclusive: Boolean = true) = IntRange(first, if (inclusive) second else second - 1)
+
+fun <T> Iterable<T>.countContains(value: T) = count { it == value }
+fun String.countContains(value: Char) = count { it == value }
+fun String.countContains(value: String) = windowed(value.length).count { it == value }

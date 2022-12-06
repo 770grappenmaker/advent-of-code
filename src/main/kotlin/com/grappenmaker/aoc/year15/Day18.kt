@@ -1,43 +1,25 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
-
-val adjacentStraight = listOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1)
-val adjacentDiagonal = listOf(-1 to -1, 1 to 1, -1 to 1, 1 to -1)
-val allAdjacent = adjacentStraight + adjacentDiagonal
-
-fun Light.adjacents(width: Int, height: Int) = allAdjacent.asSequence()
-    .map { (dx, dy) -> copy(x = x + dx, y = y + dy) }
-    .filter { (x, y) -> x in 0 until width && y in 0 until height }
-
-fun Light.asIndex(width: Int) = x + y * width
-fun Int.asLight(width: Int) = Light(this % width, this / width)
+import com.grappenmaker.aoc.year22.*
 
 fun PuzzleSet.day18() = puzzle {
-    // true = on, false = off
-    val state = inputLines.flatMap { l -> l.trim().map { it == '#' } }
-    val width = inputLines.first().trim().length
-    val corners = hashSetOf(
-        Light(0, 0), // tl
-        Light(0, width - 1), // bl
-        Light(width - 1, 0), // tr
-        Light(width - 1, width - 1) // br
-    )
+    // mutable state better?
+    fun solve(partTwo: Boolean) = generateSequence(inputLines.asGrid { it == '#' }) {
+        with (it) {
+            mapIndexedElements { loc, on ->
+                val onNeighbours = loc.allAdjacentIndexed()
+                    .count { (p, no) -> no || (partTwo && p in corners) }
 
-    fun solve(partTwo: Boolean): String = generateSequence(state) { currentState ->
-        currentState.mapIndexed { idx, on ->
-            val asLight = idx.asLight(width)
-            val onNeighbours = asLight.adjacents(width, width)
-                .count { (partTwo && it in corners) || currentState[it.asIndex(width)] }
-
-            when {
-                partTwo && asLight in corners -> true
-                on && onNeighbours in 2..3 -> true
-                !on && onNeighbours == 3 -> true
-                else -> false
+                when {
+                    partTwo && loc in corners -> true
+                    on && onNeighbours in 2..3 -> true
+                    !on && onNeighbours == 3 -> true
+                    else -> false
+                }
             }
         }
-    }.drop(1).take(100).last().count { it }.s()
+    }.drop(1).take(100).last().countTrue().s()
 
     partOne = solve(false)
     partTwo = solve(true)

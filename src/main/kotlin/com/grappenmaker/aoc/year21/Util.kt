@@ -32,6 +32,6 @@ fun <T> List<T>.permutations(): List<List<T>> {
 
 fun <T> List<T>.permutationPairs(): List<Pair<T, T>> {
     val result = mutableListOf<Pair<T, T>>()
-    this.forEach { a -> this.mapTo(result) { a to it } }
+    forEach { a -> this.mapTo(result) { a to it } }
     return result
 }
