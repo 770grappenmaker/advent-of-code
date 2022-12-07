@@ -90,3 +90,13 @@ fun Pair<Int, Int>.toRange(inclusive: Boolean = true) = IntRange(first, if (incl
 fun <T> Iterable<T>.countContains(value: T) = count { it == value }
 fun String.countContains(value: Char) = count { it == value }
 fun String.countContains(value: String) = windowed(value.length).count { it == value }
+
+fun <T> Iterable<T>.notDistinct() = buildList {
+    val seen = hashSetOf<T>()
+    this@notDistinct.forEach { if (!seen.add(it)) add(it) }
+}
+
+fun <T> Iterable<T>.firstNotDistinct(): T? {
+    val seen = hashSetOf<T>()
+    return firstOrNull { !seen.add(it) }
+}
