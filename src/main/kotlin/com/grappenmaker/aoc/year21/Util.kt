@@ -38,3 +38,5 @@ fun <T> List<T>.permutationPairs(): List<Pair<T, T>> {
 
 fun <T : Any> generateSequenceIndexed(seed: T, block: (idx: Int, T) -> T?) =
     generateSequence(seed to 0) { (curr, idx) -> block(idx, curr)?.let { it to idx + 1 } }.map { (v) -> v }
+
+inline fun <T> buildRepeated(times: Int, block: (Int) -> T) = buildList { repeat(times) { add(block(it)) } }

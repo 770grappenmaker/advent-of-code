@@ -96,7 +96,7 @@ fun <T> Iterable<T>.notDistinct() = buildList {
     this@notDistinct.forEach { if (!seen.add(it)) add(it) }
 }
 
-fun <T> Iterable<T>.firstNotDistinct(): T? {
+fun <T> Iterable<T>.firstNotDistinct(): T {
     val seen = hashSetOf<T>()
-    return firstOrNull { !seen.add(it) }
+    return first { !seen.add(it) }
 }

@@ -27,10 +27,7 @@ fun PuzzleSet.day7() = puzzle {
         }
     }
 
-    fun getSize(dir: String): Int {
-        val contents = dirs[dir] ?: listOf()
-        return contents.sumOf { v -> normalFiles[v] ?: getSize(v) }
-    }
+    fun getSize(dir: String): Int = (dirs[dir] ?: listOf()).sumOf { v -> normalFiles[v] ?: getSize(v) }
 
     val mapped = dirs.mapValues { (k) -> getSize(k) }
     partOne = mapped.filter { (_, v) -> v <= 100000 }.values.sum().s()
