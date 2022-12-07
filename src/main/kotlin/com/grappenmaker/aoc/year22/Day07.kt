@@ -5,7 +5,6 @@ import kotlin.math.abs
 
 fun PuzzleSet.day7() = puzzle {
     val normalFiles = mutableMapOf<String, Int>()
-
     val dirs = buildMap<String, List<String>> {
         val stack = queueOf<String>()
         val current = { stack.joinToString("/") }
@@ -28,7 +27,6 @@ fun PuzzleSet.day7() = puzzle {
         }
     }
 
-
     fun getSize(dir: String): Int {
         val contents = dirs[dir] ?: listOf()
         return contents.sumOf { v -> normalFiles[v] ?: getSize(v) }
@@ -37,11 +35,7 @@ fun PuzzleSet.day7() = puzzle {
     val mapped = dirs.mapValues { (k) -> getSize(k) }
     partOne = mapped.filter { (_, v) -> v <= 100000 }.values.sum().s()
 
-    val totalSize = 70000000
-    val shouldHaveFree = 30000000
-    val maxInUse = totalSize - shouldHaveFree
-    val shouldFree = mapped[""]!! - maxInUse
-
-    val toDelete = dirs.keys.filter { mapped[it]!! > shouldFree }.minBy { abs(shouldFree - mapped[it]!!) }
+    val shouldFree = mapped[""]!! - (70000000 - 30000000)
+    val toDelete = mapped.filter { (_, u) -> u > shouldFree }.minBy { (_, u) -> abs(shouldFree - u) }.key
     partTwo = mapped[toDelete].s()
 }
