@@ -8,7 +8,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 val dAdjacentSides = enumValues<Direction>().map { it.toPoint() }
-val dAdjacentDiagonals = listOf(UP + RIGHT, DOWN + RIGHT, UP + LEFT, DOWN + LEFT)
+val dAdjacentDiagonals = listOf(DOWN + RIGHT, UP + RIGHT, DOWN + LEFT, UP + LEFT)
 val dAllAdjacent = dAdjacentSides + dAdjacentDiagonals
 
 data class Point(val x: Int, val y: Int)
@@ -41,7 +41,7 @@ val Point.manhattanDistance get() = abs(x) + abs(y)
 infix fun Point.manhattanDistanceTo(other: Point) = abs(x - other.x) + abs(y - other.y)
 
 enum class Direction(val dx: Int, val dy: Int) {
-    UP(0, 1), RIGHT(1, 0), DOWN(0, -1), LEFT(-1, 0);
+    UP(0, -1), RIGHT(1, 0), DOWN(0, 1), LEFT(-1, 0);
 
     fun next(by: Int = 1) = values()[(ordinal + by).mod(4)]
 }
@@ -87,6 +87,7 @@ interface Plane {
 
     fun Point.allAdjacent() = getAdjacent(dAllAdjacent, width, height)
     fun Point.allAdjacentIndices() = allAdjacent().toIndices()
+    fun Point.clamp() = Point(x.coerceIn(xRange), y.coerceIn(yRange))
 
     // up->down
     fun column(index: Int): List<Point> {
@@ -201,6 +202,8 @@ inline fun <T> List<String>.asGrid(transform: (Char) -> T) = Grid(
     height = size,
     elements = flatMap { it.map(transform) }.toMutableList()
 )
+
+fun List<String>.asCharGrid() = asGrid { it }
 
 inline fun <T> List<String>.asMutableGrid(transform: (Char) -> T) = asGrid(transform).asMutableGrid()
 

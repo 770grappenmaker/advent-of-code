@@ -1,0 +1,44 @@
+package com.grappenmaker.aoc.year16
+
+import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.year22.*
+import com.grappenmaker.aoc.year22.Direction.*
+
+fun PuzzleSet.day2() = puzzle {
+    val insns = inputLines.map {
+        it.deepen().map { c ->
+            when (c) {
+                'U' -> UP
+                'D' -> DOWN
+                'L' -> LEFT
+                'R' -> RIGHT
+                else -> error("No value")
+            }.toPoint()
+        }
+    }
+
+    val telephoneGrid = """
+        123
+        456
+        789
+    """.trimIndent().lines().asCharGrid()
+
+    val bathroomGrid = """
+        ##1##
+        #234#
+        56789
+        #ABC#
+        ##D##
+    """.trimIndent().lines().asCharGrid()
+
+    fun Grid<Char>.solve(partTwo: Boolean) =
+        insns.scan(Point(1, 1)) { acc, curr ->
+            curr.fold(acc) { a, c ->
+                val newPoint = (a + c).clamp()
+                if (partTwo && this[newPoint] == '#') a else newPoint
+            }
+        }.drop(1).joinToString("") { this[it].s() }
+
+    partOne = telephoneGrid.solve(false)
+    partTwo = bathroomGrid.solve(true)
+}

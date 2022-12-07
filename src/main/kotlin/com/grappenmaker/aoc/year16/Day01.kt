@@ -1,6 +1,6 @@
-package com.grappenmaker.aoc.test
+package com.grappenmaker.aoc.year16
 
-import com.grappenmaker.aoc.simplePuzzle
+import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.year21.buildRepeated
 import com.grappenmaker.aoc.year21.generateSequenceIndexed
 import com.grappenmaker.aoc.year22.*
@@ -8,7 +8,7 @@ import com.grappenmaker.aoc.year22.*
 // Thought I could practice a bit...
 // Turns out I spent hours debugging, to end up finding out...
 // I read the puzzle wrong...
-fun main() = simplePuzzle(1, 2016) {
+fun PuzzleSet.day1() = puzzle {
     val steps = input.split(", ").map { (if (it[0] == 'L') -1 else 1) to it.substring(1).toInt() }
     val path = generateSequenceIndexed(listOf(Point(0, 0)) to Direction.UP) { idx, (l, dir) ->
         steps.getOrNull(idx)?.let { (turn, amount) ->
