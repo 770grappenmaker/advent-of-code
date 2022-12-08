@@ -105,9 +105,9 @@ fun <T> Iterable<T>.firstNotDistinct(): T {
 }
 
 inline fun <T> Iterable<T>.findIndexOf(cond: (T) -> Boolean) = withIndex().find { (_, v) -> cond(v) }?.index
-inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pair<ArrayList<T>, ArrayList<T>> {
-    val l = arrayListOf<T>()
-    val r = arrayListOf<T>()
+inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pair<List<T>, List<T>> {
+    val l = mutableListOf<T>()
+    val r = mutableListOf<T>()
     forEachIndexed { idx, el -> (if (block(idx, el)) l else r).add(el) }
 
     return l to r
