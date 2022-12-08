@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year22
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun <T> List<T>.asPair() = this[0] to this[1]
 fun <A, B> Pair<A, B>.asList() = listOf(first, second)
+inline fun <F, T> Pair<F, F>.mapBoth(block: (F) -> T) = block(first) to block(second)
 
 fun <T> MutableList<T>.removeFirstN(n: Int) = (0 until n).map { removeFirst() }.asReversed()
 fun <T> MutableList<T>.removeLastN(n: Int) = (0 until n).map { removeLast() }.asReversed()
@@ -103,3 +105,12 @@ fun <T> Iterable<T>.firstNotDistinct(): T {
 }
 
 inline fun <T> Iterable<T>.findIndexOf(cond: (T) -> Boolean) = withIndex().find { (_, v) -> cond(v) }?.index
+inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pair<ArrayList<T>, ArrayList<T>> {
+    val l = arrayListOf<T>()
+    val r = arrayListOf<T>()
+    forEachIndexed { idx, el -> (if (block(idx, el)) l else r).add(el) }
+
+    return l to r
+}
+
+fun <T> Iterable<T>.deinterlace() = partitionIndexed { idx, _ -> idx % 2 == 0 }
