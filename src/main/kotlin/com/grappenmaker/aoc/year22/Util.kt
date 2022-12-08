@@ -21,6 +21,7 @@ fun List<Int>.product() = reduce { acc, curr -> acc * curr }
 
 fun <T> List<T>.splitHalf() = chunked(size / 2).asPair()
 fun <T> List<T>.splitAt(index: Int) = subList(0, index) to subList(index, size)
+fun <T> List<T>.splitAtExcluding(index: Int) = subList(0, index) to subList(index, size).drop(1)
 
 fun <A, B> Pair<A, B>.swap() = second to first
 
