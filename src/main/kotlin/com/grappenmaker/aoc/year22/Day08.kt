@@ -14,12 +14,8 @@ fun PuzzleSet.day8() = puzzle {
         partTwo = points.maxOf { p ->
             val (lc, rc) = column(p.x).splitAtExcluding(p.y)
             val (lr, rr) = row(p.y).splitAtExcluding(p.x)
-            val find = { points: List<Point>, edge: Point ->
-                (points.find { this[it] >= this[p] } ?: edge) manhattanDistanceTo p
-            }
-
-            find(lc.asReversed(), Point(p.x, 0)) * find(rc, Point(p.x, height - 1)) *
-                    find(lr.asReversed(), Point(0, p.y)) * find(rr, Point(width - 1, p.y))
+            fun find(points: List<Point>) = (points.findIndexOf { this[it] >= this[p] } ?: points.indices.last) + 1
+            find(lc.asReversed()) * find(rc) * find(lr.asReversed()) * find(rr)
         }.s()
     }
 }

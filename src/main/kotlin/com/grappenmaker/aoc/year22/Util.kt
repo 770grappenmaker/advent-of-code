@@ -101,3 +101,5 @@ fun <T> Iterable<T>.firstNotDistinct(): T {
     val seen = hashSetOf<T>()
     return first { !seen.add(it) }
 }
+
+inline fun <T> Iterable<T>.findIndexOf(cond: (T) -> Boolean) = withIndex().find { (_, v) -> cond(v) }?.index
