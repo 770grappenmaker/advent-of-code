@@ -48,6 +48,9 @@ fun Point.mapY(block: (y: Int) -> Int) = copy(y = block(y))
 val Point.manhattanDistance get() = abs(x) + abs(y)
 infix fun Point.manhattanDistanceTo(other: Point) = abs(x - other.x) + abs(y - other.y)
 
+val Point.chebyshevDistance get() = max(abs(x), abs(y))
+infix fun Point.chebyshevDistanceTo(other: Point) = max(abs(x - other.x), abs(y - other.y))
+
 enum class Direction(val dx: Int, val dy: Int) {
     UP(0, -1), RIGHT(1, 0), DOWN(0, 1), LEFT(-1, 0);
 
@@ -454,3 +457,18 @@ fun <T> Graph<T>.dijkstra(start: T, end: T): DijkstraPath<T>? =
     dijkstra(start, { it == end }, { this[it] ?: listOf() }, { 1 })
 
 fun <T> Graph<T>.bfs(start: T) = bfs(start, { false }, { this[it] ?: listOf() })
+
+fun Iterable<Point>.shiftPositive(): List<Point> {
+    val minX = min(minOf { it.x }, 0)
+    val minY = min(minOf { it.y }, 0)
+    if (minX == 0 && minY == 0) return toList()
+
+    val shift = Point(abs(minX), abs(minY))
+    return map { it + shift }
+}
+
+fun Iterable<Point>.asBooleanGrid(): Grid<Boolean> {
+    val width = maxOf { it.x } + 1
+    val height = maxOf { it.y } + 1
+    return grid(width, height) { it in this }
+}

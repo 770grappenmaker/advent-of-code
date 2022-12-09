@@ -119,6 +119,4 @@ inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pa
 
 fun <T> Iterable<T>.deinterlace() = partitionIndexed { idx, _ -> idx % 2 == 0 }
 
-inline fun <T> buildListN(n: Int, gen: (idx: Int) -> T) = buildList { repeat(n) { add(gen(size - 1)) } }
-
 fun <T> Sequence<T>.repeatInfinitely() = sequence { while (true) yieldAll(this@repeatInfinitely) }
