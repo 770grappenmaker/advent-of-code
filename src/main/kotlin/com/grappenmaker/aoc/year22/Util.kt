@@ -83,9 +83,15 @@ fun <T> List<T>.permutations(): List<List<T>> = buildList {
     recurse(this@permutations.toList(), this@permutations.size)
 }
 
-fun <T> List<T>.permutationPairs(): List<Pair<T, T>> {
+fun <T> List<T>.permPairs(): List<Pair<T, T>> {
     val result = mutableListOf<Pair<T, T>>()
     forEach { a -> mapTo(result) { a to it } }
+    return result
+}
+
+fun <T> List<T>.permPairsExclusive(): List<Pair<T, T>> {
+    val result = mutableListOf<Pair<T, T>>()
+    forEachIndexed { idx, v -> filterIndexed { idx2, _ -> idx != idx2 }.mapTo(result) { v to it } }
     return result
 }
 

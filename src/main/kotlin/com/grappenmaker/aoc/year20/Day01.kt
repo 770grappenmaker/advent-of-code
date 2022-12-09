@@ -1,7 +1,7 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.permutationPairs
+import com.grappenmaker.aoc.year22.permPairs
 import com.grappenmaker.aoc.year22.product
 
 fun PuzzleSet.day1() = puzzle {
@@ -10,7 +10,7 @@ fun PuzzleSet.day1() = puzzle {
     val complement = numbers.first { it in reverse }
     partOne = (complement * (2020 - complement)).s()
 
-    val perms = numbers.permutationPairs().map { it.toList() }
+    val perms = numbers.permPairs().map { it.toList() }
     val other = perms.first { 2020 - it.sum() in numbers }
     partTwo = ((2020 - other.sum()) * other.product()).s()
 }
