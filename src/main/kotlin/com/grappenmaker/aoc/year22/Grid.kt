@@ -22,8 +22,16 @@ private fun Point.getAdjacent(of: List<Point>, width: Int, height: Int) =
     of.map { this + it }.filter { it.x in 0 until width && it.y in 0 until height }
 
 fun Point.adjacentSides(width: Int, height: Int) = getAdjacent(dAdjacentSides, width, height)
+fun Point.adjacentSidesInf() = dAdjacentSides.map { it + this }
 fun Point.adjacentDiagonals(width: Int, height: Int) = getAdjacent(dAdjacentDiagonals, width, height)
+fun Point.adjacentDiagonalsInf() = dAdjacentDiagonals.map { it + this }
 fun Point.allAdjacent(width: Int, height: Int) = getAdjacent(dAllAdjacent, width, height)
+fun Point.allAdjacentInf() = dAllAdjacent.map { it + this }
+
+fun Point.adjacentTo(other: Point) = abs(x - other.x) <= 1 && abs(y - other.y) <= 1
+fun Point.clamp(bx: Int, by: Int) = Point(min(max(x, -bx), bx), min(max(y, -by), by))
+fun Point.clamp(minX: Int, maxX: Int, minY: Int, maxY: Int) = Point(min(max(x, minX), maxX), min(max(y, minY), maxY))
+fun Point.clampUnit() = clamp(1, 1)
 
 operator fun Point.plus(other: Point) = Point(x + other.x, y + other.y)
 operator fun Point.minus(other: Point) = Point(x - other.x, y - other.y)

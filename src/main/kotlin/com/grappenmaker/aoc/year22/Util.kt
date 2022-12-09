@@ -1,10 +1,9 @@
 package com.grappenmaker.aoc.year22
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 fun <T> List<T>.asPair() = this[0] to this[1]
-fun <A, B> Pair<A, B>.asList() = listOf(first, second)
+fun <T> Pair<T, T>.asList() = listOf(first, second)
 inline fun <F, T> Pair<F, F>.mapBoth(block: (F) -> T) = block(first) to block(second)
 
 fun <T> MutableList<T>.removeFirstN(n: Int) = (0 until n).map { removeFirst() }.asReversed()
@@ -28,6 +27,9 @@ fun <T> List<T>.splitAtExcluding(index: Int) = subList(0, index) to subList(inde
 fun <A, B> Pair<A, B>.swap() = second to first
 
 inline fun <T> MutableList<T>.mapInPlace(transform: (T) -> T) = forEachIndexed { idx, t -> this[idx] = transform(t) }
+inline fun <T> MutableList<T>.mapInPlaceIndexed(transform: (idx: Int, T) -> T) =
+    forEachIndexed { idx, t -> this[idx] = transform(idx, t) }
+
 inline fun <T> Array<T>.mapInPlace(transform: (T) -> T) = forEachIndexed { idx, t -> this[idx] = transform(t) }
 fun MutableList<Int>.incrementAll() = mapInPlace { it + 1 }
 
@@ -114,3 +116,5 @@ inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pa
 }
 
 fun <T> Iterable<T>.deinterlace() = partitionIndexed { idx, _ -> idx % 2 == 0 }
+
+inline fun <T> buildListN(n: Int, gen: (idx: Int) -> T) = buildList { repeat(n) { add(gen(size - 1)) } }
