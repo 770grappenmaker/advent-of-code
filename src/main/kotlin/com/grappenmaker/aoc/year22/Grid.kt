@@ -137,16 +137,38 @@ data class SimplePlane(override val width: Int, override val height: Int) : Plan
 data class Rectangle(val a: Point, val b: Point) {
     val width get() = abs(a.x - b.x)
     val height get() = abs(a.y - b.y)
-    val xRange get() = min(a.x, b.x)..max(a.x, b.x)
-    val yRange get() = min(a.y, b.y)..max(a.y, b.y)
+    val minX get() = min(a.x, b.x)
+    val maxX get() = max(a.x, b.x)
+    val minY get() = min(a.y, b.y)
+    val maxY get() = max(a.y, b.y)
+    val xRange get() = minX..maxX
+    val yRange get() = minY..maxY
 }
 
+val Rectangle.topLeftCorner get() = Point(minX, minY)
+val Rectangle.topRightCorner get() = Point(maxX, minY)
+val Rectangle.bottomLeftCorner get() = Point(minX, maxY)
+val Rectangle.bottomRightCorner get() = Point(maxX, maxY)
+val Rectangle.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner)
+
 fun Rectangle.asPlane() = SimplePlane(width, height)
-operator fun Rectangle.contains(point: Point) = point.x in xRange && point.y in yRange
 val Rectangle.points get() = (a.x..b.x).flatMap { x -> (a.y..b.y).map { Point(x, it) } }
 
-fun sizedRect(width: Int, height: Int) = Rectangle(Point(0, 0), Point(width - 1, height - 1))
+operator fun Rectangle.contains(point: Point) = point.x in xRange && point.y in yRange
+fun Rectangle.overlaps(other: Rectangle) =
+    minX < other.maxX && maxX > other.minX && minY < other.maxY && maxY > other.minY
+
+fun Rectangle.overlapsInclusive(other: Rectangle) =
+    minX <= other.maxX && maxX >= other.minX && minY <= other.maxY && maxY >= other.minY
+
+fun Rectangle.intersect(other: Rectangle) = points.intersect(other.points.toSet())
+
+fun sizedRect(width: Int, height: Int, atX: Int = 0, atY: Int = 0) =
+    Rectangle(Point(atX, atY), Point(atX + width - 1, atY + height - 1))
+
 fun centeredRect(width: Int, height: Int) = Rectangle(Point(-width / 2, -height / 2), Point(width / 2, height / 2))
+
+fun Rectangle.movedTo(x: Int, y: Int) = sizedRect(width, height, x, y)
 
 interface GridLike<T> : Plane {
     val elements: List<T>
@@ -306,6 +328,14 @@ fun MutableBooleanGrid.disable(point: Point) {
 fun BooleanGrid.countTrue() = elements.count { it }
 fun BooleanGrid.countFalse() = elements.count { !it }
 
+fun MutableIntGrid.increment(point: Point) {
+    this[point]++
+}
+
+fun MutableIntGrid.decrement(point: Point) {
+    this[point]--
+}
+
 inline fun <T, N> GridLike<T>.mapElements(transform: (T) -> N) = Grid(width, height, elements.map(transform))
 inline fun <T, N> GridLike<T>.mapIndexedElements(transform: (Point, T) -> N) =
     Grid(width, height, elements.mapIndexed { idx, t -> transform(pointFromIndex(idx), t) })
@@ -409,8 +439,8 @@ fun <T> GridLike<T>.dijkstra(
 fun IntGrid.dijkstra(initial: Point, end: Point, diagonals: Boolean = false) =
     dijkstra(initial, end, { this[it] }, diagonals)
 
-@JvmName("debugInts")
-fun IntGrid.debug() = rows.joinToString("\n") { row -> row.joinToString("") { this[it].toString() } }
+@JvmName("debugAny")
+fun <T> Grid<T>.debug() = rows.joinToString("\n") { row -> row.joinToString("") { this[it].toString() } }
 
 @JvmName("debugBooleans")
 fun BooleanGrid.debug(

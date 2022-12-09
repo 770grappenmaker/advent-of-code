@@ -106,6 +106,8 @@ fun <T> Iterable<T>.firstNotDistinct(): T {
     return first { !seen.add(it) }
 }
 
+fun <T> Sequence<T>.firstNotDistinct() = asIterable().firstNotDistinct()
+
 inline fun <T> Iterable<T>.findIndexOf(cond: (T) -> Boolean) = withIndex().find { (_, v) -> cond(v) }?.index
 inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pair<List<T>, List<T>> {
     val l = mutableListOf<T>()
@@ -118,3 +120,5 @@ inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pa
 fun <T> Iterable<T>.deinterlace() = partitionIndexed { idx, _ -> idx % 2 == 0 }
 
 inline fun <T> buildListN(n: Int, gen: (idx: Int) -> T) = buildList { repeat(n) { add(gen(size - 1)) } }
+
+fun <T> Sequence<T>.repeatInfinitely() = sequence { while (true) yieldAll(this@repeatInfinitely) }
