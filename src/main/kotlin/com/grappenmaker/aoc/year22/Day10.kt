@@ -1,34 +1,30 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import kotlin.math.abs
 
 fun PuzzleSet.day10() = puzzle {
-    val program = sequence {
+    val cycles = buildList {
         var curr = 1
         inputLines.forEach { insn ->
             val split = insn.split(" ")
             when (split[0]) {
-                "noop" -> yield(curr)
+                "noop" -> add(curr)
                 "addx" -> {
-                    yield(curr)
-                    yield((curr + split[1].toInt()).also { curr = it })
+                    add(curr)
+                    add((curr + split[1].toInt()).also { curr = it })
                 }
             }
         }
-    }.toList()
+    }
 
-    fun signalStrength(cycle: Int) = program[cycle - 2] * cycle
-    partOne = listOf(20, 60, 100, 140, 180, 220).sumOf { signalStrength(it) }.s()
-
+    partOne = (20..220 step 40).sumOf { cycles[it - 2] * it }.s()
     partTwo = "\n" + buildBooleanGrid(40, 6) {
         var spritePos = 1
-        val sprite = { y: Int -> Rectangle(Point(spritePos - 1, y), Point(spritePos + 1, y)) }
-
-        program.forEachIndexed { idx, x ->
+        cycles.forEachIndexed { idx, x ->
             val point = pointFromIndex(idx)
-            if (point in sprite(point.y)) enable(point)
-
+            if (abs(spritePos - point.x) <= 1) enable(point)
             spritePos = x
         }
-    }.debug(on = "oo ", off = "   ")
+    }.debug(on = "⬜", off = "⬛")
 }

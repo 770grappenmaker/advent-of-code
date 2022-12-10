@@ -112,7 +112,37 @@ fun <T> Iterable<T>.firstNotDistinct(): T {
     return first { !seen.add(it) }
 }
 
+fun <T> Iterable<T>.untilNotDistinct(): List<T> {
+    val seen = hashSetOf<T>()
+    return takeWhile { seen.add(it) }
+}
+
+fun <T> Iterable<T>.hasDuplicate(): Boolean {
+    val seen = hashSetOf<T>()
+    return any { !seen.add(it) }
+}
+
+inline fun <T, V> Iterable<T>.firstNotDistinctBy(block: (T) -> V): T {
+    val seen = hashSetOf<V>()
+    return first { !seen.add(block(it)) }
+}
+
+inline fun <T, V> Iterable<T>.untilNotDistinctBy(block: (T) -> V): List<T> {
+    val seen = hashSetOf<V>()
+    return takeWhile { seen.add(block(it)) }
+}
+
+inline fun <T, V> Iterable<T>.hasDuplicateBy(block: (T) -> V): Boolean {
+    val seen = hashSetOf<V>()
+    return any { !seen.add(block(it)) }
+}
+
 fun <T> Sequence<T>.firstNotDistinct() = asIterable().firstNotDistinct()
+fun <T> Sequence<T>.untilNotDistinct() = asIterable().untilNotDistinct()
+fun <T> Sequence<T>.hasDuplicate() = asIterable().hasDuplicate()
+inline fun <T, V> Sequence<T>.firstNotDistinctBy(block: (T) -> V) = asIterable().firstNotDistinctBy(block)
+inline fun <T, V> Sequence<T>.untilNotDistinctBy(block: (T) -> V) = asIterable().untilNotDistinctBy(block)
+inline fun <T, V> Sequence<T>.hasDuplicateBy(block: (T) -> V) = asIterable().hasDuplicateBy(block)
 
 inline fun <T> Iterable<T>.findIndexOf(cond: (T) -> Boolean) = withIndex().find { (_, v) -> cond(v) }?.index
 inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pair<List<T>, List<T>> {
