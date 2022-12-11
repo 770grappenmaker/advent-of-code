@@ -27,7 +27,7 @@ fun PuzzleSet.day11() = puzzle {
     fun solve(partTwo: Boolean): String {
         val currMonkeys = monkeys.map { it.items.toMutableList() }
         val throws = currMonkeys.map { 0 }.toMutableList()
-        val lcm = monkeys.map { it.test }.lcm()
+        val lcm = monkeys.map { it.test }.product()
 
         repeat(if (!partTwo) 20 else 10000) {
             monkeys.forEachIndexed { idx, m ->

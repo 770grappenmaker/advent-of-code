@@ -70,21 +70,27 @@ data class Line(val a: Point, val b: Point) {
     val minY get() = min(a.y, b.y)
     val maxX get() = max(a.x, b.x)
     val maxY get() = max(a.y, b.y)
+    val xRange get() = rangeDirection(a.x, b.x)
+    val yRange get() = rangeDirection(a.y, b.y)
 }
 
 fun Line.isHorizontal() = a.y == b.y
 fun Line.isVertical() = a.x == b.x
 fun Line.isDiagonal() = abs(a.x - b.x) == abs(a.y - b.y)
 fun Line.allPoints() = when {
-    isHorizontal() -> (a.x..b.x).map { Point(it, a.y) }
-    isVertical() -> (a.y..b.y).map { Point(a.x, it) }
-    isDiagonal() -> (a.x..b.x).zip(a.y..b.y).map(Pair<Int, Int>::toPoint)
+    isHorizontal() -> xRange.map { Point(it, a.y) }
+    isVertical() -> yRange.map { Point(a.x, it) }
+    isDiagonal() -> xRange.zip(yRange).map(Pair<Int, Int>::toPoint)
     else -> error("Line must be horizontal, vertical or diagonal (from $a to $b)")
 }
 
 fun Pair<Point, Point>.toLine() = Line(first, second)
 
 operator fun Line.contains(some: Point) = some.x in minX..maxX && some.y in minY..maxY
+fun Line.intersects(other: Line) = intersections(other).isNotEmpty()
+fun Line.intersections(other: Line) = allPoints().intersect(other.allPoints().toSet())
+
+fun List<Line>.connect() = flatMap { it.allPoints().dropLast(1) } + last().b
 
 interface Plane {
     val width: Int

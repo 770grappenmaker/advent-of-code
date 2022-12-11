@@ -1,19 +1,9 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.Direction.*
 
-// Naughty code
 fun PuzzleSet.day9() = puzzle {
-    val insns = inputLines.map { it.split(" ") }.map { (d, a) ->
-        when (d.single()) {
-            'U' -> UP
-            'D' -> DOWN
-            'L' -> LEFT
-            'R' -> RIGHT
-            else -> error("No input")
-        } to a.toInt()
-    }
+    val insns = inputLines.map { it.split(" ") }.map { (d, a) -> d.single().parseDirection() to a.toInt() }
 
     fun solve(n: Int): String {
         val seen = hashSetOf(Point(0, 0))

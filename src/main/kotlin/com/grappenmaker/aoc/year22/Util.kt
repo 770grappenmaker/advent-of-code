@@ -1,5 +1,6 @@
 package com.grappenmaker.aoc.year22
 
+import com.grappenmaker.aoc.year22.Direction.*
 import java.util.*
 
 fun <T> List<T>.asPair() = this[0] to this[1]
@@ -174,3 +175,13 @@ fun List<Int>.lcm() = reduce { a, b -> lcm(a, b) }
 
 @JvmName("lcmLongs")
 fun List<Long>.lcm() = reduce { a, b -> lcm(a, b) }
+
+fun rangeDirection(a: Int, b: Int) = if (b < a) a downTo b else a..b
+
+fun Char.parseDirection() = when (this) {
+    'U' -> UP
+    'D' -> DOWN
+    'L' -> LEFT
+    'R' -> RIGHT
+    else -> error("Invalid direction marker $this")
+}

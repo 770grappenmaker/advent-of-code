@@ -2,21 +2,9 @@ package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.year22.*
-import com.grappenmaker.aoc.year22.Direction.*
 
 fun PuzzleSet.day2() = puzzle {
-    val insns = inputLines.map {
-        it.deepen().map { c ->
-            when (c) {
-                'U' -> UP
-                'D' -> DOWN
-                'L' -> LEFT
-                'R' -> RIGHT
-                else -> error("No value")
-            }.toPoint()
-        }
-    }
-
+    val insns = inputLines.map { it.deepen().map { c -> c.parseDirection().toPoint() } }
     val telephoneGrid = """
         123
         456
