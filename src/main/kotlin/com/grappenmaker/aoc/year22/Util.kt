@@ -20,6 +20,9 @@ fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = buildList 
 
 fun List<Int>.product() = reduce { acc, curr -> acc * curr }
 
+@JvmName("productLongs")
+fun List<Long>.product() = reduce { acc, curr -> acc * curr }
+
 fun <T> List<T>.splitHalf() = chunked(size / 2).asPair()
 fun <T> List<T>.splitAt(index: Int) = subList(0, index) to subList(index, size)
 fun <T> List<T>.splitAtExcluding(index: Int) = subList(0, index) to subList(index, size).drop(1)
@@ -156,3 +159,18 @@ inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pa
 fun <T> Iterable<T>.deinterlace() = partitionIndexed { idx, _ -> idx % 2 == 0 }
 
 fun <T> Sequence<T>.repeatInfinitely() = sequence { while (true) yieldAll(this@repeatInfinitely) }
+
+fun gcd(a: Int, b: Int): Int = if (a == 0) b else gcd(b % a, a)
+fun gcd(a: Long, b: Long): Long = if (a == 0L) b else gcd(b % a, a)
+fun lcm(a: Int, b: Int): Int = (a * b) / gcd(a, b)
+fun lcm(a: Long, b: Long): Long = (a * b) / gcd(a, b)
+
+fun List<Int>.gcd() = reduce { a, b -> gcd(a, b) }
+
+@JvmName("gcdLongs")
+fun List<Long>.gcd() = reduce { a, b -> gcd(a, b) }
+
+fun List<Int>.lcm() = reduce { a, b -> lcm(a, b) }
+
+@JvmName("lcmLongs")
+fun List<Long>.lcm() = reduce { a, b -> lcm(a, b) }
