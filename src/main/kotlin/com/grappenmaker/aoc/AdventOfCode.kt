@@ -3,6 +3,7 @@ package com.grappenmaker.aoc
 import com.grappenmaker.aoc.year15.year2015
 import com.grappenmaker.aoc.year16.year2016
 import com.grappenmaker.aoc.year18.year2018
+import com.grappenmaker.aoc.year19.year2019
 import com.grappenmaker.aoc.year20.year2020
 import com.grappenmaker.aoc.year21.year2021
 import com.grappenmaker.aoc.year22.year2022
@@ -49,7 +50,7 @@ data class PuzzleSet(val year: Int) {
 }
 
 // TODO: add more years here
-val puzzles = listOf(year2015, year2016, year2018, year2020, year2021, year2022).flatMap { it.puzzles }
+val puzzles = listOf(year2015, year2016, year2018, year2019, year2020, year2021, year2022).flatMap { it.puzzles }
 
 // Quote the official Advent of Code website:
 // The first puzzles will unlock on December 1st at midnight EST (UTC-5). See you then!

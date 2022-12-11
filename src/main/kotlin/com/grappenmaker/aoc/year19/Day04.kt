@@ -1,9 +1,9 @@
-package com.grappenmaker.aoc.test
+package com.grappenmaker.aoc.year19
 
-import com.grappenmaker.aoc.simplePuzzle
+import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.year22.parseRange
 
-fun main() = simplePuzzle(4, 2019) {
+fun PuzzleSet.day4() = puzzle {
     val range = input.parseRange()
     fun solve(partTwo: Boolean) = range.count { p ->
         val digits = p.toDigits()
@@ -16,11 +16,10 @@ fun main() = simplePuzzle(4, 2019) {
     partTwo = solve(true)
 }
 
-fun Int.toDigits(base: Int = 10): List<Int> = sequence {
-    var n = this@toDigits
-    require(n >= 0)
-    while (n != 0) {
-        yield(n % base)
-        n /= base
+fun Int.toDigits() = buildList {
+    var curr = this@toDigits
+    while (curr != 0) {
+        add(curr % 10)
+        curr /= 10
     }
-}.toList()
+}

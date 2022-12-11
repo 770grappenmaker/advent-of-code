@@ -1,8 +1,8 @@
-package com.grappenmaker.aoc.test
+package com.grappenmaker.aoc.year19
 
-import com.grappenmaker.aoc.simplePuzzle
+import com.grappenmaker.aoc.PuzzleSet
 
-fun main() = simplePuzzle(1, 2019) {
+fun PuzzleSet.day1() = puzzle {
     val nums = inputLines.map(String::toInt)
     partOne = nums.sumOf { (it / 3) - 2 }.s()
     partTwo = nums.sumOf { num ->
