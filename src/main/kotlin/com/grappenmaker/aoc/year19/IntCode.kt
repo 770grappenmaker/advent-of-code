@@ -160,6 +160,15 @@ class IntCode(
         inputFunc = block
     }
 
+    fun addInput(inp: Iterable<Long>) {
+        val old = inputFunc
+        val iter = inp.iterator()
+        input { runCatching(old).getOrElse { iter.next() } }
+    }
+
+    fun inputSequence(seq: Sequence<Long>) = inputSequence(seq.asIterable().iterator())
+    fun inputSequence(iter: Iterator<Long>) = input { iter.next() }
+
     operator fun Long.invoke() = get(this)
 
     private fun getMode(idx: Int): ParameterMode {
