@@ -15,7 +15,7 @@ fun PuzzleSet.day7() = puzzle(7) {
 
         generateSequence(0L) { curr ->
             pcs.fold(curr) { acc, pc ->
-                pc.addInput(listOf(acc))
+                pc.addInput(acc)
                 pc.stepUntilOutput()
             }
         }.takeWhile { !last.isHalted() }.last()

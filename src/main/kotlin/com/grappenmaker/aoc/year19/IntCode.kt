@@ -109,7 +109,7 @@ sealed interface ParameterMode {
 
 class IntCode(
     private val memory: MutableMap<Long, Long> = hashMapOf(),
-    private var inputFunc: () -> Long = { error("No input available") }
+    private var input: Iterator<Long> = emptyList<Long>().iterator()
 ) : MutableMap<Long, Long> by memory {
     private val supportedOpcodes = mapOf(
         1L to Add,
@@ -155,19 +155,23 @@ class IntCode(
         outputHandlers.forEach { it(value) }
     }
 
-    fun getInput() = inputFunc()
-    fun input(block: () -> Long) {
-        inputFunc = block
-    }
+    fun getInput() = input.next()
+    fun input(block: () -> Long) = input(iterator { while (true) yield(block()) })
 
     fun addInput(inp: Iterable<Long>) {
-        val old = inputFunc
-        val iter = inp.iterator()
-        input { runCatching(old).getOrElse { iter.next() } }
+        val old = input
+        input(iterator { yieldAll(old); yieldAll(inp.iterator()) })
     }
 
-    fun inputSequence(seq: Sequence<Long>) = inputSequence(seq.asIterable().iterator())
-    fun inputSequence(iter: Iterator<Long>) = input { iter.next() }
+    fun addInput(inp: Long) {
+        val old = input
+        input(iterator { yieldAll(old) ; yield(inp) })
+    }
+
+    fun input(seq: Sequence<Long>) = input(seq.asIterable().iterator())
+    fun input(iter: Iterator<Long>) {
+        input = iter
+    }
 
     operator fun Long.invoke() = get(this)
 
@@ -216,15 +220,10 @@ class IntCode(
     fun outputSequence() = sequence { while (!halted) yield(stepUntilOutput()) }
 }
 
-fun startComputer(program: List<Long>, input: () -> Long) = IntCode(
-    memory = program.withIndex().associate { (idx, v) -> idx.toLong() to v }.toMutableMap(),
-    inputFunc = input
-)
+fun startComputer(program: List<Long>, input: Iterator<Long>) =
+    IntCode(memory = program.withIndex().associate { (idx, v) -> idx.toLong() to v }.toMutableMap(), input)
 
-fun startComputer(program: List<Long>, input: List<Long> = listOf()): IntCode {
-    val iter = input.iterator()
-    return startComputer(program, iter::next)
-}
+fun startComputer(program: List<Long>, input: List<Long> = listOf()) = startComputer(program, input.iterator())
 
 fun startComputer(program: String, input: List<Long> = listOf()) =
     startComputer(program.split(",").map(String::toLong), input)
