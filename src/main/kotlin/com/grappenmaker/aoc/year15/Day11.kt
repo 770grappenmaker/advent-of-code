@@ -6,7 +6,7 @@ import kotlin.math.abs
 fun PuzzleSet.day11() = puzzle {
     val password = input.trim().map { it.digitCode }
     val (first, second) = generateSequence(password) { it.nextPassword() }
-        .filter { it.isValid() }.map { it.joinToString("") { it.digitChar.toString() } }
+        .filter { it.isValid() }.map { pwd -> pwd.joinToString("") { it.digitChar.toString() } }
         .take(2).toList()
 
     partOne = first
