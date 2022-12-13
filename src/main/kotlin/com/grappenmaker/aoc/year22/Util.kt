@@ -185,3 +185,13 @@ fun Char.parseDirection() = when (this) {
     'R' -> RIGHT
     else -> error("Invalid direction marker $this")
 }
+
+inline fun <T> List<T>.takeUntil(cond: (T) -> Boolean): MutableList<T> {
+    val list = mutableListOf<T>()
+    forEach { el ->
+        list.add(el)
+        if (cond(el)) return list
+    }
+
+    return list
+}
