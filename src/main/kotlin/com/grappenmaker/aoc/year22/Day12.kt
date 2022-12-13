@@ -6,7 +6,6 @@ fun PuzzleSet.day12() = puzzle {
     val charGrid = inputLines.asCharGrid()
     val start = charGrid.points.first { charGrid[it] == 'S' }
     val end = charGrid.points.first { charGrid[it] == 'E' }
-
     val grid = inputLines.asGrid {
         when (it) {
             'S' -> 0
@@ -16,30 +15,14 @@ fun PuzzleSet.day12() = puzzle {
     }
 
     with(grid) {
-        fun eval(start: Point) = dijkstra(
+        fun eval(start: Point, cond: (Point) -> Boolean) = dijkstra(
             start,
-            isEnd = { it == end },
-            neighbors = { it.adjacentSides().filter { p -> this[p] - this[it] <= 1 } },
+            isEnd = cond,
+            neighbors = { it.adjacentSides().filter { p -> this[it] - this[p] <= 1 } },
             findCost = { 1 }
         )?.cost
 
-        // Slightly faster
-//        fun eval(start: Point): Int? {
-//            val queue = queueOf(SearchNodeC(start, 0))
-//            val seen = hashSetOf(start)
-//            while (queue.isNotEmpty()) {
-//                val (p, c) = queue.removeLast()
-//                if (p == end) return c
-//
-//                p.adjacentSides().filter { p2 -> this[p2] - this[p] <= 1 }.forEach {
-//                    if (seen.add(it)) queue.addFirst(SearchNodeC(it, c + 1))
-//                }
-//            }
-//
-//            return null
-//        }
-
-        partOne = eval(start).s()
-        partTwo = pointsSequence.filter { this[it] == 0 }.mapNotNull { eval(it) }.min().s()
+        partOne = eval(end) { it == start }.s()
+        partTwo = (eval(end) { this[it] == 0 }).s()
     }
 }
