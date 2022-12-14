@@ -64,6 +64,10 @@ fun Direction.toPoint() = Point(dx, dy)
 operator fun Direction.plus(other: Direction) = Point(dx + other.dx, dy + other.dy)
 operator fun Direction.minus(other: Direction) = Point(dx - other.dx, dy - other.dy)
 operator fun Direction.times(n: Int) = Point(dx * n, dy * n)
+operator fun Direction.unaryMinus() = (-toPoint()).asDirection()
+
+fun Point.asDirection() = enumValues<Direction>().first { it.dx == x && it.dy == y }
+fun Point.deltaDir(other: Point) = (other - this).asDirection()
 
 data class Line(val a: Point, val b: Point) {
     val minX get() = min(a.x, b.x)
@@ -362,7 +366,7 @@ inline fun <T> Queue<T>.drain(use: (T) -> Unit) {
     while (isNotEmpty()) use(remove()!!)
 }
 
-data class BFSResult<T>(val end: T?, val distance: Int, val seen: Set<T>)
+data class BFSResult<T>(val end: T?, val seen: Set<T>)
 
 inline fun <T> bfs(
     initial: T,
@@ -371,21 +375,19 @@ inline fun <T> bfs(
 ): BFSResult<T> {
     val seen = hashSetOf(initial)
     val queue = queueOf(initial)
-    var distance = -1 // -1 because for first element 1 gets added as well
 
     queue.drain { next ->
-        distance++
-        if (isEnd(next)) return BFSResult(next, distance, seen)
+        if (isEnd(next)) return BFSResult(next, seen)
         else neighbors(next).forEach { if (seen.add(it)) queue.add(it) }
     }
 
-    return BFSResult(null, distance, seen)
+    return BFSResult(null, seen)
 }
 
 inline fun <T> floodFill(initial: T, neighbors: (T) -> Iterable<T>) = bfs(initial, { false }, neighbors).seen
 
 inline fun <T> GridLike<T>.bfs(start: Point, isEnd: (Point) -> Boolean, diagonals: Boolean = false) =
-    bfsPoint(start, isEnd, diagonals).let { p -> BFSResult(p.end?.let { get(it) }, p.distance, p.seen) }
+    bfsPoint(start, isEnd, diagonals).let { p -> BFSResult(p.end?.let { get(it) }, p.seen) }
 
 fun <T> GridLike<T>.bfs(start: Point, end: Point, diagonals: Boolean = false) = bfs(start, { it == end }, diagonals)
 
@@ -403,6 +405,9 @@ data class DijkstraPath<T>(val end: T, val path: List<T>, val cost: Int)
 // element - cost
 typealias SearchNode<T> = Pair<T, Int>
 
+fun <T> searchQueue(initial: T) = PriorityQueue<SearchNode<T>>(compareBy { (_, c) -> c })
+    .also { it.add(initial to 0) }
+
 inline fun <T> dijkstra(
     initial: T, // assuming start is cost zero
     isEnd: (T) -> Boolean,
@@ -411,8 +416,7 @@ inline fun <T> dijkstra(
 ): DijkstraPath<T>? {
     val seen = hashSetOf(initial)
     val cameFrom = hashMapOf<T, T>()
-    val queue = PriorityQueue<SearchNode<T>>(compareBy { (_, c) -> c })
-    queue.add(initial to 0)
+    val queue = searchQueue(initial)
 
     queue.drain { (current, currentCost) ->
         if (isEnd(current)) return DijkstraPath(
@@ -465,6 +469,31 @@ fun <T> Graph<T>.dijkstra(start: T, end: T): DijkstraPath<T>? =
 
 fun <T> Graph<T>.bfs(start: T) = bfs(start, { false }, { this[it] ?: listOf() })
 
+fun <T> fillDistance(start: T, neighbors: (T) -> Iterable<T>): Map<T, Int> {
+    val queue = searchQueue(start)
+    val seen = hashSetOf(start)
+    val result = hashMapOf<T, Int>()
+
+    queue.drain { (p, dist) ->
+        if (p !in result) result[p] = dist
+        neighbors(p).forEach { if (seen.add(it)) queue.add(it to dist + 1) }
+    }
+
+    return result
+}
+
+fun <T> bfsDistance(start: T, isEnd: (T) -> Boolean, neighbors: (T) -> Iterable<T>): Int {
+    val queue = searchQueue(start)
+    val seen = hashSetOf(start)
+
+    queue.drain { (p, dist) ->
+        if (isEnd(p)) return dist
+        neighbors(p).forEach { if (seen.add(it)) queue.add(it to dist + 1) }
+    }
+
+    error("No path found")
+}
+
 fun Iterable<Point>.shiftPositive(): List<Point> {
     val minX = min(minX(), 0)
     val minY = min(minY(), 0)
@@ -514,8 +543,8 @@ class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>
     override val height = Int.MAX_VALUE
     override val elements get() = error("Infinite grids cannot be indexed")
 
-    override fun get(point: Point) = map[point] ?: error("No value for $point")
-    override fun getOrNull(point: Point) = map[point]
+    override fun get(by: Point) = map[by] ?: error("No value for $by")
+    override fun getOrNull(by: Point) = map[by]
     operator fun set(point: Point, value: T) {
         map[point] = value
     }
