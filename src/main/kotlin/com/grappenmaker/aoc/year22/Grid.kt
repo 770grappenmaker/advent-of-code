@@ -193,6 +193,7 @@ interface GridLike<T> : Plane {
     fun columnValues(index: Int) = column(index).map { this[it] }
 
     operator fun get(by: Point) = elements[by.toIndex()]
+    fun getOrNull(by: Point) = elements.getOrNull(by.toIndex())
 }
 
 class MutableGrid<T>(
@@ -465,16 +466,66 @@ fun <T> Graph<T>.dijkstra(start: T, end: T): DijkstraPath<T>? =
 fun <T> Graph<T>.bfs(start: T) = bfs(start, { false }, { this[it] ?: listOf() })
 
 fun Iterable<Point>.shiftPositive(): List<Point> {
-    val minX = min(minOf { it.x }, 0)
-    val minY = min(minOf { it.y }, 0)
+    val minX = min(minX(), 0)
+    val minY = min(minY(), 0)
     if (minX == 0 && minY == 0) return toList()
 
     val shift = Point(abs(minX), abs(minY))
     return map { it + shift }
 }
 
-fun Iterable<Point>.asBooleanGrid(): Grid<Boolean> {
-    val width = maxOf { it.x } + 1
-    val height = maxOf { it.y } + 1
-    return grid(width, height) { it in this }
+fun Iterable<Point>.minimizeEmpty(): List<Point> {
+    val minX = minX()
+    val minY = minY()
+    if (minX == 0 && minY == 0) return toList()
+
+    return map { Point(it.x - minX, it.y - minY) }
+}
+
+fun Iterable<Point>.minimizeEmptyX(): List<Point> {
+    val minX = minX()
+    if (minX == 0) return toList()
+    return map { Point(it.x - minX, it.y) }
+}
+
+fun Iterable<Point>.minimizeEmptyY(): List<Point> {
+    val minY = minY()
+    if (minY == 0) return toList()
+    return map { Point(it.x, it.y - minY) }
+}
+
+fun Iterable<Point>.asBooleanGrid() = grid(maxX() + 1, maxY() + 1) { it in this }
+
+fun Iterable<Point>.minX() = minOf { it.x }
+fun Iterable<Point>.maxX() = maxOf { it.x }
+fun Iterable<Point>.minY() = minOf { it.y }
+fun Iterable<Point>.maxY() = maxOf { it.y }
+fun Iterable<Point>.shiftDelta() = Point(-minX(), -minY())
+
+fun <T> GridLike<T>.extend(width: Int = this.width, height: Int = this.height, default: (Point) -> T) =
+    grid(width, height) { getOrNull(it) ?: default(it) }
+
+fun <T> GridLike<T>.asInfiniteGrid() = InfiniteGrid(points.associateWith { this[it] }.toMutableMap())
+fun <T> Map<Point, T>.asInfiniteGrid() = InfiniteGrid(toMutableMap())
+
+// Experimental, do not use D:
+class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>, MutableMap<Point, T> by map {
+    override val width = Int.MAX_VALUE
+    override val height = Int.MAX_VALUE
+    override val elements get() = error("Infinite grids cannot be indexed")
+
+    override fun get(point: Point) = map[point] ?: error("No value for $point")
+    override fun getOrNull(point: Point) = map[point]
+    operator fun set(point: Point, value: T) {
+        map[point] = value
+    }
+
+    private fun infiniError(): Nothing = error("Grid is infinite")
+
+    override fun column(index: Int) = infiniError()
+    override fun row(index: Int) = infiniError()
+    override fun Point.toIndex() = infiniError()
+    override fun toPointIndex(x: Int, y: Int) = infiniError()
+    override fun pointFromIndex(index: Int) = infiniError()
+    override fun List<Point>.toIndices() = infiniError()
 }
