@@ -195,3 +195,5 @@ inline fun <T> List<T>.takeUntil(cond: (T) -> Boolean): MutableList<T> {
 
     return list
 }
+
+fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
