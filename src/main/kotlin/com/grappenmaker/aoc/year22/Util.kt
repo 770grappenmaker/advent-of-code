@@ -196,4 +196,13 @@ inline fun <T> List<T>.takeUntil(cond: (T) -> Boolean): MutableList<T> {
     return list
 }
 
+fun <T> Sequence<T>.takeUntil(cond: (T) -> Boolean): Sequence<T> {
+    var can = true
+    return takeWhile {
+        val old = can
+        can = cond(it)
+        old
+    }
+}
+
 fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
