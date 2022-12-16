@@ -233,10 +233,24 @@ fun String.evalProgram(vararg args: Long) = with(startComputer(this, args.toList
     output.last()
 }
 
+fun List<Long>.evalProgram(args: List<Long>) = with(startComputer(this, args)) {
+    runUntilHalt()
+    output.last()
+}
+
+fun List<Long>.evalProgram(vararg args: Long) = evalProgram(args.toList())
+
 fun String.programResults(vararg args: Long) = with(startComputer(this, args.toList())) {
     runUntilHalt()
     output
 }
+
+fun List<Long>.programResults(args: List<Long>) = with(startComputer(this, args)) {
+    runUntilHalt()
+    output
+}
+
+fun List<Long>.programResults(vararg args: Long) = programResults(args.toList())
 
 private fun pow10(n: Int): Int {
     var num = 1
