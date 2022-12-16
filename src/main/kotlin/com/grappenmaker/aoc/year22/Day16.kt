@@ -5,34 +5,30 @@ import kotlin.math.max
 
 fun PuzzleSet.day16() = puzzle {
     val valves = inputLines.map { l ->
-        val conns = l.substringAfter("valves ").split(", ")
+        val conns = l.substringAfter("valves ").substringAfter("valve ").split(", ")
         Valve(l.split(" ")[1], l.splitInts().single(), conns)
     }
 
     val connections = valves.associateWith { v -> valves.filter { it.name in v.connections } }
     val initial = valves.first { it.name == "AA" }
-    val seen = hashSetOf<SearchThing>()
+    val seen = hashMapOf<ValveState, Int>()
 
-    fun solve(curr: SearchThing): Int {
-        if (curr.timeLeft <= 0 || !seen.add(curr)) return 0
+    fun solve(curr: ValveState): Int {
+        if (curr.timeLeft <= 0) return if (curr.partTwo) solve(
+            curr.copy(
+                valve = initial,
+                timeLeft = 26,
+                partTwo = false
+            )
+        ) else 0
+
+        seen[curr]?.let { return it }
 
         var result = 0
-        val openSum = curr.openSum
-
-        if (curr.valve.rate > 0 && curr.valve !in curr.opened) {
-            result = max(
-                openSum + solve(
-                    curr.copy(
-                        opened = curr.opened + curr.valve,
-                        timeLeft = curr.timeLeft - 1
-                    )
-                ), result
-            )
-        }
 
         connections.getValue(curr.valve).forEach { new ->
             result = max(
-                openSum + solve(
+                solve(
                     curr.copy(
                         valve = new,
                         timeLeft = curr.timeLeft - 1
@@ -41,14 +37,30 @@ fun PuzzleSet.day16() = puzzle {
             )
         }
 
+        if (curr.valve.rate > 0 && curr.valve !in curr.opened) {
+            result = max(
+                solve(
+                    curr.copy(
+                        opened = curr.opened + curr.valve,
+                        timeLeft = curr.timeLeft - 1
+                    )
+                ) + (curr.timeLeft - 1) * curr.valve.rate, result
+            )
+        }
+
+        seen[curr] = result
         return result
     }
 
-    partOne = solve(SearchThing(initial)).s()
+    partOne = solve(ValveState(initial)).s()
+    partTwo = solve(ValveState(initial, timeLeft = 26, partTwo = true)).s()
 }
 
-data class SearchThing(val valve: Valve, val opened: Set<Valve> = setOf(), val timeLeft: Int = 30)
-
-val SearchThing.openSum get() = opened.sumOf { it.rate }
+data class ValveState(
+    val valve: Valve,
+    val timeLeft: Int = 30,
+    val opened: Set<Valve> = setOf(),
+    val partTwo: Boolean = false
+)
 
 data class Valve(val name: String, val rate: Int, val connections: List<String>)
