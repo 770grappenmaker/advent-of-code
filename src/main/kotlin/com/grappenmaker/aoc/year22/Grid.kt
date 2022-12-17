@@ -12,6 +12,9 @@ val dAdjacentDiagonals = listOf(DOWN + RIGHT, UP + RIGHT, DOWN + LEFT, UP + LEFT
 val dAllAdjacent = dAdjacentSides + dAdjacentDiagonals
 
 data class Point(val x: Int, val y: Int)
+data class PointL(val x: Long, val y: Long)
+
+fun Point.toL() = PointL(x.toLong(), y.toLong())
 
 fun Pair<Int, Int>.toPoint() = Point(first, second)
 fun Point.toIndex(width: Int) = x + y * width
@@ -34,6 +37,7 @@ fun Point.clamp(minX: Int, maxX: Int, minY: Int, maxY: Int) = Point(min(max(x, m
 fun Point.clampUnit() = clamp(1, 1)
 
 operator fun Point.plus(other: Point) = Point(x + other.x, y + other.y)
+operator fun PointL.plus(other: PointL) = PointL(x + other.x, y + other.y)
 operator fun Point.minus(other: Point) = Point(x - other.x, y - other.y)
 operator fun Point.times(tim: Int) = Point(x * tim, y * tim)
 operator fun Point.times(other: Point) = Point(x * other.x, y * other.y)
@@ -61,6 +65,8 @@ enum class Direction(val dx: Int, val dy: Int) {
 operator fun Point.plus(other: Direction) = Point(x + other.dx, y + other.dy)
 operator fun Point.minus(other: Direction) = Point(x - other.dx, y - other.dy)
 fun Direction.toPoint() = Point(dx, dy)
+
+operator fun PointL.plus(other: Direction) = PointL(x + other.dx.toLong(), y + other.dy.toLong())
 
 operator fun Direction.plus(other: Direction) = Point(dx + other.dx, dy + other.dy)
 operator fun Direction.minus(other: Direction) = Point(dx - other.dx, dy - other.dy)
@@ -341,6 +347,7 @@ fun MutableBooleanGrid.disable(point: Point) {
 }
 
 fun BooleanGrid.countTrue() = elements.count { it }
+fun BooleanGrid.filterTrue() = points.filter { this[it] }
 fun BooleanGrid.countFalse() = elements.count { !it }
 
 fun MutableIntGrid.increment(point: Point) {
