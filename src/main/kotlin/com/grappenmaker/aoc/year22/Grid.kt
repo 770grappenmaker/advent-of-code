@@ -537,6 +537,8 @@ fun Iterable<Point>.minX() = minOf { it.x }
 fun Iterable<Point>.maxX() = maxOf { it.x }
 fun Iterable<Point>.minY() = minOf { it.y }
 fun Iterable<Point>.maxY() = maxOf { it.y }
+fun Iterable<Point>.minBound() = Point(minX(), minY())
+fun Iterable<Point>.maxBound() = Point(maxX(), maxY())
 fun Iterable<Point>.shiftDelta() = Point(-minX(), -minY())
 
 fun <T> GridLike<T>.extend(width: Int = this.width, height: Int = this.height, default: (Point) -> T) =
@@ -566,3 +568,68 @@ class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>
     override fun pointFromIndex(index: Int) = infiniError()
     override fun List<Point>.toIndices() = infiniError()
 }
+
+// Extra 3d stuffs
+data class Point3D(val x: Int, val y: Int, val z: Int)
+
+operator fun Point3D.plus(other: Point3D) = Point3D(x + other.x, y + other.y, z + other.z)
+operator fun Point3D.minus(other: Point3D) = Point3D(x - other.x, y - other.y, z - other.z)
+operator fun Point3D.times(tim: Int) = Point3D(x * tim, y * tim, z * tim)
+operator fun Point3D.times(other: Point3D) = Point3D(x * other.x, y * other.y, z * other.z)
+operator fun Point3D.div(by: Int) = Point3D(x / by, y / by, z / by)
+operator fun Point3D.rem(with: Int) = Point3D(x % with, y % with, z % with)
+operator fun Point3D.unaryMinus() = Point3D(-x, -y, -z)
+
+val Point3D.manhattanDistance get() = abs(x) + abs(y) + abs(z)
+infix fun Point3D.manhattanDistanceTo(other: Point3D) = abs(x - other.x) + abs(y - other.y) + abs(z - other.z)
+
+val d3AdjacentSides = listOf(
+    Point3D(0, 1, 0), Point3D(0, -1, 0), Point3D(-1, 0, 0),
+    Point3D(1, 0, 0), Point3D(0, 0, 1), Point3D(0, 0, -1)
+)
+
+fun Point3D.adjacentSides() = d3AdjacentSides.map { this + it }
+
+@JvmName("minX3D")
+fun Iterable<Point3D>.minX() = minOf { it.x }
+
+@JvmName("maxX3D")
+fun Iterable<Point3D>.maxX() = maxOf { it.x }
+
+@JvmName("minY3D")
+fun Iterable<Point3D>.minY() = minOf { it.y }
+
+@JvmName("maxY3D")
+fun Iterable<Point3D>.maxY() = maxOf { it.y }
+
+@JvmName("minZ3D")
+fun Iterable<Point3D>.minZ() = minOf { it.z }
+
+@JvmName("maxZ3D")
+fun Iterable<Point3D>.maxZ() = maxOf { it.z }
+
+fun Iterable<Point3D>.minBound() = Point3D(minX(), minY(), minZ())
+fun Iterable<Point3D>.maxBound() = Point3D(maxX(), maxY(), maxZ())
+fun Iterable<Point3D>.shiftDelta() = Point3D(-minX(), -minY(), -maxZ())
+
+data class Cube(val a: Point3D, val b: Point3D) {
+    val width get() = abs(a.x - b.x)
+    val height get() = abs(a.y - b.y)
+    val depth get() = abs(a.z - b.z)
+    val minX get() = min(a.x, b.x)
+    val maxX get() = max(a.x, b.x)
+    val minY get() = min(a.y, b.y)
+    val maxY get() = max(a.y, b.y)
+    val minZ get() = min(a.z, b.z)
+    val maxZ get() = max(a.z, b.z)
+    val xRange get() = minX..maxX
+    val yRange get() = minY..maxY
+    val zRange get() = minZ..maxZ
+}
+
+operator fun Cube.contains(point: Point3D) = point.x in xRange && point.y in yRange && point.z in zRange
+
+// Sorry, point2d makes a line cause that makes sense,
+// but here it makes more sense to make it a cube
+// This is totally not going to hunt me
+operator fun Point3D.rangeTo(other: Point3D) = Cube(this, other)
