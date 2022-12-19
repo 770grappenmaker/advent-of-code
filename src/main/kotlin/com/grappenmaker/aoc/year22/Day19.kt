@@ -6,21 +6,17 @@ import kotlin.math.min
 
 fun PuzzleSet.day19() = puzzle {
     val costs = inputLines.map { l -> l.splitInts().drop(1).parseCosts() }
-    fun RobotsCost.geodes(state: RobotState): Int {
-        var result = 0
-        val queue = queueOf(state)
-        val seen = hashSetOf<RobotState>()
 
-        queue.drain { curr ->
-            result = max(curr.geode, result)
-            if (curr.time == 0) return@drain
+    fun RobotsCost.geodes(state: RobotState, seen: MutableMap<RobotState, Int> = hashMapOf()): Int {
+        if (state.time == 0) return state.geode
 
-            val capped = curr.cap(this)
-            if (!seen.add(capped)) return@drain
+        var result = state.geode
+        val capped = state.cap(this)
+        seen[capped]?.let { return it }
 
-            queue += nextBuilds(capped)
-        }
+        nextBuilds(state).forEach { result = max(geodes(it, seen), result) }
 
+        seen[capped] = result
         return result
     }
 
