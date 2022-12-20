@@ -5,16 +5,15 @@ import com.grappenmaker.aoc.PuzzleSet
 fun PuzzleSet.day20() = puzzle {
     val encrypted = inputLines.map(String::toLong)
     fun List<Long>.step(rounds: Int = 1): List<Long> {
+        val sizem1 = size - 1
         val mut = withIndex().toMutableList()
         repeat(rounds) {
             forEachIndexed { idx, v ->
                 val mutIdx = mut.indexOfFirst { it.index == idx }
                 val mv = mut[mutIdx]
-                val sizem1 = size - 1
-                val newIdx = (mutIdx + v).mod(sizem1)
 
                 mut.removeAt(mutIdx)
-                mut.add(newIdx, mv)
+                mut.add((mutIdx + v).mod(sizem1), mv)
             }
         }
 
