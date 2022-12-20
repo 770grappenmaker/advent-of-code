@@ -363,6 +363,7 @@ inline fun <T, N> GridLike<T>.mapIndexedElements(transform: (Point, T) -> N) =
     Grid(width, height, elements.mapIndexed { idx, t -> transform(pointFromIndex(idx), t) })
 
 fun <T> queueOf() = ArrayDeque<T>()
+fun <T> queueOf(list: List<T>) = ArrayDeque<T>().also { it.addAll(list) }
 fun <T> queueOf(initial: T) = ArrayDeque<T>().also { it.add(initial) }
 fun <T> queueOf(vararg elements: T) = ArrayDeque<T>().also { it.addAll(elements) }
 
