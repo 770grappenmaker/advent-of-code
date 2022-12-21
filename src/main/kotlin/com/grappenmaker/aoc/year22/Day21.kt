@@ -7,28 +7,28 @@ fun PuzzleSet.day21() = puzzle {
     val monkeys = inputLines.associate { line ->
         val (name, job) = line.split(": ")
         val sp = job.split(" ")
-        name to (job.toLongOrNull()?.let { NumberJob(it) } ?: OperatorJob(
+        name to (job.toDoubleOrNull()?.let { NumberJob(it) } ?: OperatorJob(
             lhs = sp[0],
             rhs = sp[2],
             operator = when (sp[1]) {
-                "+" -> Long::plus
-                "-" -> Long::minus
-                "/" -> Long::div
-                "*" -> Long::times
+                "+" -> Double::plus
+                "-" -> Double::minus
+                "/" -> Double::div
+                "*" -> Double::times
                 else -> error("Invalid operator $sp")
             }
         ))
     }
 
-    fun eval(monke: String, humanValue: Long = -1): Long = when {
-        humanValue != -1L && monke == "humn" -> humanValue
+    fun eval(monke: String, humanValue: Long = -1L): Double = when {
+        humanValue != -1L && monke == "humn" -> humanValue.toDouble()
         else -> when (val job = monkeys.getValue(monke)) {
             is NumberJob -> job.number
             is OperatorJob -> job.operator(eval(job.lhs, humanValue), eval(job.rhs, humanValue))
         }
     }
 
-    partOne = eval("root").s()
+    partOne = eval("root").toLong().s()
 
     fun bs(): Long {
         val rootJob = monkeys.getValue("root") as OperatorJob
@@ -56,5 +56,5 @@ fun PuzzleSet.day21() = puzzle {
 }
 
 sealed interface Job
-data class NumberJob(val number: Long) : Job
-data class OperatorJob(val lhs: String, val rhs: String, val operator: (Long, Long) -> Long) : Job
+data class NumberJob(val number: Double) : Job
+data class OperatorJob(val lhs: String, val rhs: String, val operator: (Double, Double) -> Double) : Job
