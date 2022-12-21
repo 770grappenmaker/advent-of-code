@@ -1,5 +1,6 @@
 package com.grappenmaker.aoc.year22
 
+import com.grappenmaker.aoc.year21.buildRepeated
 import com.grappenmaker.aoc.year22.Direction.*
 import java.util.*
 import kotlin.collections.ArrayDeque
@@ -204,7 +205,7 @@ interface GridLike<T> : Plane {
     fun columnValues(index: Int) = column(index).map { this[it] }
 
     operator fun get(by: Point) = elements[by.toIndex()]
-    fun getOrNull(by: Point) = elements.getOrNull(by.toIndex())
+    fun getOrNull(by: Point) = if (by !in this) null else get(by)
 }
 
 class MutableGrid<T>(
@@ -542,8 +543,23 @@ fun Iterable<Point>.minBound() = Point(minX(), minY())
 fun Iterable<Point>.maxBound() = Point(maxX(), maxY())
 fun Iterable<Point>.shiftDelta() = Point(-minX(), -minY())
 
-fun <T> GridLike<T>.extend(width: Int = this.width, height: Int = this.height, default: (Point) -> T) =
+// not sure about these
+inline fun <T> GridLike<T>.extend(width: Int = this.width, height: Int = this.height, default: (Point) -> T) =
     grid(width, height) { getOrNull(it) ?: default(it) }
+
+inline fun <T> GridLike<T>.extendDir(x: Int = 0, y: Int = 0, default: (Point) -> T) =
+    extend(width + x, height + y, default)
+
+// "in all directions"
+fun <T> GridLike<T>.expand(x: Int = 1, y: Int = 1, default: T): Grid<T> {
+    val newW = width + x * 2
+    val newH = height + y * 2
+    val emptyX = buildRepeated(newW * y) { default }
+    val emptyY = buildRepeated(x) { default }
+    return Grid(newW, newH, emptyX + rows.flatMap { emptyY + it.map(this::get) + emptyY } + emptyX)
+}
+
+fun BooleanGrid.expandEmpty(x: Int = 1, y: Int = 1) = expand(x, y, false)
 
 fun <T> GridLike<T>.asInfiniteGrid() = InfiniteGrid(points.associateWith { this[it] }.toMutableMap())
 fun <T> Map<Point, T>.asInfiniteGrid() = InfiniteGrid(toMutableMap())

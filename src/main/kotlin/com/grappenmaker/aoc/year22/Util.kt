@@ -208,3 +208,9 @@ fun <T> Sequence<T>.takeUntil(cond: (T) -> Boolean): Sequence<T> {
 fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
 
 fun String.onceSplit(at: String) = substringBefore(at) to substringAfter(at)
+
+inline fun <T> T.applyN(n: Int, block: (T) -> T): T {
+    var curr = this
+    repeat(n) { curr = block(curr) }
+    return curr
+}
