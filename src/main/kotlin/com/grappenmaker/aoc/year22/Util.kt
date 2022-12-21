@@ -206,3 +206,5 @@ fun <T> Sequence<T>.takeUntil(cond: (T) -> Boolean): Sequence<T> {
 }
 
 fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
+
+fun String.onceSplit(at: String) = substringBefore(at) to substringAfter(at)
