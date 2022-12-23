@@ -51,7 +51,8 @@ fun <T> Iterable<T>.allDistinct(): Boolean {
 }
 
 fun <T> List<T>.rotate(amount: Int): List<T> {
-    val actualShift = if (amount < 1) size + (amount % size) else amount % size
+//    val actualShift = if (amount < 1) size + (amount % size) else amount % size
+    val actualShift = amount.mod(size)
     if (actualShift == 0) return this
 
     val (l, r) = splitAt(size - actualShift)
