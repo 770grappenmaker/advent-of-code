@@ -2,6 +2,7 @@ package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.year22.Direction.*
 import java.util.*
+import kotlin.collections.HashMap
 
 fun <T> List<T>.asPair() = this[0] to this[1]
 fun <T> Pair<T, T>.asList() = listOf(first, second)
@@ -213,4 +214,11 @@ inline fun <T> T.applyN(n: Int, block: (T) -> T): T {
     var curr = this
     repeat(n) { curr = block(curr) }
     return curr
+}
+
+class DefaultMap<K, V>(
+    private val initial: MutableMap<K, V> = hashMapOf(),
+    private val default: (K) -> V
+) : MutableMap<K, V> by initial {
+    override fun get(key: K) = initial.getOrPut(key) { default(key) }
 }
