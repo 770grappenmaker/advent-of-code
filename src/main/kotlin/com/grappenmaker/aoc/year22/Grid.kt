@@ -388,7 +388,7 @@ inline fun <T> bfs(
 
     queue.drain { next ->
         if (isEnd(next)) return BFSResult(next, seen)
-        else neighbors(next).forEach { if (seen.add(it)) queue.add(it) }
+        else neighbors(next).forEach { if (seen.add(it)) queue.addFirst(it) }
     }
 
     return BFSResult(null, seen)

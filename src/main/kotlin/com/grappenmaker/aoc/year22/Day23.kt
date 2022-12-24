@@ -24,7 +24,7 @@ fun PuzzleSet.day23() = puzzle {
         val (mightMove, noMoveAtAll) = partition { p -> p.allAdjacentInf().any { it in this } }
         val proposals = mightMove.map { p -> p to (fitsFor(p)?.let { p + it.dir } ?: p) }
 
-        val allTo = proposals.map { it.second }.groupingBy { it }.eachCount()
+        val allTo = proposals.groupingBy { it.second }.eachCount()
         val (canMove, shouldStay) = proposals.partition { (_, to) -> allTo[to] == 1 }
         return SimulationResult(
             buildSet {
