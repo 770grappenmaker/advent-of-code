@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc.year21
 
-import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.*
 import kotlin.math.abs
 
 fun PuzzleSet.day17() = puzzle(day = 17) {
@@ -43,8 +43,4 @@ private fun Point.getPath(rect: Rectangle, initalPos: Point = Point(0, 0)): Muta
     }
 
     return positions
-}
-
-private data class Rectangle(val a: Point, val b: Point) {
-    operator fun contains(point: Point) = point.x in (a.x..b.x) && point.y in (a.y..b.y)
 }

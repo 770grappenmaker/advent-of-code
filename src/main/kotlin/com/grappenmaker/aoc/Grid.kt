@@ -88,6 +88,7 @@ data class Line(val a: Point, val b: Point) {
 fun Line.isHorizontal() = a.y == b.y
 fun Line.isVertical() = a.x == b.x
 fun Line.isDiagonal() = abs(a.x - b.x) == abs(a.y - b.y)
+fun Line.isStraight() = isHorizontal() || isVertical()
 fun Line.allPoints() = when {
     isHorizontal() -> xRange.map { Point(it, a.y) }
     isVertical() -> yRange.map { Point(a.x, it) }

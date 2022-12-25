@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc.year21
 
-import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day5() = puzzle(day = 5) {
     val lines = inputLines.map { line ->
@@ -13,18 +13,16 @@ fun PuzzleSet.day5() = puzzle(day = 5) {
     }
 
     // Util for both parts
-    val getAnswer = { seq: Sequence<Line> ->
-        seq.flatMap { it.pointsOnLine }
-            .fold(mutableMapOf<Point, Int>()) { acc, point ->
-                if (!acc.containsKey(point)) acc[point] = 0
-                acc[point] = acc[point]!! + 1
-                acc
-            }.count { it.value >= 2 }
-    }
+     fun Sequence<Line>.getAnswer() = flatMap { it.allPoints() }
+         .fold(mutableMapOf<com.grappenmaker.aoc.Point, Int>()) { acc, point ->
+             if (!acc.containsKey(point)) acc[point] = 0
+             acc[point] = acc.getValue(point) + 1
+             acc
+         }.count { it.value >= 2 }
 
     // Part one
-    partOne = getAnswer(lines.asSequence().filter { it.isStraight() }).s()
+    partOne = lines.asSequence().filter { it.isStraight() }.getAnswer().s()
 
     // Part two
-    partTwo = getAnswer(lines.asSequence()).s()
+    partTwo = lines.asSequence().getAnswer().s()
 }
