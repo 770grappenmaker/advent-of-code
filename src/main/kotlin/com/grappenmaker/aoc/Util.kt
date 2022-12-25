@@ -6,6 +6,8 @@ import java.util.*
 fun <T> List<T>.asPair() = this[0] to this[1]
 fun <T> Pair<T, T>.asList() = listOf(first, second)
 inline fun <F, T> Pair<F, F>.mapBoth(block: (F) -> T) = block(first) to block(second)
+inline fun <F, S, T> Pair<F, S>.mapFirst(block: (F) -> T) = block(first) to second
+inline fun <F, S, T> Pair<F, S>.mapSecond(block: (S) -> T) = first to block(second)
 
 fun <T> MutableList<T>.removeFirstN(n: Int) = (0 until n).map { removeFirst() }.asReversed()
 fun <T> MutableList<T>.removeLastN(n: Int) = (0 until n).map { removeLast() }.asReversed()

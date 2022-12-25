@@ -35,8 +35,11 @@ fun main(args: Array<String>) {
         Get your input here: ${puzzle.inputURL}
     """.trimIndent()
     )
+    println()
 
-    runPuzzle(puzzle, inputFile.readLines())
+    val testFile = inputsDir.resolve(inputName(day, "test"))
+    val testInput = if (Files.exists(testFile)) testFile.readLines() else null
+    runPuzzle(puzzle, inputFile.readLines(), testInput)
 }
 
 fun panic(error: String): Nothing {
@@ -44,14 +47,38 @@ fun panic(error: String): Nothing {
     exitProcess(-1)
 }
 
-fun runPuzzle(puzzle: Puzzle, input: List<String>) {
+fun runPuzzle(puzzle: Puzzle, input: List<String>, testInput: List<String>? = null) {
+    println("Day ${puzzle.day} (${puzzle.dayURL})")
+
+    if (testInput != null) {
+        println("Running puzzle on test input first")
+
+        val a1 = puzzle.testAnswerOne
+        val a2 = puzzle.testAnswerTwo
+        if (a1 == null || a2 == null) println("Warning: test answer was not set.")
+
+        val testCtx = SolveContext(puzzle, testInput)
+        puzzle.implementation(testCtx)
+        println(
+            """
+            |Part 1: ${testCtx.partOne} ${if (testCtx.partOne == a1) "✅" else "❌ (expected $a1)"}
+            |Part 2: ${testCtx.partTwo} ${if (testCtx.partTwo == a2) "✅" else "❌ (expected $a2)"}
+            """.trimMargin()
+        )
+    }
+
     val eventDay = eventDay()
     val eventYear = eventYear()
     val context = SolveContext(puzzle, input)
     val timeTaken = measureNanoTime { puzzle.implementation(context) }
 
     println()
-    println(context.formatted)
+    println(
+        """
+        |Part 1: ${context.partOne}
+        |Part 2: ${context.partTwo}
+        """.trimMargin()
+    )
     println()
     println("Took ${timeTaken / 1_000_000}ms to calculate the solution")
 
@@ -68,7 +95,7 @@ fun runPuzzle(puzzle: Puzzle, input: List<String>) {
 }
 
 fun inputsDir(year: Int): Path = Paths.get("inputs", year.toString())
-fun inputName(day: Int) = "day-${day.toString().padStart(2, '0')}.txt"
+fun inputName(day: Int, title: String = "day") = "$title-${day.toString().padStart(2, '0')}.txt"
 
 fun simplePuzzle(
     day: Int,

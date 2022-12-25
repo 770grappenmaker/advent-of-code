@@ -3,7 +3,7 @@ package com.grappenmaker.aoc.year22
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.deepen
 
-fun PuzzleSet.day25() = puzzle {
+fun PuzzleSet.day25() = puzzle(testAnswerOne = "2=-1=0", testAnswerTwo = "none :)") {
     partOne = inputLines.sumOf { it.toSnafuLong() }.toSnafuString()
     partTwo = "Merry Christmas! And Happy New Year!"
 }
@@ -27,7 +27,7 @@ fun Long.toSnafuString() = buildString {
 
         curr = (curr + 2) / 5
     }
-}
+}.reversed()
 
 fun fivePow(n: Int): Long {
     var result = 1L

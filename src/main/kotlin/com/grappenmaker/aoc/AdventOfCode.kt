@@ -14,7 +14,13 @@ import java.time.ZoneOffset
 
 const val aocURL = "https://adventofcode.com"
 
-data class Puzzle(val year: Int, val day: Int, val implementation: SolveContext.() -> Unit) {
+data class Puzzle(
+    val year: Int,
+    val day: Int,
+    val implementation: SolveContext.() -> Unit,
+    val testAnswerOne: String? = null,
+    val testAnswerTwo: String? = null,
+) {
     val dayURL get() = "$aocURL/$year/day/$day"
     val inputURL get() = "$dayURL/input"
 }
@@ -25,13 +31,6 @@ class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
 
     var partOne = "Not implemented"
     var partTwo = "Not implemented"
-
-    val formatted
-        get() = """
-        |Day ${puzzle.day} (${puzzle.dayURL})
-        |Part 1: $partOne
-        |Part 2: $partTwo
-    """.trimMargin()
 
     // Utility to convert to string (felt shorter to use)
     fun <T> T.s() = toString()
@@ -44,8 +43,13 @@ data class PuzzleSet(val year: Int) {
 
     val puzzles = mutableListOf<Puzzle>()
 
-    fun puzzle(day: Int = puzzles.size + 1, implementation: SolveContext.() -> Unit) {
-        puzzles.add(Puzzle(year, day, implementation))
+    fun puzzle(
+        day: Int = puzzles.size + 1,
+        testAnswerOne: String? = null,
+        testAnswerTwo: String? = null,
+        implementation: SolveContext.() -> Unit
+    ) {
+        puzzles.add(Puzzle(year, day, implementation, testAnswerOne, testAnswerTwo))
     }
 }
 
