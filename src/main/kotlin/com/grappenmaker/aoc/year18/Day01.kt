@@ -1,8 +1,8 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.firstNotDistinct
-import com.grappenmaker.aoc.year22.repeatInfinitely
+import com.grappenmaker.aoc.firstNotDistinct
+import com.grappenmaker.aoc.repeatInfinitely
 
 fun PuzzleSet.day1() = puzzle {
     val nums = inputLines.map(String::toInt)

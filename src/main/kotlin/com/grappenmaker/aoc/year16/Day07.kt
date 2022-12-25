@@ -1,8 +1,8 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.deepen
-import com.grappenmaker.aoc.year22.deinterlace
+import com.grappenmaker.aoc.deepen
+import com.grappenmaker.aoc.deinterlace
 
 fun PuzzleSet.day7() = puzzle {
     val parts = inputLines.map { it.split('[', ']').deinterlace() }

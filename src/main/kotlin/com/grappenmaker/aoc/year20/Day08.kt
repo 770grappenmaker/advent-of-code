@@ -2,8 +2,8 @@ package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.year20.Opcode.*
-import com.grappenmaker.aoc.year22.hasDuplicateBy
-import com.grappenmaker.aoc.year22.untilNotDistinctBy
+import com.grappenmaker.aoc.hasDuplicateBy
+import com.grappenmaker.aoc.untilNotDistinctBy
 
 fun PuzzleSet.day8() = puzzle(8) {
     val insns = inputLines.map { l ->

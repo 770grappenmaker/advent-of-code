@@ -1,9 +1,9 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.asPair
-import com.grappenmaker.aoc.year22.countContains
-import com.grappenmaker.aoc.year22.toRange
+import com.grappenmaker.aoc.asPair
+import com.grappenmaker.aoc.countContains
+import com.grappenmaker.aoc.toRange
 
 fun PuzzleSet.day2() = puzzle {
     val passwords = inputLines.map {

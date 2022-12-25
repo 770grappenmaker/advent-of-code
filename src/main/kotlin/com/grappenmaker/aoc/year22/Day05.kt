@@ -1,6 +1,8 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.removeLastN
+import com.grappenmaker.aoc.swapOrder
 
 fun PuzzleSet.day5() = puzzle {
     val (initial, guide) = rawInput.split("\n\n")

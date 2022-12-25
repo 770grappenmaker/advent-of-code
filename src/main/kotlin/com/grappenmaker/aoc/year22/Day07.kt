@@ -1,6 +1,7 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.queueOf
 import kotlin.math.abs
 
 fun PuzzleSet.day7() = puzzle {

@@ -1,7 +1,7 @@
 package com.grappenmaker.aoc.year22
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.Direction.*
+import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.Direction.*
 
 fun PuzzleSet.day24() = puzzle {
     val charGrid = inputLines.asCharGrid()

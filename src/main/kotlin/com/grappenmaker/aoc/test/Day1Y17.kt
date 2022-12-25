@@ -1,8 +1,8 @@
 package com.grappenmaker.aoc.test
 
 import com.grappenmaker.aoc.simplePuzzle
-import com.grappenmaker.aoc.year22.deepen
-import com.grappenmaker.aoc.year22.rotate
+import com.grappenmaker.aoc.deepen
+import com.grappenmaker.aoc.rotate
 
 fun main() = simplePuzzle(1, 2017) {
     val digits = input.deepen().map(Char::digitToInt)

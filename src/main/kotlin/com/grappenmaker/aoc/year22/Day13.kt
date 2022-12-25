@@ -1,6 +1,8 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.asList
+import com.grappenmaker.aoc.asPair
 import kotlinx.serialization.json.*
 import kotlin.math.min
 

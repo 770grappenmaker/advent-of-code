@@ -1,8 +1,8 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.permPairs
-import com.grappenmaker.aoc.year22.product
+import com.grappenmaker.aoc.permPairs
+import com.grappenmaker.aoc.product
 
 fun PuzzleSet.day1() = puzzle {
     val numbers = inputLines.map(String::toInt)

@@ -1,6 +1,9 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.buildBooleanGrid
+import com.grappenmaker.aoc.debug
+import com.grappenmaker.aoc.enable
 import kotlin.math.abs
 
 fun PuzzleSet.day10() = puzzle {

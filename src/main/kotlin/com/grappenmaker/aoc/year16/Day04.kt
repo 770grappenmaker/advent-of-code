@@ -1,7 +1,7 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.deepen
+import com.grappenmaker.aoc.deepen
 
 fun PuzzleSet.day4() = puzzle {
     val rooms = inputLines.map { l ->

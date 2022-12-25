@@ -1,10 +1,10 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.Direction
-import com.grappenmaker.aoc.year22.Point
-import com.grappenmaker.aoc.year22.plus
-import com.grappenmaker.aoc.year22.toPoint
+import com.grappenmaker.aoc.Direction
+import com.grappenmaker.aoc.Point
+import com.grappenmaker.aoc.plus
+import com.grappenmaker.aoc.toPoint
 
 fun PuzzleSet.day3() = puzzle {
     val directions = input.map { it.toDirection().toPoint() }

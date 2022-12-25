@@ -1,7 +1,6 @@
 package com.grappenmaker.aoc.year16
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.*
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day8() = puzzle {
     val grid = buildBooleanGrid(50, 6) {

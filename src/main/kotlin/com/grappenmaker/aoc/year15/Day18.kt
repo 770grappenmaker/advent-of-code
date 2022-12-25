@@ -1,7 +1,6 @@
 package com.grappenmaker.aoc.year15
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.*
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day18() = puzzle {
     // mutable state better?

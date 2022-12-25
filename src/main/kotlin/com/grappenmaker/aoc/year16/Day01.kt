@@ -1,8 +1,7 @@
 package com.grappenmaker.aoc.year16
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year21.buildRepeated
-import com.grappenmaker.aoc.year22.*
+import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.buildRepeated
 
 // Thought I could practice a bit...
 // Turns out I spent hours debugging, to end up finding out...

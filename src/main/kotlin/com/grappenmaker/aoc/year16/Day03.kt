@@ -1,7 +1,7 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.swapOrder
+import com.grappenmaker.aoc.swapOrder
 
 fun PuzzleSet.day3() = puzzle {
     val inp = inputLines.map { it.trim().split(" +".toRegex()).map(String::toInt) }

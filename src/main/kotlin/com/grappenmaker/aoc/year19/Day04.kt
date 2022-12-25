@@ -1,7 +1,7 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.parseRange
+import com.grappenmaker.aoc.parseRange
 
 fun PuzzleSet.day4() = puzzle {
     val range = input.parseRange()

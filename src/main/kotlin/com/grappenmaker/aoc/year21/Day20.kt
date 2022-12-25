@@ -1,8 +1,7 @@
 package com.grappenmaker.aoc.year21
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.*
-import com.grappenmaker.aoc.year22.Point
+import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.Point
 
 fun PuzzleSet.day20() = puzzle(20) {
     val (algo, input) = input.split("\n\n")

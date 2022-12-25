@@ -1,9 +1,9 @@
 package com.grappenmaker.aoc.test
 
 import com.grappenmaker.aoc.simplePuzzle
-import com.grappenmaker.aoc.year22.asGrid
-import com.grappenmaker.aoc.year22.permPairsExclusive
-import com.grappenmaker.aoc.year22.rows
+import com.grappenmaker.aoc.asGrid
+import com.grappenmaker.aoc.permPairsExclusive
+import com.grappenmaker.aoc.rows
 
 fun main() = simplePuzzle(2, 2017) {
     val spreadsheet = inputLines.map { it.split("\t").map(String::toInt) }.asGrid()

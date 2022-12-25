@@ -1,6 +1,7 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.splitHalf
 
 fun PuzzleSet.day3() = puzzle {
     val rucksacks = inputLines.map { l -> l.map { if (it in 'A'..'Z') it - 'A' + 27 else it - 'a' + 1 } }

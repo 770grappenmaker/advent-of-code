@@ -1,6 +1,7 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.splitInts
 import kotlin.math.max
 
 fun PuzzleSet.day16() = puzzle {

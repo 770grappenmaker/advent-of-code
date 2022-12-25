@@ -1,10 +1,10 @@
 package com.grappenmaker.aoc.test
 
 import com.grappenmaker.aoc.simplePuzzle
-import com.grappenmaker.aoc.year22.Direction.*
-import com.grappenmaker.aoc.year22.Point
-import com.grappenmaker.aoc.year22.manhattanDistance
-import com.grappenmaker.aoc.year22.plus
+import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.Point
+import com.grappenmaker.aoc.manhattanDistance
+import com.grappenmaker.aoc.plus
 
 fun main() = simplePuzzle(11, 2017) {
     val dirs = input.split(",").map {

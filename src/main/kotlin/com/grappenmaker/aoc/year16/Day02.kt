@@ -1,7 +1,6 @@
 package com.grappenmaker.aoc.year16
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.*
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day2() = puzzle {
     val insns = inputLines.map { it.deepen().map { c -> c.parseDirection().toPoint() } }

@@ -1,7 +1,7 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.queueOf
+import com.grappenmaker.aoc.queueOf
 
 fun Char.eic(other: Char) = equals(other, ignoreCase = true)
 

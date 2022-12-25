@@ -1,7 +1,7 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.permPairsExclusive
+import com.grappenmaker.aoc.permPairsExclusive
 
 const val preambleSize = 25
 

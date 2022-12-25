@@ -1,7 +1,6 @@
 package com.grappenmaker.aoc.year20
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.*
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day3() = puzzle {
     with(inputLines.asGrid { it == '#' }) {

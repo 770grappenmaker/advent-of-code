@@ -1,7 +1,6 @@
-package com.grappenmaker.aoc.year22
+package com.grappenmaker.aoc
 
-import com.grappenmaker.aoc.year21.buildRepeated
-import com.grappenmaker.aoc.year22.Direction.*
+import com.grappenmaker.aoc.Direction.*
 import java.util.*
 import kotlin.collections.ArrayDeque
 import kotlin.math.abs
@@ -554,8 +553,8 @@ inline fun <T> GridLike<T>.extendDir(x: Int = 0, y: Int = 0, default: (Point) ->
 fun <T> GridLike<T>.expand(x: Int = 1, y: Int = 1, default: T): Grid<T> {
     val newW = width + x * 2
     val newH = height + y * 2
-    val emptyX = buildRepeated(newW * y) { default }
-    val emptyY = buildRepeated(x) { default }
+    val emptyX = List(newW * y) { default }
+    val emptyY = List(x) { default }
     return Grid(newW, newH, emptyX + rows.flatMap { emptyY + it.map(this::get) + emptyY } + emptyX)
 }
 

@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc.year22
 
-import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day18() = puzzle {
     val cubes = inputLines.map { l ->

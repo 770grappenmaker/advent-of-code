@@ -1,10 +1,10 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.points
-import com.grappenmaker.aoc.year22.asDigitGrid
-import com.grappenmaker.aoc.year22.floodFill
-import com.grappenmaker.aoc.year22.product
+import com.grappenmaker.aoc.points
+import com.grappenmaker.aoc.asDigitGrid
+import com.grappenmaker.aoc.floodFill
+import com.grappenmaker.aoc.product
 
 fun PuzzleSet.day9() = puzzle(day = 9) {
     with(inputLines.asDigitGrid()) {

@@ -1,6 +1,7 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.permPairs
 
 fun PuzzleSet.day18() = puzzle(day = 18) {
     // Parse all numbers (AST like)
@@ -11,7 +12,7 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
 
     // Part two
     // Get permutations and calculate
-    partTwo = numbers.permutationPairs().maxOf { (a, b) -> (a.clone() + b.clone()).reduceNumber().magnitude() }.s()
+    partTwo = numbers.permPairs().maxOf { (a, b) -> (a.clone() + b.clone()).reduceNumber().magnitude() }.s()
 }
 
 private sealed class SnailfishNumber(var parent: NumberPair?) {

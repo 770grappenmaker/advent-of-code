@@ -1,8 +1,8 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.deepen
-import com.grappenmaker.aoc.year22.permPairs
+import com.grappenmaker.aoc.deepen
+import com.grappenmaker.aoc.permPairs
 
 fun PuzzleSet.day2() = puzzle {
     val counts = inputLines.deepen().map { w -> w.groupingBy { it }.eachCount().values }

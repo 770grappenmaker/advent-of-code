@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc.year22
 
-import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day9() = puzzle {
     val insns = inputLines.map { it.split(" ") }.map { (d, a) -> d.single().parseDirection() to a.toInt() }

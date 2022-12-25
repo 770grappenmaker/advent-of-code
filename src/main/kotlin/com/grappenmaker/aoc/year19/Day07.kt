@@ -1,7 +1,7 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.permutations
+import com.grappenmaker.aoc.permutations
 
 fun PuzzleSet.day7() = puzzle(7) {
     val configurations = (0L..4L).toList().permutations()

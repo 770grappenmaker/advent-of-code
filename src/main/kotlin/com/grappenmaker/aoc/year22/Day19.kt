@@ -1,6 +1,8 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.product
+import com.grappenmaker.aoc.splitInts
 import kotlin.math.max
 import kotlin.math.min
 

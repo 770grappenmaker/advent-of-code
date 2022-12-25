@@ -1,7 +1,6 @@
 package com.grappenmaker.aoc.year19
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year22.*
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day11() = puzzle(11) {
     fun sim(partTwo: Boolean) = with(startComputer(input)) {

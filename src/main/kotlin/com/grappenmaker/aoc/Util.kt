@@ -1,8 +1,7 @@
-package com.grappenmaker.aoc.year22
+package com.grappenmaker.aoc
 
-import com.grappenmaker.aoc.year22.Direction.*
+import com.grappenmaker.aoc.Direction.*
 import java.util.*
-import kotlin.collections.HashMap
 
 fun <T> List<T>.asPair() = this[0] to this[1]
 fun <T> Pair<T, T>.asList() = listOf(first, second)
@@ -223,3 +222,5 @@ class DefaultMap<K, V>(
 ) : MutableMap<K, V> by initial {
     override fun get(key: K) = initial.getOrPut(key) { default(key) }
 }
+
+inline fun <T> buildRepeated(times: Int, block: (Int) -> T) = buildList { repeat(times) { add(block(it)) } }
