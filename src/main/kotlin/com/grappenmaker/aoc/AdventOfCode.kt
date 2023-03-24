@@ -17,9 +17,7 @@ const val aocURL = "https://adventofcode.com"
 data class Puzzle(
     val year: Int,
     val day: Int,
-    val implementation: SolveContext.() -> Unit,
-    val testAnswerOne: String? = null,
-    val testAnswerTwo: String? = null,
+    val implementation: SolveContext.() -> Unit
 ) {
     val dayURL get() = "$aocURL/$year/day/$day"
     val inputURL get() = "$dayURL/input"
@@ -43,13 +41,8 @@ data class PuzzleSet(val year: Int) {
 
     val puzzles = mutableListOf<Puzzle>()
 
-    fun puzzle(
-        day: Int = puzzles.size + 1,
-        testAnswerOne: String? = null,
-        testAnswerTwo: String? = null,
-        implementation: SolveContext.() -> Unit
-    ) {
-        puzzles.add(Puzzle(year, day, implementation, testAnswerOne, testAnswerTwo))
+    fun puzzle(day: Int = puzzles.size + 1, implementation: SolveContext.() -> Unit) {
+        puzzles.add(Puzzle(year, day, implementation))
     }
 }
 

@@ -50,23 +50,6 @@ fun panic(error: String): Nothing {
 fun runPuzzle(puzzle: Puzzle, input: List<String>, testInput: List<String>? = null) {
     println("Day ${puzzle.day} (${puzzle.dayURL})")
 
-    if (testInput != null) {
-        println("Running puzzle on test input first")
-
-        val a1 = puzzle.testAnswerOne
-        val a2 = puzzle.testAnswerTwo
-        if (a1 == null || a2 == null) println("Warning: test answer was not set.")
-
-        val testCtx = SolveContext(puzzle, testInput)
-        puzzle.implementation(testCtx)
-        println(
-            """
-            |Part 1: ${testCtx.partOne} ${if (testCtx.partOne == a1) "✅" else "❌ (expected $a1)"}
-            |Part 2: ${testCtx.partTwo} ${if (testCtx.partTwo == a2) "✅" else "❌ (expected $a2)"}
-            """.trimMargin()
-        )
-    }
-
     val eventDay = eventDay()
     val eventYear = eventYear()
     val context = SolveContext(puzzle, input)

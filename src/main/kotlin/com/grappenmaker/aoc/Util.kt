@@ -226,3 +226,8 @@ class DefaultMap<K, V>(
 }
 
 inline fun <T> buildRepeated(times: Int, block: (Int) -> T) = buildList { repeat(times) { add(block(it)) } }
+
+fun String.doubleLineSequence() = splitToSequence("\r\r\n\n", "\n\n", "\r\r")
+fun String.doubleLines() = doubleLineSequence().toList()
+
+fun IntRange.sum() = (start - endInclusive + 1) * (start + endInclusive) / 2
