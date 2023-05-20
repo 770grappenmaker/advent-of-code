@@ -1,12 +1,9 @@
-package com.grappenmaker.aoc.test
+package com.grappenmaker.aoc.year17
 
-import com.grappenmaker.aoc.simplePuzzle
+import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
-import com.grappenmaker.aoc.Point
-import com.grappenmaker.aoc.manhattanDistance
-import com.grappenmaker.aoc.plus
 
-fun main() = simplePuzzle(11, 2017) {
+fun PuzzleSet.day11() = puzzle(day = 11) {
     val dirs = input.split(",").map {
         when (it) {
             "n" -> UP + UP

@@ -1,8 +1,8 @@
-package com.grappenmaker.aoc.test
+package com.grappenmaker.aoc.year17
 
-import com.grappenmaker.aoc.simplePuzzle
+import com.grappenmaker.aoc.PuzzleSet
 
-fun main() = simplePuzzle(5, 2017) {
+fun PuzzleSet.day5() = puzzle {
     val nums = inputLines.map(String::toInt)
     fun solve(partTwo: Boolean): String {
         val mut = nums.toMutableList()

@@ -30,12 +30,12 @@ fun generateYear(
         // TODO: clean up this horrible code
         val actualPackage = packag.removeSuffix("/")
         (1..25).mapNotNull { loadAsNode("$actualPackage/${numToName(it)}") }.forEach { node ->
-            node.methods.firstOrNull {
+            node.methods.singleOrNull {
                 it.desc == "(L$internalPSet;)V" && it.access and ACC_STATIC != 0
             }?.let { method ->
                 visitInsn(DUP)
                 visitMethodInsn(INVOKESTATIC, node.name, method.name, method.desc, false)
-            }
+            } ?: error("No single puzzle method has been found in ${node.name}!")
         }
 
         // Still on stack: PuzzleSet

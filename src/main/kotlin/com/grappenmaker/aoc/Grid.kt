@@ -204,7 +204,7 @@ interface GridLike<T> : Plane {
     fun rowValues(index: Int) = row(index).map { this[it] }
     fun columnValues(index: Int) = column(index).map { this[it] }
 
-    operator fun get(by: Point) = elements[by.toIndex()]
+    operator fun get(key: Point) = elements[key.toIndex()]
     fun getOrNull(by: Point) = if (by !in this) null else get(by)
 }
 
@@ -259,7 +259,7 @@ fun List<String>.asCharGrid() = asGrid { it }
 
 inline fun <T> List<String>.asMutableGrid(transform: (Char) -> T) = asGrid(transform).asMutableGrid()
 
-fun <T> List<List<T>>.asGrid() = Grid(size, this[0].size, flatten())
+fun <T> List<List<T>>.asGrid() = flatten().asGrid(this[0].size)
 fun <T> List<T>.asGrid(width: Int) = Grid(width, size / width, this)
 
 fun List<String>.asDigitGrid() = asGrid { it.code - 48 }
@@ -284,7 +284,7 @@ class PseudoGrid<T>(
         return elements[(x % actualWidth) + (y % actualHeight) * actualWidth]
     }
 
-    override fun get(by: Point) = get(by.toIndex())
+    override fun get(key: Point) = get(key.toIndex())
 }
 
 private fun <T> List<T>.assertDimensions(width: Int, height: Int) =
@@ -469,7 +469,7 @@ fun <T> Grid<T>.debug() = rows.joinToString("\n") { row -> row.joinToString("") 
 @JvmName("debugBooleans")
 fun BooleanGrid.debug(
     on: String = "#",
-    off: String = "."
+    off: String = ".",
 ) = rows.joinToString("\n") { row -> row.joinToString("") { if (this[it]) on else off } }
 
 typealias Graph<T> = Map<T, List<T>>
@@ -570,7 +570,7 @@ class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>
     override val height = Int.MAX_VALUE
     override val elements get() = error("Infinite grids cannot be indexed")
 
-    override fun get(by: Point) = map[by] ?: error("No value for $by")
+    override fun get(key: Point) = map[key] ?: error("No value for $key")
     override fun getOrNull(by: Point) = map[by]
     operator fun set(point: Point, value: T) {
         map[point] = value

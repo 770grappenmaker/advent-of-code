@@ -37,9 +37,7 @@ fun main(args: Array<String>) {
     )
     println()
 
-    val testFile = inputsDir.resolve(inputName(day, "test"))
-    val testInput = if (Files.exists(testFile)) testFile.readLines() else null
-    runPuzzle(puzzle, inputFile.readLines(), testInput)
+    runPuzzle(puzzle, inputFile.readLines())
 }
 
 fun panic(error: String): Nothing {
@@ -47,7 +45,7 @@ fun panic(error: String): Nothing {
     exitProcess(-1)
 }
 
-fun runPuzzle(puzzle: Puzzle, input: List<String>, testInput: List<String>? = null) {
+fun runPuzzle(puzzle: Puzzle, input: List<String>) {
     println("Day ${puzzle.day} (${puzzle.dayURL})")
 
     val eventDay = eventDay()

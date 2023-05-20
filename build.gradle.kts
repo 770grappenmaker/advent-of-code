@@ -2,8 +2,8 @@ import java.net.URLClassLoader
 import java.time.*
 
 plugins {
-    kotlin("jvm") version "1.7.20"
-    kotlin("plugin.serialization") version "1.7.20"
+    kotlin("jvm") version "1.8.21"
+    kotlin("plugin.serialization") version "1.8.21"
 }
 
 group = "com.grappenmaker"
@@ -18,8 +18,10 @@ dependencies {
     implementation("org.ow2.asm:asm:$asmVersion")
     implementation("org.ow2.asm:asm-commons:$asmVersion")
     implementation("org.ow2.asm:asm-util:$asmVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 }
+
+kotlin { jvmToolchain(16) }
 
 tasks {
     withType<Jar>().configureEach {

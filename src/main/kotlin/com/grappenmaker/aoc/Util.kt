@@ -3,6 +3,8 @@ package com.grappenmaker.aoc
 import com.grappenmaker.aoc.Direction.*
 import java.util.*
 
+fun Iterable<Int>.diff() = reduce { acc, curr -> acc - curr }
+
 fun <T> List<T>.asPair() = this[0] to this[1]
 fun <T> Pair<T, T>.asList() = listOf(first, second)
 inline fun <F, T> Pair<F, F>.mapBoth(block: (F) -> T) = block(first) to block(second)
@@ -210,19 +212,12 @@ fun <T> Sequence<T>.takeUntil(cond: (T) -> Boolean): Sequence<T> {
 
 fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
 
-fun String.onceSplit(at: String) = substringBefore(at) to substringAfter(at)
+fun String.onceSplit(at: String, default: String = this) = substringBefore(at, default) to substringAfter(at, default)
 
 inline fun <T> T.applyN(n: Int, block: (T) -> T): T {
     var curr = this
     repeat(n) { curr = block(curr) }
     return curr
-}
-
-class DefaultMap<K, V>(
-    private val initial: MutableMap<K, V> = hashMapOf(),
-    private val default: (K) -> V
-) : MutableMap<K, V> by initial {
-    override fun get(key: K) = initial.getOrPut(key) { default(key) }
 }
 
 inline fun <T> buildRepeated(times: Int, block: (Int) -> T) = buildList { repeat(times) { add(block(it)) } }

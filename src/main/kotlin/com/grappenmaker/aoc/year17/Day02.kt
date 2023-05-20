@@ -1,11 +1,8 @@
-package com.grappenmaker.aoc.test
+package com.grappenmaker.aoc.year17
 
-import com.grappenmaker.aoc.simplePuzzle
-import com.grappenmaker.aoc.asGrid
-import com.grappenmaker.aoc.permPairsExclusive
-import com.grappenmaker.aoc.rows
+import com.grappenmaker.aoc.*
 
-fun main() = simplePuzzle(2, 2017) {
+fun PuzzleSet.day2() = puzzle {
     val spreadsheet = inputLines.map { it.split("\t").map(String::toInt) }.asGrid()
     val rows = spreadsheet.rows.map { row -> row.map { spreadsheet[it] }.sorted() }
     partOne = rows.sumOf { it.last() - it.first() }.s()
