@@ -15,15 +15,13 @@ You can also specify an alternative input file (relative to the inputs/year dire
 ./gradlew solution --args "<day> <year> [<input>]
 ```
 
-## Years
-### 2022
-First year to fully finish! 
-
-### 2021
-Got to day 18.
-
-### 2020
-Got to day 6.
-
-### 2015
-Practiced 18 days (outside of event).
+## Progress (as of 2023-05-28)
+- [ ] 2015: 21/25 (84%)
+- [ ] 2016: 11/25 (44%)
+- [ ] 2017: 8/25 (32%)
+- [ ] 2018: 8/25 (32%)
+- [ ] 2019: 15/25 (60%)
+- [ ] 2020: 12/25 (48%)
+- [ ] 2021: 20/25 (80%)
+- [x] 2022: 25/25 (100%)
+- [ ] Total: 120/200 (60%)

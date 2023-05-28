@@ -220,9 +220,11 @@ inline fun <T> T.applyN(n: Int, block: (T) -> T): T {
     return curr
 }
 
-inline fun <T> buildRepeated(times: Int, block: (Int) -> T) = buildList { repeat(times) { add(block(it)) } }
-
 fun String.doubleLineSequence() = splitToSequence("\r\r\n\n", "\n\n", "\r\r")
 fun String.doubleLines() = doubleLineSequence().toList()
 
 fun IntRange.sum() = (start - endInclusive + 1) * (start + endInclusive) / 2
+
+fun <T> Iterable<T>.frequencies() = groupingBy { it }.eachCount()
+fun <T> Iterable<T>.mostFrequent() = frequencies().maxBy { it.value }.key
+fun <T> Iterable<T>.leastFrequent() = frequencies().minBy { it.value }.key

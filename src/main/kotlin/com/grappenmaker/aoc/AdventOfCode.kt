@@ -48,11 +48,13 @@ data class PuzzleSet(val year: Int) {
 }
 
 // jank!
-val puzzles = listOf(
+val years = listOf(
     year2015, year2016, year2017,
     year2018, year2019, year2020,
     year2021, year2022
-).flatMap { it.puzzles }
+)
+
+val puzzles = years.flatMap { it.puzzles }
 
 // Quote the official Advent of Code website:
 // The first puzzles will unlock on December 1st at midnight EST (UTC-5). See you then!

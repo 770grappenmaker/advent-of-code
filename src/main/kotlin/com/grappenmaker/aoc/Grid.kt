@@ -6,6 +6,7 @@ import kotlin.collections.ArrayDeque
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.sqrt
 
 val dAdjacentSides = enumValues<Direction>().map { it.toPoint() }
 val dAdjacentDiagonals = listOf(DOWN + RIGHT, UP + RIGHT, DOWN + LEFT, UP + LEFT)
@@ -55,6 +56,11 @@ infix fun Point.manhattanDistanceTo(other: Point) = abs(x - other.x) + abs(y - o
 
 val Point.chebyshevDistance get() = max(abs(x), abs(y))
 infix fun Point.chebyshevDistanceTo(other: Point) = max(abs(x - other.x), abs(y - other.y))
+
+val Point.euclideanDistanceSq get() = x * x + y * y
+val Point.euclideanDistance get() = sqrt(euclideanDistanceSq.toDouble())
+infix fun Point.euclideanDistanceSqTo(other: Point) = (other.x - x).let { it * it } + (other.y - y).let { it * it }
+infix fun Point.euclideanDistanceTo(other: Point) = sqrt(euclideanDistanceSqTo(other).toDouble())
 
 enum class Direction(val dx: Int, val dy: Int) {
     UP(0, -1), RIGHT(1, 0), DOWN(0, 1), LEFT(-1, 0);
