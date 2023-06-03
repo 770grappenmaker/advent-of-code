@@ -3,10 +3,7 @@ package com.grappenmaker.aoc
 import com.grappenmaker.aoc.Direction.*
 import java.util.*
 import kotlin.collections.ArrayDeque
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sqrt
+import kotlin.math.*
 
 val dAdjacentSides = enumValues<Direction>().map { it.toPoint() }
 val dAdjacentDiagonals = listOf(DOWN + RIGHT, UP + RIGHT, DOWN + LEFT, UP + LEFT)
@@ -650,9 +647,65 @@ data class Cube(val a: Point3D, val b: Point3D) {
     val zRange get() = minZ..maxZ
 }
 
+val Cube.points get() = (a.x..b.x).flatMap { x -> (a.y..b.y).flatMap { y -> (a.z..b.z).map { Point3D(x, y, it) } } }
+
 operator fun Cube.contains(point: Point3D) = point.x in xRange && point.y in yRange && point.z in zRange
 
 // Sorry, point2d makes a line cause that makes sense,
 // but here it makes more sense to make it a cube
 // This is totally not going to hunt me
 operator fun Point3D.rangeTo(other: Point3D) = Cube(this, other)
+
+// Utility to work with n-dimensional points
+@JvmInline
+value class PointND(val coords: List<Int>)
+
+val PointND.dimensions get() = coords.size
+
+operator fun PointND.plus(other: PointND) = PointND(coords.zip(other.coords) { a, b -> a + b })
+operator fun PointND.plus(amount: Int) = PointND(coords.map { it + amount })
+operator fun PointND.minus(amount: Int) = PointND(coords.map { it - amount })
+operator fun PointND.minus(other: PointND) = PointND(coords.zip(other.coords) { a, b -> a - b })
+operator fun PointND.times(tim: Int) = PointND(coords.map { it * tim })
+operator fun PointND.times(other: PointND) = PointND(coords.zip(other.coords) { a, b -> a * b })
+operator fun PointND.div(by: Int) = PointND(coords.map { it / by })
+operator fun PointND.rem(with: Int) = PointND(coords.map { it % with })
+operator fun PointND.unaryMinus() = PointND(coords.map { -it })
+
+val PointND.manhattanDistance get() = coords.sumOf { it.absoluteValue }
+infix fun PointND.manhattanDistanceTo(other: PointND) = (this - other).manhattanDistance
+
+fun Iterable<PointND>.minBound() = PointND(List(first().dimensions) { dim -> minOf { it.coords[dim] } })
+fun Iterable<PointND>.maxBound() = PointND(List(first().dimensions) { dim -> maxOf { it.coords[dim] } })
+
+private inline fun ndRecursion(dimensions: Int, selector: (Int) -> List<Int>): List<PointND> {
+    val result = mutableListOf<PointND>()
+    val queue = queueOf(selector(0).map { PointND(listOf(it)) })
+
+    while (queue.isNotEmpty()) {
+        val curr = queue.removeFirst()
+        if (dimensions == curr.dimensions) {
+            result += curr
+            continue
+        }
+
+        selector(curr.dimensions).mapTo(queue) { PointND(curr.coords + it) }
+    }
+
+    return result
+}
+
+private val dimensionalDCache = hashMapOf<Int, List<PointND>>()
+
+fun PointND.adjacent() = dimensionalDCache.getOrPut(dimensions) {
+    val d = listOf(-1, 0, 1)
+    ndRecursion(dimensions) { d }.filter { p -> p.coords.any { it != 0 } }
+}.map { this + it }
+
+data class NDVolume(val a: PointND, val b: PointND)
+val NDVolume.dimensions get() = a.dimensions
+
+operator fun NDVolume.contains(point: PointND) = point.coords.allIndexed { idx, c -> c in a.coords[idx]..b.coords[idx] }
+val NDVolume.points get() = ndRecursion(dimensions) { (a.coords[it]..b.coords[it]).toList() }
+
+operator fun PointND.rangeTo(other: PointND) = NDVolume(this, other)

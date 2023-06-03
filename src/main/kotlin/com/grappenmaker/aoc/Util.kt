@@ -228,3 +228,8 @@ fun IntRange.sum() = (start - endInclusive + 1) * (start + endInclusive) / 2
 fun <T> Iterable<T>.frequencies() = groupingBy { it }.eachCount()
 fun <T> Iterable<T>.mostFrequent() = frequencies().maxBy { it.value }.key
 fun <T> Iterable<T>.leastFrequent() = frequencies().minBy { it.value }.key
+
+inline fun <T> Iterable<T>.allIndexed(block: (idx: Int, T) -> Boolean): Boolean {
+    forEachIndexed { idx, v -> if (!block(idx, v)) return false }
+    return true
+}
