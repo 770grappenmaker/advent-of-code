@@ -121,6 +121,11 @@ fun <T> Iterable<T>.firstNotDistinct(): T {
     return first { !seen.add(it) }
 }
 
+fun <T> Iterable<T>.findNotDistinct(): T? {
+    val seen = hashSetOf<T>()
+    return find { !seen.add(it) }
+}
+
 fun <T> Iterable<T>.untilNotDistinct(): List<T> {
     val seen = hashSetOf<T>()
     return takeWhile { seen.add(it) }
@@ -134,6 +139,11 @@ fun <T> Iterable<T>.hasDuplicate(): Boolean {
 inline fun <T, V> Iterable<T>.firstNotDistinctBy(block: (T) -> V): T {
     val seen = hashSetOf<V>()
     return first { !seen.add(block(it)) }
+}
+
+inline fun <T, V> Iterable<T>.findNotDistinctBy(block: (T) -> V): T? {
+    val seen = hashSetOf<V>()
+    return find { !seen.add(block(it)) }
 }
 
 inline fun <T, V> Iterable<T>.untilNotDistinctBy(block: (T) -> V): List<T> {
@@ -233,3 +243,40 @@ inline fun <T> Iterable<T>.allIndexed(block: (idx: Int, T) -> Boolean): Boolean 
     forEachIndexed { idx, v -> if (!block(idx, v)) return false }
     return true
 }
+
+inline fun <T : Any> T.patternRepeating(totalIterations: Int, next: (T) -> T): T {
+    val seen = mutableMapOf<T, Int>()
+
+    var iter = 0
+    var left = totalIterations
+    var curr = this
+
+    while (left > 0) {
+        if (curr in seen && iter != seen.getValue(curr)) {
+            val steps = iter - seen.getValue(curr)
+            if (steps != 0) {
+                iter += left / steps
+                left %= steps
+            }
+        }
+
+        seen[curr] = iter
+
+        curr = next(curr)
+
+        iter++
+        left--
+    }
+
+    return curr
+}
+
+fun Char.toDirectionOrNull() = when (this) {
+    '^' -> UP
+    'v' -> DOWN
+    '>' -> RIGHT
+    '<' -> LEFT
+    else -> null
+}
+
+fun Char.toDirection() = toDirectionOrNull() ?: error("Impossible")

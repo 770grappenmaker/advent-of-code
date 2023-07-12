@@ -1,10 +1,6 @@
 package com.grappenmaker.aoc.year15
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.Direction
-import com.grappenmaker.aoc.Point
-import com.grappenmaker.aoc.plus
-import com.grappenmaker.aoc.toPoint
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day3() = puzzle {
     val directions = input.map { it.toDirection().toPoint() }
@@ -15,12 +11,4 @@ fun PuzzleSet.day3() = puzzle {
     val santaPath = createPath(0, 2)
     val roboSantaPath = createPath(1, 2)
     partTwo = (santaPath + roboSantaPath).toSet().size.s()
-}
-
-fun Char.toDirection() = when (this) {
-    '^' -> Direction.UP
-    'v' -> Direction.DOWN
-    '>' -> Direction.RIGHT
-    '<' -> Direction.LEFT
-    else -> error("Impossible")
 }

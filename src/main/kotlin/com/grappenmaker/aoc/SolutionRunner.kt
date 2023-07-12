@@ -2,6 +2,8 @@
 
 package com.grappenmaker.aoc
 
+import java.awt.Toolkit
+import java.awt.datatransfer.StringSelection
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -63,6 +65,15 @@ fun runPuzzle(puzzle: Puzzle, input: List<String>) {
     println()
     println("Took ${timeTaken / 1_000_000}ms to calculate the solution")
 
+    listOf(context.partOneDelegate, context.partTwoDelegate).findLast { it.touched }?.let { d ->
+        runCatching {
+            val selection = StringSelection(d.underlying)
+            Toolkit.getDefaultToolkit().systemClipboard.setContents(selection, selection)
+
+            println("Copied \"${d.underlying}\" to clipboard")
+        }.onFailure { println("Failed to copy to clipboard!") }
+    }
+
     if (eventDay == puzzle.day && puzzle.year == eventYear) {
         val midnight = LocalDate.now(unlockOffset).atStartOfDay().atOffset(unlockOffset)
         val currentHour = now().hour
@@ -77,10 +88,11 @@ fun runPuzzle(puzzle: Puzzle, input: List<String>) {
 
 fun inputsDir(year: Int): Path = Paths.get("inputs", year.toString())
 fun inputName(day: Int, title: String = "day") = "$title-${day.toString().padStart(2, '0')}.txt"
+fun defaultInput(year: Int, day: Int, title: String = "day"): Path = inputsDir(year).resolve(inputName(day, title))
 
 fun simplePuzzle(
     day: Int,
     year: Int,
-    input: Path = inputsDir(year).resolve(inputName(day)),
+    input: Path = defaultInput(year, day),
     block: SolveContext.() -> Unit
 ) = runPuzzle(Puzzle(year, day, block), input.readLines())

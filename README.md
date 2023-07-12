@@ -15,13 +15,13 @@ You can also specify an alternative input file (relative to the inputs/year dire
 ./gradlew solution --args "<day> <year> [<input>]
 ```
 
-## Progress (as of 2023-06-01)
+## Progress (as of 2023-07-12)
 - [ ] 2015: 21/25 (84.0%)
 - [ ] 2016: 11/25 (44.0%)
-- [ ] 2017: 8/25 (32.0%)
-- [ ] 2018: 8/25 (32.0%)
+- [ ] 2017: 10/25 (40.0%)
+- [ ] 2018: 11/25 (44.0%)
 - [ ] 2019: 15/25 (60.0%)
 - [ ] 2020: 13/25 (52.0%)
 - [ ] 2021: 20/25 (80.0%)
 - [x] 2022: 25/25 (100.0%)
-- [ ] Total: 121/200 (60.5%)
+- [ ] Total: 126/200 (63.0%)

@@ -12,6 +12,8 @@ import java.time.LocalDate
 import java.time.Month
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 const val aocURL = "https://adventofcode.com"
 
@@ -28,8 +30,25 @@ class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
     val input by lazy { inputLines.joinToString("\n").trim() }
     val rawInput by lazy { inputLines.joinToString("\n") }
 
-    var partOne = "Not implemented"
-    var partTwo = "Not implemented"
+    class PartDelegate : ReadWriteProperty<Any?, String> {
+        var underlying = "Not implemented"
+        var touched = false
+            private set
+
+        override fun getValue(thisRef: Any?, property: KProperty<*>) = underlying
+        override fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
+            touched = true
+            underlying = value
+        }
+    }
+
+    val partOneDelegate = PartDelegate()
+    val partTwoDelegate = PartDelegate()
+    var partOne by partOneDelegate
+    var partTwo by partTwoDelegate
+
+//    var partOne = "Not implemented"
+//    var partTwo = "Not implemented"
 
     // Utility to convert to string (felt shorter to use)
     fun <T> T.s() = toString()

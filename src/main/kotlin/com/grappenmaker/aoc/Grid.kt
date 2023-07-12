@@ -65,6 +65,9 @@ enum class Direction(val dx: Int, val dy: Int) {
     fun next(by: Int = 1) = values()[(ordinal + by).mod(4)]
 }
 
+val Direction.isHorizontal get() = this == RIGHT || this == LEFT
+val Direction.isVertical get() = this == DOWN || this == UP
+
 operator fun Point.plus(other: Direction) = Point(x + other.dx, y + other.dy)
 operator fun Point.minus(other: Direction) = Point(x - other.dx, y - other.dy)
 fun Direction.toPoint() = Point(dx, dy)
@@ -211,7 +214,7 @@ interface GridLike<T> : Plane {
     fun getOrNull(by: Point) = if (by !in this) null else get(by)
 }
 
-class MutableGrid<T>(
+data class MutableGrid<T>(
     override val width: Int,
     override val height: Int,
     override val elements: MutableList<T>
@@ -238,7 +241,7 @@ fun <T> MutableGrid<T>.rotateColumn(column: Int, amount: Int) = setColumn(column
 
 fun <T> MutableGrid<T>.asGrid() = Grid(width, height, elements.toList())
 
-class Grid<T>(
+data class Grid<T>(
     override val width: Int,
     override val height: Int,
     override val elements: List<T>
@@ -365,6 +368,9 @@ fun MutableIntGrid.decrement(point: Point) {
 inline fun <T, N> GridLike<T>.mapElements(transform: (T) -> N) = Grid(width, height, elements.map(transform))
 inline fun <T, N> GridLike<T>.mapIndexedElements(transform: (Point, T) -> N) =
     Grid(width, height, elements.mapIndexed { idx, t -> transform(pointFromIndex(idx), t) })
+
+inline fun <T> GridLike<T>.findPoints(check: (T) -> Boolean) = points.filter { check(this[it]) }
+fun <T> GridLike<T>.findPointsValued(value: T): List<Point> = findPoints { it == value }
 
 fun <T> queueOf() = ArrayDeque<T>()
 fun <T> queueOf(list: List<T>) = ArrayDeque<T>().also { it.addAll(list) }
@@ -709,3 +715,8 @@ operator fun NDVolume.contains(point: PointND) = point.coords.allIndexed { idx, 
 val NDVolume.points get() = ndRecursion(dimensions) { (a.coords[it]..b.coords[it]).toList() }
 
 operator fun PointND.rangeTo(other: PointND) = NDVolume(this, other)
+
+fun <T> Grid<T>.automaton(step: Grid<T>.(point: Point, curr: T) -> T) =
+    generateSequence(this) { it.mapIndexedElements { point, v -> it.step(point, v) } }
+
+fun <T> Sequence<T>.nth(n: Int) = take(n + 1).last()

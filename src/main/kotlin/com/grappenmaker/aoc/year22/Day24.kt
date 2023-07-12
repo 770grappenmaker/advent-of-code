@@ -1,7 +1,6 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.*
-import com.grappenmaker.aoc.Direction.*
 
 fun PuzzleSet.day24() = puzzle {
     val charGrid = inputLines.asCharGrid()
@@ -25,17 +24,9 @@ fun PuzzleSet.day24() = puzzle {
         it.copy(pos = next)
     }
 
-    val initialBlizards = charGrid.points.filter { charGrid[it] !in listOf('#', '.') }.map { p ->
-        Blizard(
-            p, when (charGrid[p]) {
-                '^' -> UP
-                'v' -> DOWN
-                '<' -> LEFT
-                '>' -> RIGHT
-                else -> error("Invalid direction ${charGrid[p]}")
-            }
-        )
-    }
+    val initialBlizards = charGrid.points
+        .filter { charGrid[it] !in listOf('#', '.') }
+        .map { Blizard(it, charGrid[it].toDirection()) }
 
     // Assuming 1000 is max..?
     // Small optimization here... could also simulate every single time again
