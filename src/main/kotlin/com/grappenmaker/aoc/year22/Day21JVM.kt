@@ -1,10 +1,10 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.*
+import org.objectweb.asm.Label
 import org.objectweb.asm.Opcodes.*
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
-import kotlin.random.Random
 
 fun main() = simplePuzzle(21, 2022) {
     val parsed = inputLines.associate { l ->
@@ -25,36 +25,46 @@ fun main() = simplePuzzle(21, 2022) {
         }
     }
 
-    fun generate(humnValue: Double? = null): Day21Eval {
-        val cName = "com/grappenmaker/aoc/year22/Day21JVMGenerated${Random.nextInt()}"
-        return generateClass(name = cName, implements = listOf(internalNameOf<Day21Eval>())) {
-            parsed.forEach { (name, info) ->
-                generateMethod(name, "()D") {
-                    when {
-                        name == "humn" && humnValue != null -> visitLdcInsn(humnValue)
-                        info is NumberInfo -> visitLdcInsn(info.number)
-                        info is InvokeInfo -> {
-                            visitVarInsn(ALOAD, 0)
-                            visitMethodInsn(INVOKEVIRTUAL, cName, info.lhs, "()D", false)
-                            visitVarInsn(ALOAD, 0)
-                            visitMethodInsn(INVOKEVIRTUAL, cName, info.rhs, "()D", false)
-                            visitInsn(info.opcode)
-                        }
-                    }
+    val cName = "com/grappenmaker/aoc/year22/Day21JVMGenerated"
+    val eval = generateClass(name = cName, implements = listOf(internalNameOf<Day21Eval>())) {
+        parsed.forEach { (name, info) ->
+            generateMethod(name, "(D)D") {
+                if (name == "humn") {
+                    visitVarInsn(DLOAD, 1)
+                    visitInsn(DCONST_0)
+                    visitInsn(DCMPG)
 
+                    val label = Label()
+                    visitJumpInsn(IFEQ, label)
+
+                    visitVarInsn(DLOAD, 1)
                     visitInsn(DRETURN)
+
+                    visitLabel(label)
                 }
+
+                when (info) {
+                    is NumberInfo -> visitLdcInsn(info.number)
+                    is InvokeInfo -> {
+                        visitVarInsn(ALOAD, 0)
+                        visitVarInsn(DLOAD, 1)
+                        visitMethodInsn(INVOKEVIRTUAL, cName, info.lhs, "(D)D", false)
+                        visitVarInsn(ALOAD, 0)
+                        visitVarInsn(DLOAD, 1)
+                        visitMethodInsn(INVOKEVIRTUAL, cName, info.rhs, "(D)D", false)
+                        visitInsn(info.opcode)
+                    }
+                }
+
+                visitInsn(DRETURN)
             }
-        }.instance()
-    }
+        }
+    }.instance<Day21Eval>()
 
-    val original = generate()
-    partOne = original.root().toLong().s()
+    partOne = eval.root(0.0).toLong().s()
     val rootInfo = parsed.getValue("root") as InvokeInfo
-    val randomCase = generate(1000.0)
-    val changes = original.eval(rootInfo.lhs) != randomCase.eval(rootInfo.lhs)
-    val target = if (changes) original.eval(rootInfo.rhs) else original.eval(rootInfo.lhs)
-
+    val changes = eval.eval(rootInfo.lhs, 0.0) != eval.eval(rootInfo.lhs, 1000.0)
+    val target = if (changes) eval.eval(rootInfo.rhs) else eval.eval(rootInfo.lhs)
     val variable = if (changes) rootInfo.lhs else rootInfo.rhs
 
     var min = 0L
@@ -62,7 +72,7 @@ fun main() = simplePuzzle(21, 2022) {
 
     while (true) {
         val pivot = (min + max) / 2
-        val found = generate(pivot.toDouble()).eval(variable)
+        val found = eval.eval(variable, pivot.toDouble())
         val s = target - found
 
         when {
@@ -77,14 +87,14 @@ fun main() = simplePuzzle(21, 2022) {
 }
 
 interface Day21Eval {
-    fun root(): Double
+    fun root(humn: Double): Double
 }
 
 private val handlesLookup = MethodHandles.lookup()
-private val evalMethodType = MethodType.methodType(Double::class.javaPrimitiveType)
+private val evalMethodType = MethodType.methodType(Double::class.javaPrimitiveType, Double::class.javaPrimitiveType)
 
-fun <T : Day21Eval> T.eval(name: String) =
-    handlesLookup.findVirtual(this::class.java, name, evalMethodType).bindTo(this).invokeExact() as Double
+fun <T : Day21Eval> T.eval(name: String, humn: Double = 0.0) =
+    handlesLookup.findVirtual(this::class.java, name, evalMethodType).bindTo(this).invokeExact(humn) as Double
 
 sealed interface Info
 data class NumberInfo(val number: Double) : Info
