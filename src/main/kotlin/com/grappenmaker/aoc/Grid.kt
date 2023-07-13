@@ -353,9 +353,7 @@ fun MutableBooleanGrid.disable(point: Point) {
     this[point] = false
 }
 
-fun BooleanGrid.countTrue() = elements.count { it }
 fun BooleanGrid.filterTrue() = points.filter { this[it] }
-fun BooleanGrid.countFalse() = elements.count { !it }
 
 fun MutableIntGrid.increment(point: Point) {
     this[point]++

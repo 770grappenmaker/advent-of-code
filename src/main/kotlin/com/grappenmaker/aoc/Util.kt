@@ -2,6 +2,9 @@ package com.grappenmaker.aoc
 
 import com.grappenmaker.aoc.Direction.*
 import java.util.*
+import kotlin.properties.ReadOnlyProperty
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 fun Iterable<Int>.diff() = reduce { acc, curr -> acc - curr }
 
@@ -280,3 +283,15 @@ fun Char.toDirectionOrNull() = when (this) {
 }
 
 fun Char.toDirection() = toDirectionOrNull() ?: error("Impossible")
+
+fun <T> MutableList<T>.delegate(index: Int) = object : ReadWriteProperty<Any?, T> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>) = get(index)
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+        set(index, value)
+    }
+}
+
+fun <T> List<T>.delegate(index: Int) = ReadOnlyProperty<Any?, T> { _, _ -> get(index) }
+
+fun Iterable<Boolean>.countTrue() = count { it }
+fun Iterable<Boolean>.countFalse() = count { !it }
