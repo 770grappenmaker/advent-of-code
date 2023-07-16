@@ -10,7 +10,8 @@ fun PuzzleSet.day13() = puzzle(13) {
     fun isValid(p: Point) = p.x >= 0 && p.y >= 0 &&
             (p.x * p.x + 3 * p.x + 2 * p.x * p.y + p.y + p.y * p.y + no).countOneBits() % 2 == 0
 
-    fun steps(start: Point, end: Point) = bfsDistance(start, { it == end }, { it.adjacentSidesInf().filter(::isValid) })
+    fun steps(start: Point, end: Point) =
+        bfsDistance(start, { it == end }, { it.adjacentSidesInf().filter(::isValid) }).dist
 
     val start = Point(1, 1)
     partOne = steps(start, Point(31, 39)).s()

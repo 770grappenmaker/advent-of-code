@@ -197,7 +197,7 @@ fun centeredRect(width: Int, height: Int) = Rectangle(Point(-width / 2, -height 
 
 fun Rectangle.movedTo(x: Int, y: Int) = sizedRect(width, height, x, y)
 
-interface GridLike<T> : Plane {
+interface GridLike<T> : Plane, Iterable<T> {
     val elements: List<T>
 
     fun Point.adjacentSideElements() = adjacentSides().map { get(it) }
@@ -403,16 +403,10 @@ inline fun <T> bfs(
 
 inline fun <T> floodFill(initial: T, neighbors: (T) -> Iterable<T>) = bfs(initial, { false }, neighbors).seen
 
-inline fun <T> GridLike<T>.bfs(start: Point, isEnd: (Point) -> Boolean, diagonals: Boolean = false) =
-    bfsPoint(start, isEnd, diagonals).let { p -> BFSResult(p.end?.let { get(it) }, p.seen) }
-
 fun <T> GridLike<T>.bfs(start: Point, end: Point, diagonals: Boolean = false) = bfs(start, { it == end }, diagonals)
 
-inline fun <T> GridLike<T>.bfsPoint(start: Point, isEnd: (Point) -> Boolean, diagonals: Boolean = false) =
+inline fun <T> GridLike<T>.bfs(start: Point, isEnd: (Point) -> Boolean, diagonals: Boolean = false) =
     bfs(start, isEnd) { if (diagonals) it.allAdjacent() else it.adjacentSides() }
-
-fun <T> GridLike<T>.bfsPoint(start: Point, end: Point, diagonals: Boolean = false) =
-    bfsPoint(start, { it == end }, diagonals)
 
 inline fun <T> GridLike<T>.floodFill(start: Point, condition: (Point) -> Boolean, diagonals: Boolean = false) =
     floodFill(start) { (if (diagonals) it.allAdjacent() else it.adjacentSides()).filter(condition) }
@@ -486,29 +480,31 @@ fun <T> Graph<T>.dijkstra(start: T, end: T): DijkstraPath<T>? =
 
 fun <T> Graph<T>.bfs(start: T) = bfs(start, { false }, { this[it] ?: listOf() })
 
-fun <T> fillDistance(start: T, neighbors: (T) -> Iterable<T>): Map<T, Int> {
-    val queue = searchQueue(start)
+inline fun <T> fillDistance(start: T, neighbors: (T) -> Iterable<T>): Map<T, Int> {
+    val queue = queueOf(start to 0)
     val seen = hashSetOf(start)
     val result = hashMapOf<T, Int>()
 
     queue.drain { (p, dist) ->
         if (p !in result) result[p] = dist
-        neighbors(p).forEach { if (seen.add(it)) queue.add(it to dist + 1) }
+        neighbors(p).forEach { if (seen.add(it)) queue.addFirst(it to dist + 1) }
     }
 
     return result
 }
 
-fun <T> bfsDistance(start: T, isEnd: (T) -> Boolean, neighbors: (T) -> Iterable<T>): Int {
-    val queue = searchQueue(start)
+data class BFSDistanceResult<T>(val original: BFSResult<T>, val dist: Int)
+
+inline fun <T> bfsDistance(start: T, isEnd: (T) -> Boolean, neighbors: (T) -> Iterable<T>): BFSDistanceResult<T> {
+    val queue = queueOf(start to 0)
     val seen = hashSetOf(start)
 
     queue.drain { (p, dist) ->
-        if (isEnd(p)) return dist
-        neighbors(p).forEach { if (seen.add(it)) queue.add(it to dist + 1) }
+        if (isEnd(p)) return BFSDistanceResult(BFSResult(p, seen), dist)
+        neighbors(p).forEach { if (seen.add(it)) queue.addFirst(it to dist + 1) }
     }
 
-    error("No path found")
+    return BFSDistanceResult(BFSResult(null, seen), -1)
 }
 
 fun Iterable<Point>.shiftPositive(): List<Point> {
@@ -575,7 +571,7 @@ fun <T> Map<Point, T>.asInfiniteGrid() = InfiniteGrid(toMutableMap())
 class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>, MutableMap<Point, T> by map {
     override val width = Int.MAX_VALUE
     override val height = Int.MAX_VALUE
-    override val elements get() = error("Infinite grids cannot be indexed")
+    override val elements get() = infiniError()
 
     override fun get(key: Point) = map[key] ?: error("No value for $key")
     override fun getOrNull(by: Point) = map[by]
@@ -591,6 +587,7 @@ class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>
     override fun toPointIndex(x: Int, y: Int) = infiniError()
     override fun pointFromIndex(index: Int) = infiniError()
     override fun List<Point>.toIndices() = infiniError()
+    override fun iterator() = infiniError()
 }
 
 // Extra 3d stuffs
@@ -714,7 +711,7 @@ val NDVolume.points get() = ndRecursion(dimensions) { (a.coords[it]..b.coords[it
 
 operator fun PointND.rangeTo(other: PointND) = NDVolume(this, other)
 
-fun <T> Grid<T>.automaton(step: Grid<T>.(point: Point, curr: T) -> T) =
+fun <T> GridLike<T>.automaton(step: GridLike<T>.(point: Point, curr: T) -> T) =
     generateSequence(this) { it.mapIndexedElements { point, v -> it.step(point, v) } }
 
 fun <T> Sequence<T>.nth(n: Int) = take(n + 1).last()

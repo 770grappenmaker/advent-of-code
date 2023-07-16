@@ -2,9 +2,8 @@ package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
 import java.security.MessageDigest
-import kotlin.experimental.or
 
-val md5 = MessageDigest.getInstance("MD5")
+val md5: MessageDigest = MessageDigest.getInstance("MD5")
 
 fun PuzzleSet.day4() = puzzle {
     val findSolution = { startingPoint: Int, zeroes: Int ->

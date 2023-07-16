@@ -25,5 +25,5 @@ fun PuzzleSet.day6() = puzzle {
         listOfNotNull(reverse[from]) + entries.filter { it.around == from }.map { it.orbiter }
     }
 
-    partTwo = bfsDistance(you.around, isEnd = { it == san.around }, neighbors = { graph[it]!! }).s()
+    partTwo = bfsDistance(you.around, isEnd = { it == san.around }, neighbors = { graph[it]!! }).dist.s()
 }

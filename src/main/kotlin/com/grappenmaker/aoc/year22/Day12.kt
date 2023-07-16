@@ -16,7 +16,7 @@ fun PuzzleSet.day12() = puzzle {
 
     with(grid) {
         fun eval(start: Point, cond: (Point) -> Boolean) =
-            bfsDistance(start, cond) { it.adjacentSides().filter { p -> this[it] - this[p] <= 1 } }
+            bfsDistance(start, cond) { it.adjacentSides().filter { p -> this[it] - this[p] <= 1 } }.dist
 
         partOne = eval(end) { it == start }.s()
         partTwo = (eval(end) { this[it] == 0 }).s()

@@ -2,12 +2,14 @@ import java.net.URLClassLoader
 import java.time.*
 
 plugins {
-    kotlin("jvm") version "1.8.21"
-    kotlin("plugin.serialization") version "1.8.21"
+    kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
-group = "com.grappenmaker"
-version = "0.1"
+allprojects {
+    group = "com.grappenmaker"
+    version = "0.1"
+}
 
 repositories {
     mavenCentral()
