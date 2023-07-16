@@ -184,6 +184,11 @@ fun gcd(a: Long, b: Long): Long = if (a == 0L) b else gcd(b % a, a)
 fun lcm(a: Int, b: Int): Int = (a * b) / gcd(a, b)
 fun lcm(a: Long, b: Long): Long = (a * b) / gcd(a, b)
 
+fun gcdOf(vararg i: Int) = i.reduce { acc, curr -> gcd(acc, curr) }
+fun gcdOf(vararg i: Long) = i.reduce { acc, curr -> gcd(acc, curr) }
+fun lcmOf(vararg i: Int) = i.reduce { acc, curr -> lcm(acc, curr) }
+fun lcmOf(vararg i: Long) = i.reduce { acc, curr -> lcm(acc, curr) }
+
 fun List<Int>.gcd() = reduce { a, b -> gcd(a, b) }
 
 @JvmName("gcdLongs")

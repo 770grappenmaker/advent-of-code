@@ -48,6 +48,9 @@ fun Point.map(block: (x: Int, y: Int) -> Pair<Int, Int>) = block(x, y).toPoint()
 fun Point.mapX(block: (x: Int) -> Int) = copy(x = block(x))
 fun Point.mapY(block: (y: Int) -> Int) = copy(y = block(y))
 
+@JvmName("mapAllCoords")
+fun Point.map(block: (coord: Int) -> Int) = copy(x = block(x), y = block(y))
+
 val Point.manhattanDistance get() = abs(x) + abs(y)
 infix fun Point.manhattanDistanceTo(other: Point) = abs(x - other.x) + abs(y - other.y)
 
@@ -189,6 +192,7 @@ fun Rectangle.overlapsInclusive(other: Rectangle) =
     minX <= other.maxX && maxX >= other.minX && minY <= other.maxY && maxY >= other.minY
 
 fun Rectangle.intersect(other: Rectangle) = points.intersect(other.points.toSet())
+fun Rectangle.onEdge(other: Point) = other.x == minX || other.x == maxX || other.y == minY || other.y == maxY
 
 fun sizedRect(width: Int, height: Int, atX: Int = 0, atY: Int = 0) =
     Rectangle(Point(atX, atY), Point(atX + width - 1, atY + height - 1))
@@ -544,6 +548,7 @@ fun Iterable<Point>.minY() = minOf { it.y }
 fun Iterable<Point>.maxY() = maxOf { it.y }
 fun Iterable<Point>.minBound() = Point(minX(), minY())
 fun Iterable<Point>.maxBound() = Point(maxX(), maxY())
+fun Iterable<Point>.boundary() = Rectangle(minBound(), maxBound())
 fun Iterable<Point>.shiftDelta() = Point(-minX(), -minY())
 
 // not sure about these
@@ -600,6 +605,11 @@ operator fun Point3D.times(other: Point3D) = Point3D(x * other.x, y * other.y, z
 operator fun Point3D.div(by: Int) = Point3D(x / by, y / by, z / by)
 operator fun Point3D.rem(with: Int) = Point3D(x % with, y % with, z % with)
 operator fun Point3D.unaryMinus() = Point3D(-x, -y, -z)
+
+fun Point3D.mapX(block: (x: Int) -> Int) = copy(x = block(x))
+fun Point3D.mapY(block: (y: Int) -> Int) = copy(y = block(y))
+fun Point3D.mapZ(block: (z: Int) -> Int) = copy(z = block(z))
+fun Point3D.map(block: (coord: Int) -> Int) = copy(x = block(x), y = block(y), z = block(z))
 
 val Point3D.manhattanDistance get() = abs(x) + abs(y) + abs(z)
 infix fun Point3D.manhattanDistanceTo(other: Point3D) = abs(x - other.x) + abs(y - other.y) + abs(z - other.z)

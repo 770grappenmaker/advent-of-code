@@ -7,7 +7,7 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
     val insns = inputLines.map { l ->
         val parts = l.split(" ")
         Computer.Insn(parts.first(), parts.drop(1).map { a ->
-            a.singleOrNull { it in 'a'..'z' }?.let {Computer. Register(it) } ?: Computer.LiteralArgument(a.toLong())
+            a.singleOrNull { it in 'a'..'z' }?.let { Computer.Register(it) } ?: Computer.LiteralArgument(a.toLong())
         })
     }
 

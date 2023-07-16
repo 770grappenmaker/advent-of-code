@@ -15,8 +15,9 @@ fun main() {
 """
 ## Progress (as of ${DateTimeFormatter.ISO_DATE.format(LocalDate.now())})
 ${
-    years.joinToString(System.lineSeparator()) {
-        "- [${if (it.puzzles.size == 25) "x" else " "}] ${it.year}: ${it.puzzles.size}/25 (${(it.puzzles.size / 25.0).percent()})"
+    years.sortedByDescending { it.year }.joinToString(System.lineSeparator()) {
+        val c = it.puzzles.size
+        "- [${if (c == 25) "x" else " "}] ${it.year}: $c/25 (${c * 2}🌟) (${(c / 25.0).percent()})"
     }
 }
 - [${if (fullyDone) "x" else " "}] Total: $totalCount/${years.size * 25} (${(totalCount / years.size.toDouble() / 25.0).percent()})
