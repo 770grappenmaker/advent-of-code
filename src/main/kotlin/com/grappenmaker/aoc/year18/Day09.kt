@@ -23,5 +23,5 @@ fun PuzzleSet.day9() = puzzle(day = 9) {
     }
 
     partOne = step(1..totalMarbles)
-    partTwo = step(1..totalMarbles * 100)
+    partTwo = step(totalMarbles + 1..totalMarbles * 100)
 }
