@@ -2,6 +2,7 @@ package com.grappenmaker.aoc
 
 import com.grappenmaker.aoc.Direction.*
 import java.util.*
+import kotlin.collections.ArrayDeque
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -14,8 +15,9 @@ inline fun <F, T> Pair<F, F>.mapBoth(block: (F) -> T) = block(first) to block(se
 inline fun <F, S, T> Pair<F, S>.mapFirst(block: (F) -> T) = block(first) to second
 inline fun <F, S, T> Pair<F, S>.mapSecond(block: (S) -> T) = first to block(second)
 
-fun <T> MutableList<T>.removeFirstN(n: Int) = (0 until n).map { removeFirst() }.asReversed()
+fun <T> MutableList<T>.removeFirstN(n: Int) = (0 until n).map { removeFirst() }
 fun <T> MutableList<T>.removeLastN(n: Int) = (0 until n).map { removeLast() }.asReversed()
+fun <T> MutableList<T>.removeNAt(n: Int, atIdx: Int) = (0 until n).map { removeAt(atIdx) }
 
 fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = buildList {
     val iterators = this@swapOrder.map { it.iterator() }
@@ -57,12 +59,21 @@ fun <T> Iterable<T>.allDistinct(): Boolean {
 }
 
 fun <T> List<T>.rotate(amount: Int): List<T> {
-//    val actualShift = if (amount < 1) size + (amount % size) else amount % size
     val actualShift = amount.mod(size)
     if (actualShift == 0) return this
 
     val (l, r) = splitAt(size - actualShift)
     return r + l
+}
+
+// Optimization
+fun <T> MutableList<T>.rotateInPlace(amount: Int) {
+    val actualAmount = amount % size
+    return when {
+        actualAmount == 0 -> Unit
+        actualAmount < 0 -> repeat(-actualAmount) { add(0, removeLast()) }
+        else -> repeat(actualAmount) { add(removeFirst()) }
+    }
 }
 
 @JvmName("deepenIterable")
