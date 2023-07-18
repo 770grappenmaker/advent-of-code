@@ -58,6 +58,15 @@ fun <T> Iterable<T>.allDistinct(): Boolean {
     return true
 }
 
+fun <T> Iterable<T>.allIdentical(): Boolean {
+    val iter = iterator()
+    if (!iter.hasNext()) return true
+
+    val first = iter.next()
+    iter.drain { if (it != first) return false }
+    return true
+}
+
 fun <T> List<T>.rotate(amount: Int): List<T> {
     val actualShift = amount.mod(size)
     if (actualShift == 0) return this
