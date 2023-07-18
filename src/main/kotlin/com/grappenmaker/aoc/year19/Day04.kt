@@ -2,6 +2,7 @@ package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.parseRange
+import com.grappenmaker.aoc.toDigits
 
 fun PuzzleSet.day4() = puzzle {
     val range = input.parseRange()
@@ -14,12 +15,4 @@ fun PuzzleSet.day4() = puzzle {
 
     partOne = solve(false)
     partTwo = solve(true)
-}
-
-fun Int.toDigits() = buildList {
-    var curr = this@toDigits
-    while (curr != 0) {
-        add(curr % 10)
-        curr /= 10
-    }
 }

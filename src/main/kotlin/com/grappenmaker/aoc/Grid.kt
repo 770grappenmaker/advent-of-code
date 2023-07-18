@@ -417,12 +417,6 @@ inline fun <T> GridLike<T>.floodFill(start: Point, condition: (Point) -> Boolean
 
 data class DijkstraPath<T>(val end: T, val path: List<T>, val cost: Int)
 
-// element - cost
-typealias SearchNode<T> = Pair<T, Int>
-
-fun <T> searchQueue(initial: T) = PriorityQueue<SearchNode<T>>(compareBy { (_, c) -> c })
-    .also { it.add(initial to 0) }
-
 inline fun <T> dijkstra(
     initial: T, // assuming start is cost zero
     isEnd: (T) -> Boolean,
@@ -431,7 +425,7 @@ inline fun <T> dijkstra(
 ): DijkstraPath<T>? {
     val seen = hashSetOf(initial)
     val cameFrom = hashMapOf<T, T>()
-    val queue = searchQueue(initial)
+    val queue = PriorityQueue<Pair<T, Int>>(compareBy { (_, c) -> c }).also { it.add(initial to 0) }
 
     queue.drain { (current, currentCost) ->
         if (isEnd(current)) return DijkstraPath(

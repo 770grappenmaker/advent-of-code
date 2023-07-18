@@ -320,3 +320,19 @@ fun <T> List<T>.delegate(index: Int) = ReadOnlyProperty<Any?, T> { _, _ -> get(i
 
 fun Iterable<Boolean>.countTrue() = count { it }
 fun Iterable<Boolean>.countFalse() = count { !it }
+
+fun Int.toDigits() = buildList {
+    var curr = this@toDigits
+    while (curr != 0) {
+        add(0, curr % 10)
+        curr /= 10
+    }
+}
+
+fun Long.toDigits() = buildList {
+    var curr = this@toDigits
+    while (curr != 0L) {
+        add(0, curr % 10L)
+        curr /= 10L
+    }
+}
