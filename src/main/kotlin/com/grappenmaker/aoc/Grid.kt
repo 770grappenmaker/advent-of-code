@@ -165,8 +165,8 @@ operator fun Plane.contains(point: Point) = point.x in 0 until width && point.y 
 data class SimplePlane(override val width: Int, override val height: Int) : Plane
 
 data class Rectangle(val a: Point, val b: Point) {
-    val width get() = abs(a.x - b.x)
-    val height get() = abs(a.y - b.y)
+    val width get() = abs(a.x - b.x) + 1
+    val height get() = abs(a.y - b.y) + 1
     val minX get() = min(a.x, b.x)
     val maxX get() = max(a.x, b.x)
     val minY get() = min(a.y, b.y)
@@ -174,6 +174,8 @@ data class Rectangle(val a: Point, val b: Point) {
     val xRange get() = minX..maxX
     val yRange get() = minY..maxY
 }
+
+val Rectangle.area get() = width * height
 
 val Rectangle.topLeftCorner get() = Point(minX, minY)
 val Rectangle.topRightCorner get() = Point(maxX, minY)
@@ -229,6 +231,9 @@ data class MutableGrid<T>(
 
     operator fun set(by: Point, value: T) = set(by.toIndex(), value)
 }
+
+inline fun <T> MutableGrid<T>.mapInPlaceIndexedElements(transform: (Point, T) -> T) =
+    elements.mapInPlaceIndexed { idx, t -> transform(pointFromIndex(idx), t) }
 
 fun <T> MutableGrid<T>.setColumn(index: Int, values: List<T>) {
     require(values.size == height) { "Invalid length ${values.size} for height $height" }
@@ -375,7 +380,7 @@ inline fun <T> GridLike<T>.findPoints(check: (T) -> Boolean) = points.filter { c
 fun <T> GridLike<T>.findPointsValued(value: T): List<Point> = findPoints { it == value }
 
 fun <T> queueOf() = ArrayDeque<T>()
-fun <T> queueOf(list: List<T>) = ArrayDeque<T>().also { it.addAll(list) }
+fun <T> queueOf(list: Iterable<T>) = ArrayDeque<T>().also { it.addAll(list) }
 fun <T> queueOf(initial: T) = ArrayDeque<T>().also { it.add(initial) }
 fun <T> queueOf(vararg elements: T) = ArrayDeque<T>().also { it.addAll(elements) }
 
@@ -463,7 +468,7 @@ fun IntGrid.dijkstra(initial: Point, end: Point, diagonals: Boolean = false) =
     dijkstra(initial, end, { this[it] }, diagonals)
 
 @JvmName("debugAny")
-fun <T> Grid<T>.debug() = rows.joinToString("\n") { row -> row.joinToString("") { this[it].toString() } }
+fun <T> GridLike<T>.debug() = rows.joinToString("\n") { row -> row.joinToString("") { this[it].toString() } }
 
 @JvmName("debugBooleans")
 fun BooleanGrid.debug(
@@ -638,9 +643,9 @@ fun Iterable<Point3D>.maxBound() = Point3D(maxX(), maxY(), maxZ())
 fun Iterable<Point3D>.shiftDelta() = Point3D(-minX(), -minY(), -maxZ())
 
 data class Cube(val a: Point3D, val b: Point3D) {
-    val width get() = abs(a.x - b.x)
-    val height get() = abs(a.y - b.y)
-    val depth get() = abs(a.z - b.z)
+    val width get() = abs(a.x - b.x) + 1
+    val height get() = abs(a.y - b.y) + 1
+    val depth get() = abs(a.z - b.z) + 1
     val minX get() = min(a.x, b.x)
     val maxX get() = max(a.x, b.x)
     val minY get() = min(a.y, b.y)
@@ -652,6 +657,8 @@ data class Cube(val a: Point3D, val b: Point3D) {
     val zRange get() = minZ..maxZ
 }
 
+val Cube.volume get() = width * height * depth
+val Cube.volumeLong get() = width.toLong() * height.toLong() * depth.toLong()
 val Cube.points get() = (a.x..b.x).flatMap { x -> (a.y..b.y).flatMap { y -> (a.z..b.z).map { Point3D(x, y, it) } } }
 
 operator fun Cube.contains(point: Point3D) = point.x in xRange && point.y in yRange && point.z in zRange

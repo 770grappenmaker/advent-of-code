@@ -5,14 +5,14 @@ import com.grappenmaker.aoc.splitInts
 
 fun PuzzleSet.day15() = puzzle(day = 15) {
     val starting = input.splitInts()
-    val lookup = mutableMapOf<Int, Int>()
+    val lookup = IntArray(30000000) { -1 }
     var last = 0
 
     fun walk(range: IntRange): String {
         for (turn in range) {
             val toSay = when {
                 turn in starting.indices -> starting[turn]
-                last in lookup -> turn - lookup.getValue(last) - 1
+                lookup[last] != -1 -> turn - lookup[last] - 1
                 else -> 0
             }
 

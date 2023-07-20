@@ -1,0 +1,3 @@
+[submodule "nasty-jvm-util"]
+	path = nasty-jvm-util
+	url = https://github.com/770grappenmaker/nasty-jvm-util.git

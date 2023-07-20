@@ -1,6 +1,9 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.jvmutil.generateMethod
+import com.grappenmaker.jvmutil.instance
+import com.grappenmaker.jvmutil.internalNameOf
 import org.objectweb.asm.Label
 import org.objectweb.asm.Opcodes.*
 import java.lang.invoke.MethodHandles

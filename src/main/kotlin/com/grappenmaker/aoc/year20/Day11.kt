@@ -13,7 +13,7 @@ fun PuzzleSet.day11() = puzzle(11) {
         }
     }
 
-    fun Grid<SeatState>.step(partTwo: Boolean, dist: Int) = mapIndexedElements { p, s ->
+    fun solve(partTwo: Boolean, dist: Int) = initial.automaton { p, s ->
         val adj = if (partTwo) {
             dAllAdjacent.mapNotNull { dir ->
                 generateSequence(p) { it + dir }.drop(1).takeWhile { it in this }
@@ -26,10 +26,7 @@ fun PuzzleSet.day11() = puzzle(11) {
             s == OCCUPIED && adj.countContains(OCCUPIED) >= dist -> EMPTY
             else -> s
         }
-    }
-
-    fun solve(partTwo: Boolean, dist: Int) = generateSequence(initial) { it.step(partTwo, dist) }
-        .firstNotDistinctBy { it.elements }.count { it == OCCUPIED }.s()
+    }.firstNotDistinctBy { it.elements }.count { it == OCCUPIED }.s()
 
     partOne = solve(false, 4)
     partTwo = solve(true, 5)

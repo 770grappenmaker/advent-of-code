@@ -1,5 +1,6 @@
 import java.net.URLClassLoader
-import java.time.*
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 plugins {
     kotlin("jvm")
@@ -21,19 +22,28 @@ dependencies {
     implementation("org.ow2.asm:asm-commons:$asmVersion")
     implementation("org.ow2.asm:asm-util:$asmVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("com.grappenmaker:nasty-jvm-util") {
+        capabilities {
+            requireCapability("com.grappenmaker:nasty-jvm-util-reflect")
+        }
+    }
 }
 
 kotlin { jvmToolchain(16) }
 
 tasks {
     withType<Jar>().configureEach {
-        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+        from(configurations.runtimeClasspath.map { conf ->
+            conf.map { if (it.isDirectory) it else zipTree(it) }.toTypedArray()
+        })
+
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
     register<JavaExec>("solution") {
         val jarTask = jar.get()
         dependsOn(jarTask.path)
+        dependsOn(build.get().path)
 
         mainClass.set("com.grappenmaker.aoc.SolutionRunner")
         classpath(*jarTask.outputs.files.files.toTypedArray())

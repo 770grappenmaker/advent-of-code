@@ -1,9 +1,13 @@
 package com.grappenmaker.aoc
 
+import com.grappenmaker.jvmutil.generateMethod
+import com.grappenmaker.jvmutil.instance
+import com.grappenmaker.jvmutil.internalNameOf
 import org.objectweb.asm.*
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.util.TraceClassVisitor
+import java.io.File
 import java.io.PrintWriter
 
 // Generates a PuzzleSet for a given year.
@@ -57,7 +61,7 @@ var unnamedClassCounter = 0
     get() = field++
 
 object GenericClassDefiner : ClassLoader(PuzzleSetGenerator::class.java.classLoader) {
-    fun createClass(name: String, bytes: ByteArray): Class<*> =
+    fun createClass(bytes: ByteArray, name: String): Class<*> =
         defineClass(name, bytes, 0, bytes.size).also { resolveClass(it) }
 }
 
@@ -70,42 +74,9 @@ inline fun generateClass(
     writerOptions: Int = ClassWriter.COMPUTE_FRAMES,
     version: Int = V1_8,
     debug: Boolean = false,
-    loader: (binaryName: String, bytes: ByteArray) -> Class<*> = GenericClassDefiner::createClass,
+    loader: (bytes: ByteArray, binaryName: String) -> Class<*> = GenericClassDefiner::createClass,
     block: ClassVisitor.() -> Unit
-): Class<*> {
-    val writer = ClassWriter(writerOptions)
-    return with(if (debug) TraceClassVisitor(writer, PrintWriter(System.out)) else writer) {
-        visit(version, access, name, null, extends, implements.toTypedArray())
-
-        if (generateConstructor) {
-            generateMethod("<init>", "()V") {
-                visitVarInsn(ALOAD, 0)
-                visitMethodInsn(INVOKESPECIAL, extends, "<init>", "()V", false)
-                visitInsn(RETURN)
-            }
-        }
-
-        block()
-        visitEnd()
-
-        loader(name.replace('/', '.'), writer.toByteArray())
-    }
-}
-
-inline fun ClassVisitor.generateMethod(
-    name: String,
-    desc: String,
-    access: Int = ACC_PUBLIC,
-    maxStack: Int = -1,
-    maxLocal: Int = -1,
-    block: MethodVisitor.() -> Unit
-) {
-    val mv = visitMethod(access, name, desc, null, null)
-    mv.visitCode()
-    mv.block()
-    mv.visitMaxs(maxStack, maxLocal)
-    mv.visitEnd()
-}
-
-inline fun <reified T : Any> Class<*>.instance() = getConstructor().newInstance() as T
-inline fun <reified T> internalNameOf(): String = Type.getInternalName(T::class.java)
+) = com.grappenmaker.jvmutil.generateClass(
+    name, extends, implements, generateConstructor, access,
+    writerOptions, version, loader, debug, block
+)
