@@ -30,8 +30,10 @@ class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
     val input by lazy { inputLines.joinToString("\n").trim() }
     val rawInput by lazy { inputLines.joinToString("\n") }
 
-    class PartDelegate : ReadWriteProperty<Any?, String> {
-        var underlying = "Not implemented"
+    inner class PartDelegate(part: Int) : ReadWriteProperty<Any?, String> {
+        var underlying =
+            if (part == 2 && puzzle.day == 25) "Merry Christmas! And a Happy New Year!" else "Not implemented"
+
         var touched = false
             private set
 
@@ -42,8 +44,8 @@ class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
         }
     }
 
-    val partOneDelegate = PartDelegate()
-    val partTwoDelegate = PartDelegate()
+    val partOneDelegate = PartDelegate(1)
+    val partTwoDelegate = PartDelegate(2)
     var partOne by partOneDelegate
     var partTwo by partTwoDelegate
 

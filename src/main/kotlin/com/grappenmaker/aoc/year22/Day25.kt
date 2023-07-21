@@ -3,10 +3,7 @@ package com.grappenmaker.aoc.year22
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.deepen
 
-fun PuzzleSet.day25() = puzzle {
-    partOne = inputLines.sumOf { it.toSnafuLong() }.toSnafuString()
-    partTwo = "Merry Christmas! And Happy New Year!"
-}
+fun PuzzleSet.day25() = puzzle { partOne = inputLines.sumOf { it.toSnafuLong() }.toSnafuString() }
 
 fun String.toSnafuLong() = deepen().asReversed().foldIndexed(0L) { idx, acc, curr ->
     acc + when (curr) {

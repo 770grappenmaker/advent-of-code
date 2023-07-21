@@ -248,7 +248,7 @@ fun <T> MutableGrid<T>.setRow(index: Int, values: List<T>) {
 fun <T> MutableGrid<T>.rotateRow(row: Int, amount: Int) = setRow(row, rowValues(row).rotate(amount))
 fun <T> MutableGrid<T>.rotateColumn(column: Int, amount: Int) = setColumn(column, columnValues(column).rotate(amount))
 
-fun <T> MutableGrid<T>.asGrid() = Grid(width, height, elements.toList())
+fun <T> GridLike<T>.asGrid() = Grid(width, height, elements.toList())
 
 data class Grid<T>(
     override val width: Int,
@@ -260,9 +260,9 @@ data class Grid<T>(
     }
 }
 
-fun <T> Grid<T>.asMutableGrid() = MutableGrid(width, height, elements.toMutableList())
-fun <T> Grid<T>.asPseudoGrid(scale: Int) = PseudoGrid(width, height, elements, scale)
-fun <T> Grid<T>.asPseudoGridMut(scale: Int) = PseudoGrid(width, height, elements.toMutableList(), scale)
+fun <T> GridLike<T>.asMutableGrid() = MutableGrid(width, height, elements.toMutableList())
+fun <T> GridLike<T>.asPseudoGrid(scale: Int) = PseudoGrid(width, height, elements, scale)
+fun <T> GridLike<T>.asPseudoGridMut(scale: Int) = PseudoGrid(width, height, elements.toMutableList(), scale)
 
 inline fun <T> List<String>.asGrid(transform: (Char) -> T) = Grid(
     width = this[0].length,
