@@ -86,8 +86,8 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
 }
 
 sealed interface Token
-object AdditionOperator : Token
-object MultiplyOperator : Token
+data object AdditionOperator : Token
+data object MultiplyOperator : Token
 
 @JvmInline
 value class Group(val children: List<Token>) : Token

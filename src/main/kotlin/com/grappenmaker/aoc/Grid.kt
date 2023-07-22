@@ -153,6 +153,7 @@ val Plane.yRange get() = 0 until height
 val Plane.rows get() = yRange.map { y -> xRange.map { Point(it, y) } }
 val Plane.columns get() = xRange.map { x -> yRange.map { Point(x, it) } }
 
+@Suppress("UnusedReceiverParameter")
 val Plane.topLeftCorner get() = Point(0, 0)
 val Plane.topRightCorner get() = Point(width - 1, 0)
 val Plane.bottomLeftCorner get() = Point(0, height - 1)

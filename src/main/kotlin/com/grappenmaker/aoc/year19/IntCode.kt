@@ -8,28 +8,28 @@ sealed interface Opcode {
     val shouldStep: Boolean get() = true
     fun IntCode.execute()
 
-    object Add : Opcode {
+    data object Add : Opcode {
         override val width = 3
         override fun IntCode.execute() {
             setParameter(3, getParameter(1) + getParameter(2))
         }
     }
 
-    object Multiply : Opcode {
+    data object Multiply : Opcode {
         override val width = 3
         override fun IntCode.execute() {
             setParameter(3, getParameter(1) * getParameter(2))
         }
     }
 
-    object Input : Opcode {
+    data object Input : Opcode {
         override val width = 1
         override fun IntCode.execute() {
             setParameter(1, getInput())
         }
     }
 
-    object Output : Opcode {
+    data object Output : Opcode {
         override val width = 1
         override fun IntCode.execute() {
             output(getParameter(1))
@@ -45,11 +45,11 @@ sealed interface Opcode {
         }
     }
 
-    object JumpTrue : JumpInstruction {
+    data object JumpTrue : JumpInstruction {
         override fun shouldJump(operand: Long) = operand != 0L
     }
 
-    object JumpFalse : JumpInstruction {
+    data object JumpFalse : JumpInstruction {
         override fun shouldJump(operand: Long) = operand == 0L
     }
 
@@ -62,22 +62,22 @@ sealed interface Opcode {
         }
     }
 
-    object LessThan : CompareInstruction {
+    data object LessThan : CompareInstruction {
         override fun compare(lhs: Long, rhs: Long) = lhs < rhs
     }
 
-    object Equals : CompareInstruction {
+    data object Equals : CompareInstruction {
         override fun compare(lhs: Long, rhs: Long) = lhs == rhs
     }
 
-    object AdjustRelative : Opcode {
+    data object AdjustRelative : Opcode {
         override val width = 1
         override fun IntCode.execute() {
             relative += getParameter(1)
         }
     }
 
-    object Halt : Opcode {
+    data object Halt : Opcode {
         override fun IntCode.execute() = halt()
     }
 }
@@ -88,18 +88,18 @@ sealed interface ParameterMode {
         error("Setting is not supported for mode $this!")
     }
 
-    object PositionMode : ParameterMode {
+    data object PositionMode : ParameterMode {
         override fun IntCode.getValue(offset: Long) = getAtPC(offset)()
         override fun IntCode.setValue(offset: Long, value: Long) {
             set(getAtPC(offset), value)
         }
     }
 
-    object ImmediateMode : ParameterMode {
+    data object ImmediateMode : ParameterMode {
         override fun IntCode.getValue(offset: Long) = getAtPC(offset)
     }
 
-    object RelativeMode : ParameterMode {
+    data object RelativeMode : ParameterMode {
         override fun IntCode.getValue(offset: Long) = (getAtPC(offset) + relative)()
         override fun IntCode.setValue(offset: Long, value: Long) {
             set(getAtPC(offset) + relative, value)

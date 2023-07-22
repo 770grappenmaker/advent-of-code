@@ -1,6 +1,7 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.permutations
 import java.util.Collections.swap
 
 fun PuzzleSet.day9() = puzzle {
@@ -25,24 +26,6 @@ fun PuzzleSet.day9() = puzzle {
 
     partOne = distances.min().s()
     partTwo = distances.max().s()
-}
-
-// Heap's algorithm
-// See https://en.wikipedia.org/wiki/Heap%27s_algorithm
-fun <T> List<T>.permutations(): List<List<T>> = buildList {
-    fun recurse(list: List<T>, k: Int) {
-        if (k == 1) {
-            add(list.toList())
-            return
-        }
-
-        for (i in 0 until k) {
-            recurse(list, k - 1)
-            swap(list, if (k % 2 == 0) i else 0, k - 1)
-        }
-    }
-
-    recurse(this@permutations.toList(), this@permutations.size)
 }
 
 // basically an edge

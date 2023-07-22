@@ -10,7 +10,7 @@ fun PuzzleSet.day5() = puzzle {
         var steps = 0
 
         while (idx in nums.indices) {
-            idx += if (mut[idx] >= 3 && partTwo) mut[idx]-- else mut[idx]++
+            idx += if (partTwo && mut[idx] >= 3) mut[idx]-- else mut[idx]++
             steps++
         }
 

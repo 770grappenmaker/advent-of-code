@@ -1,6 +1,7 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.permutations
 
 fun PuzzleSet.day13() = puzzle {
     val exclusiveSeatings = inputLines.map { l ->

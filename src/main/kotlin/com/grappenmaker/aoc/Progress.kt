@@ -24,5 +24,9 @@ ${
 """
     )
 
-    println("Next to work on: ${years.minBy { it.puzzles.size }.year}")
+    println(
+        years.mapNotNull { y -> (1..25).find { d -> y.puzzles.none { it.day == d } }?.let { y.year to it } }
+            .minByOrNull { (_, d) -> d }
+            ?.let { (y, d) -> "Next to work on: Year $y Day $d" } ?: "All done!"
+    )
 }

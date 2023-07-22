@@ -2,7 +2,6 @@ package com.grappenmaker.aoc
 
 import com.grappenmaker.aoc.Direction.*
 import java.util.*
-import kotlin.collections.ArrayDeque
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

@@ -24,12 +24,11 @@ fun PuzzleSet.day7() = puzzle {
     partTwo = (insns + ("b" to Connect(Value(wireA)))).solve("a").s()
 }
 
-fun Map<String, Operator>.solve(forWire: String) = buildMap<String, Int> {
+fun Map<String, Operator>.solve(forWire: String) = buildMap {
     fun recurse(node: Wiring): Int = when (node) {
         is Value -> node.literal
         is Wire -> getOrPut(node.id) {
-            val insn = this@solve[node.id] ?: error("Wire has not yet been resolved?")
-            when (insn) {
+            when (val insn = this@solve[node.id] ?: error("Wire has not yet been resolved?")) {
                 is BinaryOperator -> {
                     val lhs = recurse(insn.lhs)
                     val rhs = recurse(insn.rhs)

@@ -1,9 +1,7 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.deepen
 import com.grappenmaker.aoc.queueOf
-import com.grappenmaker.aoc.rotate
 
 fun PuzzleSet.day19() = puzzle(day = 19) {
     val amount = input.toInt()

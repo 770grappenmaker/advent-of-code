@@ -5,7 +5,6 @@ import com.grappenmaker.aoc.mostFrequent
 import com.grappenmaker.aoc.splitInts
 import java.text.SimpleDateFormat
 import java.time.ZoneOffset
-import java.util.*
 
 fun PuzzleSet.day4() = puzzle {
     // Wacky way to do this stuff
