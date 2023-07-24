@@ -217,7 +217,7 @@ interface GridLike<T> : Plane, Iterable<T> {
     fun rowValues(index: Int) = row(index).map { this[it] }
     fun columnValues(index: Int) = column(index).map { this[it] }
 
-    operator fun get(key: Point) = elements[key.toIndex()]
+    operator fun get(key: Point) = if (key !in this) error("Invalid key $key") else elements[key.toIndex()]
     fun getOrNull(by: Point) = if (by !in this) null else get(by)
 }
 
