@@ -343,6 +343,10 @@ fun Long.toDigits() = buildList {
 }
 
 fun IntRange.overlaps(other: IntRange) = first <= other.last && other.first >= last
+fun LongRange.overlaps(other: LongRange) = first <= other.last && other.first >= last
+
+fun IntRange.width() = last - first + 1
+fun LongRange.width() = last - first + 1
 
 fun Int.pow(n: Int): Int = when {
     n == 0 -> 1
@@ -353,5 +357,41 @@ fun Int.pow(n: Int): Int = when {
 fun <T> Iterable<T>.repeat(n: Int): List<T> {
     val result = mutableListOf<T>()
     repeat(n) { result += this }
+    return result
+}
+
+fun <T> Sequence<T>.nth(n: Int) = take(n + 1).last()
+
+fun Iterable<IntRange>.simplify() = simplifyRanges(
+    first = IntRange::first,
+    last = IntRange::last,
+    builder = Int::rangeTo
+)
+
+@JvmName("simplifyLongs")
+fun Iterable<LongRange>.simplify() = simplifyRanges(
+    first = LongRange::first,
+    last = LongRange::last,
+    builder = Long::rangeTo
+)
+
+private inline fun <T, V : Comparable<V>> Iterable<T>.simplifyRanges(
+    crossinline first: T.() -> V,
+    last: T.() -> V,
+    builder: (V, V) -> T
+): List<T> {
+    val iter = sortedBy(first).iterator()
+    if (!iter.hasNext()) return emptyList()
+
+    val result = mutableListOf(iter.next())
+    iter.drain { curr ->
+        val l = result.last()
+        val ll = l.last()
+        when {
+            ll < curr.first() -> result += curr
+            else -> result[result.size - 1] = builder(l.first(), maxOf(ll, curr.last()))
+        }
+    }
+
     return result
 }

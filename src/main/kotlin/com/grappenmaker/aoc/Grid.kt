@@ -221,6 +221,9 @@ interface GridLike<T> : Plane, Iterable<T> {
     fun getOrNull(by: Point) = if (by !in this) null else get(by)
 }
 
+val <T> GridLike<T>.rowsValues get() = yRange.map { rowValues(it) }
+val <T> GridLike<T>.columnsValues get() = xRange.map { columnValues(it) }
+
 data class MutableGrid<T>(
     override val width: Int,
     override val height: Int,
@@ -248,6 +251,14 @@ fun <T> MutableGrid<T>.setRow(index: Int, values: List<T>) {
 
 fun <T> MutableGrid<T>.rotateRow(row: Int, amount: Int) = setRow(row, rowValues(row).rotate(amount))
 fun <T> MutableGrid<T>.rotateColumn(column: Int, amount: Int) = setColumn(column, columnValues(column).rotate(amount))
+
+fun <T> MutableGrid<T>.insert(other: GridLike<T>, at: Point) {
+    var currIdx = at.toIndex()
+    other.rowsValues.forEach { row ->
+        row.forEachIndexed { c, cv -> elements[currIdx + c] = cv }
+        currIdx += width
+    }
+}
 
 fun <T> GridLike<T>.asGrid() = Grid(width, height, elements.toList())
 
@@ -382,6 +393,7 @@ fun <T> GridLike<T>.findPointsValued(value: T): List<Point> = findPoints { it ==
 
 fun <T> queueOf() = ArrayDeque<T>()
 fun <T> queueOf(list: Iterable<T>) = ArrayDeque<T>().also { it.addAll(list) }
+fun <T> Iterable<T>.toQueue() = ArrayDeque<T>().also { it.addAll(this) }
 fun <T> queueOf(initial: T) = ArrayDeque<T>().also { it.add(initial) }
 fun <T> queueOf(vararg elements: T) = ArrayDeque<T>().also { it.addAll(elements) }
 
@@ -567,6 +579,8 @@ fun <T> GridLike<T>.expand(x: Int = 1, y: Int = 1, default: T): Grid<T> {
     return Grid(newW, newH, emptyX + rows.flatMap { emptyY + it.map(this::get) + emptyY } + emptyX)
 }
 
+fun <T> GridLike<T>.move(dx: Int, dy: Int) = grid(width + dx, height + dy) { (x, y) -> this[Point(x - dx, y - dy)] }
+
 fun BooleanGrid.expandEmpty(x: Int = 1, y: Int = 1) = expand(x, y, false)
 
 fun <T> GridLike<T>.asInfiniteGrid() = InfiniteGrid(points.associateWith { this[it] }.toMutableMap())
@@ -726,4 +740,31 @@ operator fun PointND.rangeTo(other: PointND) = NDVolume(this, other)
 fun <T> GridLike<T>.automaton(step: GridLike<T>.(point: Point, curr: T) -> T) =
     generateSequence(this) { it.mapIndexedElements { point, v -> it.step(point, v) } }
 
-fun <T> Sequence<T>.nth(n: Int) = take(n + 1).last()
+inline fun <T> floydWarshall(
+    vertices: Iterable<T>,
+    neighbors: (T) -> Iterable<T>,
+    distance: (T, T) -> Int = { _, _ -> 1 }
+): Map<T, Map<T, Int>> {
+    val dist = mutableMapOf<T, MutableMap<T, Int>>()
+    val collected = vertices.toList()
+
+    for (vertex in collected) {
+        val trivial = mutableMapOf(vertex to 0)
+        neighbors(vertex).forEach { trivial[it] = distance(vertex, it) }
+        dist[vertex] = trivial
+    }
+
+    for (k in collected) {
+        for (i in collected) {
+            for (j in collected) {
+                val id = dist.getValue(i)
+                val ij = id[j] ?: Int.MAX_VALUE
+                val ik = id[k] ?: Int.MAX_VALUE
+                val kj = dist.getValue(k)[j] ?: Int.MAX_VALUE
+                if (ij > ik + kj) id[j] = ik + kj
+            }
+        }
+    }
+
+    return dist
+}
