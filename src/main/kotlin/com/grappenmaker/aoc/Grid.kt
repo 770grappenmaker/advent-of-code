@@ -585,6 +585,7 @@ fun BooleanGrid.expandEmpty(x: Int = 1, y: Int = 1) = expand(x, y, false)
 
 fun <T> GridLike<T>.asInfiniteGrid() = InfiniteGrid(points.associateWith { this[it] }.toMutableMap())
 fun <T> Map<Point, T>.asInfiniteGrid() = InfiniteGrid(toMutableMap())
+fun <T> Map<Point, T>.asGrid() = grid(keys.maxX() + 1, keys.maxY() + 1) { getValue(it) }
 
 // Experimental, do not use D:
 class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>, MutableMap<Point, T> by map {

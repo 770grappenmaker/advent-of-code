@@ -9,7 +9,7 @@ fun PuzzleSet.day17() = puzzle(day = 17) {
     val curr = queueOf(0)
 
     fun update(range: IntRange) = range.forEach {
-        curr.rotateInPlace(steps)
+        curr.rotateInPlace(-steps)
         curr.addLast(it)
     }
 

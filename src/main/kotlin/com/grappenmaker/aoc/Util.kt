@@ -17,6 +17,7 @@ inline fun <F, S, T> Pair<F, S>.mapSecond(block: (S) -> T) = first to block(seco
 fun <T> MutableList<T>.removeFirstN(n: Int) = (0 until n).map { removeFirst() }
 fun <T> MutableList<T>.removeLastN(n: Int) = (0 until n).map { removeLast() }.asReversed()
 fun <T> MutableList<T>.removeNAt(n: Int, atIdx: Int) = (0 until n).map { removeAt(atIdx) }
+fun <T> MutableList<T>.remove(range: IntRange) = range.map { removeAt(range.first) }
 
 fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = buildList {
     val iterators = this@swapOrder.map { it.iterator() }
@@ -27,10 +28,10 @@ fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = buildList 
     if (forceDrain && iterators.any { it.hasNext() }) error("Iterators were not drained while swapping")
 }
 
-fun List<Int>.product() = reduce { acc, curr -> acc * curr }
+fun Iterable<Int>.product() = reduce { acc, curr -> acc * curr }
 
 @JvmName("productLongs")
-fun List<Long>.product() = reduce { acc, curr -> acc * curr }
+fun Iterable<Long>.product() = reduce { acc, curr -> acc * curr }
 
 fun <T> List<T>.splitHalf() = chunked(size / 2).asPair()
 fun <T> List<T>.splitAt(index: Int) = subList(0, index) to subList(index, size)
@@ -79,8 +80,8 @@ fun <T> MutableList<T>.rotateInPlace(amount: Int) {
     val actualAmount = amount % size
     return when {
         actualAmount == 0 -> Unit
-        actualAmount < 0 -> repeat(-actualAmount) { add(0, removeLast()) }
-        else -> repeat(actualAmount) { add(removeFirst()) }
+        actualAmount < 0 -> repeat(-actualAmount) { add(removeFirst()) }
+        else -> repeat(actualAmount) { add(0, removeLast()) }
     }
 }
 
@@ -98,8 +99,8 @@ inline fun <T> Iterator<T>.drain(use: (T) -> Unit) {
 
 // Heap's algorithm
 // See https://en.wikipedia.org/wiki/Heap%27s_algorithm
-fun <T> List<T>.permutations(): List<List<T>> = buildList {
-    fun recurse(list: List<T>, k: Int) {
+fun <T> List<T>.permutationsHeaps(): List<List<T>> = buildList {
+    fun recurse(list: MutableList<T>, k: Int) {
         if (k == 1) {
             add(list.toList())
             return
@@ -111,7 +112,55 @@ fun <T> List<T>.permutations(): List<List<T>> = buildList {
         }
     }
 
-    recurse(this@permutations.toList(), this@permutations.size)
+    recurse(this@permutationsHeaps.toMutableList(), this@permutationsHeaps.size)
+}
+
+fun <T> Iterable<T>.permutations() = toList().permutations()
+fun <T> Iterable<T>.permutations(r: Int) = toList().permutations(r)
+
+// Inspired by:
+// https://docs.python.org/3/library/itertools.html#itertools.permutations
+fun <T> List<T>.permutations(r: Int = size) = sequence {
+    if (r > size || isEmpty()) return@sequence
+
+    val ind = indices.toMutableList()
+    val cyc = (size downTo size - r).toMutableList()
+    yield(take(r + 1))
+
+    while (true) {
+        for (i in r - 1 downTo 0) {
+            if (--cyc[i] == 0) {
+                ind.add(ind.removeAt(i))
+                cyc[i] = size - i
+            } else {
+                Collections.swap(ind, i, size - cyc[i])
+                yield(slice(ind.take(r)))
+                break
+            }
+
+            if (i == 0) return@sequence
+        }
+    }
+}
+
+//fun <T> List<T>.permutations(r: Int = size): List<List<T>> = when {
+//    isEmpty() || r == 0 -> emptyList()
+//    r == 1 -> map { listOf(it) }
+//    else -> flatMap { c -> (this - c).permutations(r - 1).map { it + c } }
+//}
+
+fun <T> Iterable<T>.combinations() = toList().combinations()
+fun <T> Iterable<T>.combinations(r: Int) = toList().combinations(r)
+fun <T> List<T>.combinations(r: Int = size) =
+    indices.permutations(r).filter { it.sorted() == it }.map { p -> p.map { this[it] } }
+
+fun <T> Iterable<T>.powerSet(filter: (Set<T>) -> Boolean = { true }): Set<Set<T>> {
+    val iter = iterator()
+    if (!iter.hasNext()) return setOf(emptySet())
+
+    val next = iter.next()
+    val recurse = iter.asSequence().asIterable().powerSet(filter)
+    return (recurse + recurse.map { it + next }).filterTo(hashSetOf(), filter)
 }
 
 fun <T> Iterable<T>.permPairs(): List<Pair<T, T>> {
@@ -354,6 +403,24 @@ fun Int.pow(n: Int): Int = when {
     else -> this * pow(n - 1)
 }
 
+fun Int.powMod(n: Int, mod: Int): Int = when {
+    n == 0 -> 1
+    n % 2 == 0 -> (this % mod * this % mod).pow(n / 2) % mod
+    else -> this % mod * pow(n - 1) % mod
+}
+
+fun Long.pow(n: Long): Long = when {
+    n == 0L -> 1L
+    n % 2L == 0L -> (this * this).pow(n / 2L)
+    else -> this * pow(n - 1L)
+}
+
+fun Long.powMod(n: Long, mod: Long): Long = when {
+    n == 0L -> 1L
+    n % 2L == 0L -> (this % mod * this % mod).pow(n / 2L) % mod
+    else -> this % mod * pow(n - 1L) % mod
+}
+
 fun <T> Iterable<T>.repeat(n: Int): List<T> {
     val result = mutableListOf<T>()
     repeat(n) { result += this }
@@ -394,4 +461,10 @@ private inline fun <T, V : Comparable<V>> Iterable<T>.simplifyRanges(
     }
 
     return result
+}
+
+fun Int.factorial(): Int {
+    var n = 1
+    for (i in 2..this) n *= i
+    return n
 }

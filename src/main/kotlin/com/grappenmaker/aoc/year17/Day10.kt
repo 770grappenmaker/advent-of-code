@@ -34,7 +34,7 @@ fun knotHash(
         if (curr + length >= nums.size) {
             val rot = -(nums.size - curr - length)
             totalRot += rot
-            nums.rotateInPlace(rot)
+            nums.rotateInPlace(-rot)
             curr = (curr - rot).mod(nums.size)
         }
 
@@ -43,6 +43,6 @@ fun knotHash(
         skip++
     }
 
-    nums.rotateInPlace(-totalRot)
+    nums.rotateInPlace(totalRot)
     return KnotHashResult(nums, (curr + totalRot) % nums.size, skip)
 }
