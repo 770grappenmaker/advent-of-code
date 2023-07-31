@@ -58,12 +58,27 @@ fun <T> Iterable<T>.allDistinct(): Boolean {
     return true
 }
 
+fun <T, M> Iterable<T>.allDistinctBy(map: (T) -> M): Boolean {
+    val set = hashSetOf<M>()
+    iterator().drain { if (!set.add(map(it))) return false }
+    return true
+}
+
 fun <T> Iterable<T>.allIdentical(): Boolean {
     val iter = iterator()
     if (!iter.hasNext()) return true
 
     val first = iter.next()
     iter.drain { if (it != first) return false }
+    return true
+}
+
+fun <T, M> Iterable<T>.allIdenticalBy(map: (T) -> M): Boolean {
+    val iter = iterator()
+    if (!iter.hasNext()) return true
+
+    val first = map(iter.next())
+    iter.drain { if (map(it) != first) return false }
     return true
 }
 
