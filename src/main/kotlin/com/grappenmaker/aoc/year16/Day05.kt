@@ -21,7 +21,7 @@ fun PuzzleSet.day5() = puzzle {
     partTwo = buildMap {
         seq().onEach {
             val pos = it shr 4 and 0xF
-            if (pos !in this && pos in 0 until length) put(pos, (it and 0xF).toString(16).first())
+            if (pos !in this && pos in 0..<length) put(pos, (it and 0xF).toString(16).first())
         }.takeWhile { size != length }.toList()
     }.toList().sortedBy { it.first }.joinToString("") { it.second.toString() }
 }

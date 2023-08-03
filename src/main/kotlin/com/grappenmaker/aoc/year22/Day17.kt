@@ -58,7 +58,7 @@ fun PuzzleSet.day17() = puzzle {
                     val new = rockPoints.map { it + dir }
                     val isBlocked = new.any { it in points }
                     val inHeight = new.all { it.y < 0 }
-                    val inWidth = new.all { it.x in 0 until 7 }
+                    val inWidth = new.all { it.x in 0..<7 }
 
                     if (!isBlocked && inWidth && inHeight) rockPoints = new
                     return isBlocked || !inHeight

@@ -9,7 +9,7 @@ fun PuzzleSet.day7() = puzzle(7) {
         seq.fold(0L) { acc, curr -> startComputer(input, listOf(curr, acc)).stepUntilOutput() }
     }.s()
 
-    partTwo = configurations.asSequence().map { l -> l.map { it + 5 } }.maxOf { conf ->
+    partTwo = configurations.map { l -> l.map { it + 5 } }.maxOf { conf ->
         val pcs = conf.map { mode -> startComputer(input).also { it.addInput(listOf(mode)) } }
         val last = pcs.last()
 

@@ -6,11 +6,6 @@ fun PuzzleSet.day21() = puzzle(day = 21) {
     data class Rule(val inputs: Set<BooleanGrid>, val output: BooleanGrid)
     fun String.parseRuleGrid() = split("/").asGrid { it == '#' }
 
-    fun BooleanGrid.flip() = rowsValues.asReversed().asGrid()
-    fun BooleanGrid.rotate() = columnsValues.map { it.asReversed() }.asGrid()
-    fun BooleanGrid.orientations() =
-        generateSequence(this) { it.rotate() }.take(4).flatMap { listOf(it, it.flip()) }.toSet()
-
     val start = """
         .#.
         ..#

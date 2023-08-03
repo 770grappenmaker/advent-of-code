@@ -2,7 +2,6 @@ package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.permutations
-import java.util.Collections.swap
 
 fun PuzzleSet.day9() = puzzle {
     val edges = inputLines.map { l ->

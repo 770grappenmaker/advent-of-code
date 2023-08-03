@@ -8,7 +8,7 @@ fun PuzzleSet.day14() = puzzle {
         Reindeer(split[0], split[3].toInt(), split[6].toInt(), split[13].toInt())
     }
 
-    val timeRange = 0 until 2503 // seconds
+    val timeRange = 0..<2503 // seconds
     val travelMap = allReindeer.associateWith { reindeer ->
         timeRange.scan(0) { acc, curr -> acc + if (reindeer.isResting(curr)) 0 else reindeer.speed }
     }.toList()

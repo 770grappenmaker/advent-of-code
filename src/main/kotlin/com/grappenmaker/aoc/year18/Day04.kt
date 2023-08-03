@@ -35,7 +35,7 @@ fun PuzzleSet.day4() = puzzle {
     }.groupBy { it.id }
 
     // Actual solution, lol
-    val sleepIndex = shifts.mapValues { (_, t) -> t.flatMap { (it.sleep until it.wake).toList() } }
+    val sleepIndex = shifts.mapValues { (_, t) -> t.flatMap { (it.sleep..<it.wake).toList() } }
     val (p1ID, targetMinutes) = sleepIndex.maxBy { (_, v) -> v.size }
     val bestMinute = targetMinutes.mostFrequent()
     partOne = (p1ID * bestMinute).s()

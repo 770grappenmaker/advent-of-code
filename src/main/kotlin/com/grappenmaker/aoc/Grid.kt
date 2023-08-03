@@ -769,3 +769,8 @@ inline fun <T> floydWarshall(
 
     return dist
 }
+
+fun <T> GridLike<T>.flip() = rowsValues.asReversed().asGrid()
+fun <T> GridLike<T>.rotate() = columnsValues.map { it.asReversed() }.asGrid()
+fun <T> GridLike<T>.orientations() =
+    generateSequence(this) { it.rotate() }.take(4).flatMap { listOf(it, it.flip()) }.toSet()

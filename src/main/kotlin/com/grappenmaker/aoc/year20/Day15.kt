@@ -23,6 +23,6 @@ fun PuzzleSet.day15() = puzzle(day = 15) {
         return last.s()
     }
 
-    partOne = walk(0 until 2020)
-    partTwo = walk(2020 until 30000000)
+    partOne = walk(0..<2020)
+    partTwo = walk(2020..<30000000)
 }

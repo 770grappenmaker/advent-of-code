@@ -20,7 +20,7 @@ fun PuzzleSet.day15() = puzzle(day = 15) {
         }.take(totalPeriod).toList()
 
         return ((0..totalPeriod - discs.size).first { t ->
-            (t until t + discs.size).map { totalPoss[it][it - t].current }.allIdentical()
+            (t..<t + discs.size).map { totalPoss[it][it - t].current }.allIdentical()
         } - 1).s()
     }
 

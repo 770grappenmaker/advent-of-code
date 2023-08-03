@@ -9,12 +9,12 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
     // Naive, really bad solution...
     // Wikipedia suggests this: put the first bit last
     // partOne = amount.toString(2).deepen().rotate(-1).joinToString("").toInt(2).s()
-    val elvesLeft = (0 until amount).toMutableSet()
+    val elvesLeft = (0..<amount).toMutableSet()
     var iter = 0
 
     fun findNext(): Int {
-        for (r in iter + 1 until amount) if (r in elvesLeft) return r
-        for (l in 0 until iter) if (l in elvesLeft) return l
+        for (r in iter + 1..<amount) if (r in elvesLeft) return r
+        for (l in 0..<iter) if (l in elvesLeft) return l
         error("Done? What?")
     }
 
