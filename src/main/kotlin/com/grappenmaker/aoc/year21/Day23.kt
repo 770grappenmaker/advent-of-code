@@ -82,7 +82,7 @@ fun PuzzleSet.day23() = puzzle(day = 23) {
                     val approves = otherPod == null || otherPod.type == moving.type
 
                     val pathToEnd = bfsDistance(
-                        start = moving.position,
+                        initial = moving.position,
                         isEnd = { it.bucket() == moving.type },
                         neighbors = { if (approves) it.poss() else emptyList() }
                     )

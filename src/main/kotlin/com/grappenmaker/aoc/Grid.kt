@@ -361,6 +361,8 @@ typealias BooleanGrid = GridLike<Boolean>
 typealias MutableBooleanGrid = MutableGrid<Boolean>
 typealias IntGrid = GridLike<Int>
 typealias MutableIntGrid = MutableGrid<Int>
+typealias CharGrid = GridLike<Char>
+typealias MutableCharGrid = MutableGrid<Char>
 
 fun MutableBooleanGrid.toggle(point: Point) {
     this[point] = !this[point]
@@ -426,9 +428,14 @@ inline fun <T> bfs(
 inline fun <T> floodFill(initial: T, neighbors: (T) -> Iterable<T>) = bfs(initial, { false }, neighbors).seen
 
 fun <T> GridLike<T>.bfs(start: Point, end: Point, diagonals: Boolean = false) = bfs(start, { it == end }, diagonals)
+fun <T> GridLike<T>.bfsDistance(start: Point, end: Point, diagonals: Boolean = false) =
+    bfsDistance(start, { it == end }, diagonals)
 
 inline fun <T> GridLike<T>.bfs(start: Point, isEnd: (Point) -> Boolean, diagonals: Boolean = false) =
     bfs(start, isEnd) { if (diagonals) it.allAdjacent() else it.adjacentSides() }
+
+inline fun <T> GridLike<T>.bfsDistance(start: Point, isEnd: (Point) -> Boolean, diagonals: Boolean = false) =
+    bfsDistance(start, isEnd) { if (diagonals) it.allAdjacent() else it.adjacentSides() }
 
 inline fun <T> GridLike<T>.floodFill(start: Point, condition: (Point) -> Boolean, diagonals: Boolean = false) =
     floodFill(start) { (if (diagonals) it.allAdjacent() else it.adjacentSides()).filter(condition) }
@@ -496,9 +503,9 @@ fun <T> Graph<T>.dijkstra(start: T, end: T): DijkstraPath<T>? =
 
 fun <T> Graph<T>.bfs(start: T) = bfs(start, { false }, { this[it] ?: listOf() })
 
-inline fun <T> fillDistance(start: T, neighbors: (T) -> Iterable<T>): Map<T, Int> {
-    val queue = queueOf(start to 0)
-    val seen = hashSetOf(start)
+inline fun <T> fillDistance(initial: T, neighbors: (T) -> Iterable<T>): Map<T, Int> {
+    val queue = queueOf(initial to 0)
+    val seen = hashSetOf(initial)
     val result = hashMapOf<T, Int>()
 
     queue.drain { (p, dist) ->
@@ -511,9 +518,9 @@ inline fun <T> fillDistance(start: T, neighbors: (T) -> Iterable<T>): Map<T, Int
 
 data class BFSDistanceResult<T>(val original: BFSResult<T>, val dist: Int)
 
-inline fun <T> bfsDistance(start: T, isEnd: (T) -> Boolean, neighbors: (T) -> Iterable<T>): BFSDistanceResult<T> {
-    val queue = queueOf(start to 0)
-    val seen = hashSetOf(start)
+inline fun <T> bfsDistance(initial: T, isEnd: (T) -> Boolean, neighbors: (T) -> Iterable<T>): BFSDistanceResult<T> {
+    val queue = queueOf(initial to 0)
+    val seen = hashSetOf(initial)
 
     queue.drain { (p, dist) ->
         if (isEnd(p)) return BFSDistanceResult(BFSResult(p, seen), dist)

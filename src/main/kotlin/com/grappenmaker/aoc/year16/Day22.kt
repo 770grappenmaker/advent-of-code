@@ -27,7 +27,7 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
     )
 
     partTwo = bfsDistance(
-        start = State(),
+        initial = State(),
         isEnd = { it.curr == goal },
         neighbors = { ( curr, emptySpot) ->
             with (grid) { emptySpot.adjacentSides() }
