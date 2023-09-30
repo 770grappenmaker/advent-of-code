@@ -108,7 +108,7 @@ sealed interface ParameterMode {
 }
 
 class IntCode(
-    private val memory: MutableMap<Long, Long> = hashMapOf(),
+    val memory: MutableMap<Long, Long> = hashMapOf(),
     private var input: Iterator<Long> = emptyList<Long>().iterator()
 ) : MutableMap<Long, Long> by memory {
     private val supportedOpcodes = mapOf(
@@ -188,7 +188,7 @@ class IntCode(
         val instruction = getAtPC()
         val opcode = instruction % 100
 
-        with((supportedOpcodes[opcode] ?: error("Invalid instruction $instruction"))) {
+        with((supportedOpcodes[opcode] ?: error("Invalid instruction $instruction at $pc"))) {
             if (debug) println("Executing instruction $this (pc=$pc)")
 
             execute()
