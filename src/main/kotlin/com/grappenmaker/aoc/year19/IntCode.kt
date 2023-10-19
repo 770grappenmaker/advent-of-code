@@ -1,5 +1,6 @@
 package com.grappenmaker.aoc.year19
 
+import com.grappenmaker.aoc.pow
 import com.grappenmaker.aoc.year19.Opcode.*
 import com.grappenmaker.aoc.year19.ParameterMode.*
 
@@ -176,7 +177,7 @@ class IntCode(
     operator fun Long.invoke() = get(this)
 
     private fun getMode(idx: Int): ParameterMode {
-        val mode = ((getAtPC() / 10) / (pow10(idx))) % 10
+        val mode = getAtPC() / 10 / idx.pow(10) % 10
         return supportedModes[mode] ?: error("Invalid mode $mode for ${getAtPC()} for param $idx")
     }
 
@@ -251,9 +252,3 @@ fun List<Long>.programResults(args: List<Long>) = with(startComputer(this, args)
 }
 
 fun List<Long>.programResults(vararg args: Long) = programResults(args.toList())
-
-private fun pow10(n: Int): Int {
-    var num = 1
-    repeat(n) { num *= 10 }
-    return num
-}

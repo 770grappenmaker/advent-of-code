@@ -20,7 +20,7 @@ fun asPointIndex(x: Int, y: Int, width: Int) = x + y * width
 fun pointFromIndex(index: Int, width: Int) = Point(index % width, index / width)
 
 private fun Point.getAdjacent(of: List<Point>, width: Int, height: Int) =
-    of.map { this + it }.filter { it.x in 0 until width && it.y in 0 until height }
+    of.map { this + it }.filter { it.x in 0..<width && it.y in 0..<height }
 
 fun Point.adjacentSides(width: Int, height: Int) = getAdjacent(dAdjacentSides, width, height)
 fun Point.adjacentSidesInf() = dAdjacentSides.map { it + this }
@@ -65,7 +65,7 @@ infix fun Point.euclideanDistanceTo(other: Point) = sqrt(euclideanDistanceSqTo(o
 enum class Direction(val dx: Int, val dy: Int) {
     UP(0, -1), RIGHT(1, 0), DOWN(0, 1), LEFT(-1, 0);
 
-    fun next(by: Int = 1) = values()[(ordinal + by).mod(4)]
+    fun next(by: Int = 1) = entries[(ordinal + by).mod(4)]
 }
 
 val Direction.isHorizontal get() = this == RIGHT || this == LEFT
@@ -145,10 +145,10 @@ interface Plane {
     fun List<Point>.toIndices() = map { it.toIndex() }
 }
 
-val Plane.points get() = (0 until width * height).map { pointFromIndex(it) }
-val Plane.pointsSequence get() = sequence { (0 until width * height).forEach { yield(pointFromIndex(it)) } }
-val Plane.xRange get() = 0 until width
-val Plane.yRange get() = 0 until height
+val Plane.points get() = (0..<width * height).map { pointFromIndex(it) }
+val Plane.pointsSequence get() = sequence { (0..<width * height).forEach { yield(pointFromIndex(it)) } }
+val Plane.xRange get() = 0..<width
+val Plane.yRange get() = 0..<height
 
 val Plane.rows get() = yRange.map { y -> xRange.map { Point(it, y) } }
 val Plane.columns get() = xRange.map { x -> yRange.map { Point(x, it) } }
@@ -161,7 +161,7 @@ val Plane.bottomRightCorner get() = Point(width - 1, height - 1)
 val Plane.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner)
 
 val Plane.area get() = width * height
-operator fun Plane.contains(point: Point) = point.x in 0 until width && point.y in 0 until height
+operator fun Plane.contains(point: Point) = point.x in 0..<width && point.y in 0..<height
 
 data class SimplePlane(override val width: Int, override val height: Int) : Plane
 
@@ -186,6 +186,9 @@ val Rectangle.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCo
 
 fun Rectangle.asPlane() = SimplePlane(width, height)
 val Rectangle.points get() = (a.x..b.x).flatMap { x -> (a.y..b.y).map { Point(x, it) } }
+val Rectangle.pointsSequence get() = sequence {
+    for (x in a.x..b.x) for (y in a.y..b.y) yield(Point(x, y))
+}
 
 operator fun Rectangle.contains(point: Point) = point.x in xRange && point.y in yRange
 fun Rectangle.overlaps(other: Rectangle) =
@@ -352,10 +355,10 @@ inline fun buildIntGrid(
 ) = buildGrid(width, height, { default }, block)
 
 inline fun <T> grid(width: Int, height: Int, init: (Point) -> T) =
-    Grid(width, height, (0 until width * height).map { init(pointFromIndex(it, width)) })
+    Grid(width, height, (0..<width * height).map { init(pointFromIndex(it, width)) })
 
 inline fun <T> mutableGrid(width: Int, height: Int, init: (Point) -> T) =
-    MutableGrid(width, height, (0 until width * height).map { init(pointFromIndex(it, width)) }.toMutableList())
+    MutableGrid(width, height, (0..<width * height).map { init(pointFromIndex(it, width)) }.toMutableList())
 
 typealias BooleanGrid = GridLike<Boolean>
 typealias MutableBooleanGrid = MutableGrid<Boolean>
