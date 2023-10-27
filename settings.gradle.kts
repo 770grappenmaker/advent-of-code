@@ -5,15 +5,16 @@ includeBuild("nasty-jvm-util") {
     }
 }
 
-include("visualisations")
+//include("archive", "visualisations")
+include("current", "runner", "util")
 
 pluginManagement {
     plugins {
-        kotlin("jvm") version "1.9.0"
-        kotlin("plugin.serialization") version "1.9.0"
+        kotlin("jvm") version "1.9.10"
+        kotlin("plugin.serialization") version "1.9.10"
     }
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }

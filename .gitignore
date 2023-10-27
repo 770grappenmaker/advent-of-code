@@ -9,3 +9,9 @@ build
 
 # Ignore personal inputs
 inputs/*/day-*.txt
+
+# Ignore personal token
+.TOKEN
+
+# Ignore built getInput
+getInput.jar
