@@ -3,20 +3,14 @@ import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
 plugins {
-    kotlin("jvm")
+    id("kotlin")
     kotlin("plugin.serialization")
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
     implementation(project(":util"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 }
-
-kotlin { jvmToolchain(20) }
 
 tasks {
     withType<Jar>().configureEach {

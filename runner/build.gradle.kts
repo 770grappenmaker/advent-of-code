@@ -1,9 +1,5 @@
 plugins {
-    kotlin("jvm")
-}
-
-repositories {
-    mavenCentral()
+    id("kotlin")
 }
 
 dependencies {
@@ -11,5 +7,3 @@ dependencies {
     implementation(project(":current"))
     implementation(project(":util"))
 }
-
-kotlin { jvmToolchain(20) }
