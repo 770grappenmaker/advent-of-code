@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc.year23
 
-import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.dayxx() = puzzle {
 //    val inputLines = """

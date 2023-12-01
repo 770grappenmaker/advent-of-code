@@ -161,6 +161,7 @@ val Plane.bottomRightCorner get() = Point(width - 1, height - 1)
 val Plane.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner)
 
 val Plane.area get() = width * height
+val Plane.areaLong get() = width.toLong() * height.toLong()
 operator fun Plane.contains(point: Point) = point.x in 0..<width && point.y in 0..<height
 
 data class SimplePlane(override val width: Int, override val height: Int) : Plane
@@ -177,6 +178,7 @@ data class Rectangle(val a: Point, val b: Point) {
 }
 
 val Rectangle.area get() = width * height
+val Rectangle.areaLong get() = width.toLong() * height.toLong()
 
 val Rectangle.topLeftCorner get() = Point(minX, minY)
 val Rectangle.topRightCorner get() = Point(maxX, minY)
@@ -186,9 +188,10 @@ val Rectangle.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCo
 
 fun Rectangle.asPlane() = SimplePlane(width, height)
 val Rectangle.points get() = (a.x..b.x).flatMap { x -> (a.y..b.y).map { Point(x, it) } }
-val Rectangle.pointsSequence get() = sequence {
-    for (x in a.x..b.x) for (y in a.y..b.y) yield(Point(x, y))
-}
+val Rectangle.pointsSequence
+    get() = sequence {
+        for (x in a.x..b.x) for (y in a.y..b.y) yield(Point(x, y))
+    }
 
 operator fun Rectangle.contains(point: Point) = point.x in xRange && point.y in yRange
 fun Rectangle.overlaps(other: Rectangle) =
@@ -317,8 +320,9 @@ class PseudoGrid<T>(
     override fun get(key: Point) = get(key.toIndex())
 }
 
-private fun <T> List<T>.assertDimensions(width: Int, height: Int) =
-    require(size == width * height) { "Dimensions of list does not match ($width x $height)" }
+private fun <T> List<T>.assertDimensions(width: Int, height: Int) = require(size == width * height) {
+    "Dimensions of list does not match ($width x $height = ${width * height} != $size)"
+}
 
 fun intGrid(width: Int, height: Int) = Grid(width, height, IntArray(width * height).toList())
 fun mutableIntGrid(width: Int, height: Int) = MutableGrid(width, height, IntArray(width * height).toMutableList())
@@ -741,6 +745,7 @@ fun PointND.adjacent() = dimensionalDCache.getOrPut(dimensions) {
 }.map { this + it }
 
 data class NDVolume(val a: PointND, val b: PointND)
+
 val NDVolume.dimensions get() = a.dimensions
 
 operator fun NDVolume.contains(point: PointND) = point.coords.allIndexed { idx, c -> c in a.coords[idx]..b.coords[idx] }

@@ -45,6 +45,7 @@ inline fun <T> MutableList<T>.mapInPlaceIndexed(transform: (idx: Int, T) -> T) =
 
 inline fun <T> Array<T>.mapInPlace(transform: (T) -> T) = forEachIndexed { idx, t -> this[idx] = transform(t) }
 fun MutableList<Int>.incrementAll() = mapInPlace { it + 1 }
+fun Array<Int>.incrementAll() = mapInPlace { it + 1 }
 
 @JvmName("debugStrings")
 fun List<List<String>>.debug() = joinToString("\n") { it.joinToString("") }
