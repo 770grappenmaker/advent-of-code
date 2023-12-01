@@ -4,22 +4,36 @@ import kotlin.io.path.exists
 import kotlin.io.path.readLines
 import kotlin.system.measureTimeMillis
 
-fun main() {
+fun main(args: Array<String>) {
     fun Puzzle.input() = defaultInput(year, day)
     fun Puzzle.format() = "Year $year Day $day"
     fun Puzzle.run() = SolveContext(this, input().readLines()).implementation()
 
-    val (willRun, missing) = puzzles.partition { it.input().exists() }
+    val (available, missing) = puzzles.partition { it.input().exists() }
     if (missing.isNotEmpty()) {
         println("Missing inputs (${missing.size}) (skipped):")
         missing.forEach { println("Year ${it.year} Day ${it.day}") }
+        println()
     }
+
+    val willRun = if (args.isNotEmpty()) {
+        val year = args.first().toInt()
+        println("Will only run puzzles in year $year")
+        println()
+
+        available.filter { it.year == year }
+    } else available
+
+    require(willRun.isNotEmpty()) { "no puzzles, sad" }
 
     println("\"Warming up\" by running a random puzzle... if you are unlucky, this can take a while")
     willRun.random().run()
 
     println("Running ${willRun.size}/${puzzles.size} (available) puzzles, this will take a while...")
-    val benches = years.map { set ->
+    println()
+
+    val runningYears = willRun.mapTo(hashSetOf()) { it.year }
+    val benches = years.filter { it.year in runningYears }.map { set ->
         set.year to set.puzzles.filter { it in willRun }.map { it to measureTimeMillis { it.run() } }
     }
 

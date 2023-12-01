@@ -256,7 +256,11 @@ inline fun <T, V> Sequence<T>.firstNotDistinctBy(block: (T) -> V) = asIterable()
 inline fun <T, V> Sequence<T>.untilNotDistinctBy(block: (T) -> V) = asIterable().untilNotDistinctBy(block)
 inline fun <T, V> Sequence<T>.hasDuplicateBy(block: (T) -> V) = asIterable().hasDuplicateBy(block)
 
-inline fun <T> Iterable<T>.findIndexOf(cond: (T) -> Boolean) = withIndex().find { (_, v) -> cond(v) }?.index
+inline fun <T> Iterable<T>.findIndexOf(cond: (T) -> Boolean): Int? {
+    for ((i, e) in iterator().withIndex()) if (cond(e)) return i
+    return null
+}
+
 inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pair<List<T>, List<T>> {
     val l = mutableListOf<T>()
     val r = mutableListOf<T>()
@@ -266,7 +270,6 @@ inline fun <T> Iterable<T>.partitionIndexed(block: (idx: Int, T) -> Boolean): Pa
 }
 
 fun <T> Iterable<T>.deinterlace() = partitionIndexed { idx, _ -> idx % 2 == 0 }
-
 fun <T> Sequence<T>.repeatInfinitely() = sequence { while (true) yieldAll(this@repeatInfinitely) }
 
 fun gcd(a: Int, b: Int): Int = if (a == 0) b else gcd(b % a, a)
