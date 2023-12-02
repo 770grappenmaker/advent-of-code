@@ -9,9 +9,9 @@ fun PuzzleSet.dayxx() = puzzle {
 
     // Good luck!
 
-//    inputLines.map { l -> }
-//    inputLines.asCharGrid()
-//    inputLines.asDigitGrid()
-//    inputLines.asGrid { it == '#' }
-//    input.doubleLines()
+    partOne = inputLines.map { l -> }.s()
+//    partOne = inputLines.asCharGrid().s()
+//    partOne = inputLines.asDigitGrid().s()
+//    partOne = inputLines.asGrid { it == '#' }.s()
+//    partOne = input.doubleLines().s()
 }

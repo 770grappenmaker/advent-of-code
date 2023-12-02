@@ -15,6 +15,16 @@ You can also specify an alternative input file (relative to the inputs/year dire
 ./gradlew solution --args "<day> <year> [<input>]
 ```
 
+## Leaderboard positions
+### 2022
+First year participating competitively, did not end up on any global leaderboard. Got 4th place in the Kotlin leaderboard.
+
+### 2023 (current)
+First time getting onto the official global leaderboards:  
+*Positions are written as `#partOne/#partTwo`*
+- Day 1: #12/#953, overall #33, 89 points
+- Day 2: #77/#50, overall #28, gained 75 points = 164 points
+
 ## Progress (as of 2023-10-21)
 - [x] 2022: 25/25 (50 🌟) (100.0%)
 - [x] 2021: 25/25 (50 🌟) (100.0%)
