@@ -487,3 +487,5 @@ fun Int.factorial(): Int {
     for (i in 2..this) n *= i
     return n
 }
+
+fun String.digits() = mapNotNull { it.digitToIntOrNull() }
