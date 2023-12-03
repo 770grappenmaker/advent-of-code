@@ -24,6 +24,7 @@ First time getting onto the official global leaderboards:
 *Positions are written as `#partOne/#partTwo`*
 - Day 1: #12/#953, overall #33, 89 points
 - Day 2: #77/#50, overall #28, gained 75 points = 164 points
+- Day 3: no position, still at 164 points, overall #52
 
 ## Progress (as of 2023-10-21)
 - [x] 2022: 25/25 (50 🌟) (100.0%)

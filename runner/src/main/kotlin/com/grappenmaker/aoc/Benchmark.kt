@@ -26,8 +26,8 @@ fun main(args: Array<String>) {
 
     require(willRun.isNotEmpty()) { "no puzzles, sad" }
 
-    println("\"Warming up\" by running a random puzzle... if you are unlucky, this can take a while")
-    willRun.random().run()
+    println("\"Warming up\" by running a few random puzzles... if you are unlucky, this can take a while")
+    repeat(5) { willRun.random().run() }
 
     println("Running ${willRun.size}/${puzzles.size} (available) puzzles, this will take a while...")
     println()
