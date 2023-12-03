@@ -489,3 +489,15 @@ fun Int.factorial(): Int {
 }
 
 fun String.digits() = mapNotNull { it.digitToIntOrNull() }
+
+fun <K : Any, V> Map<K?, V>.filterKeysNotNull(): Map<K, V> {
+    val result = hashMapOf<K, V>()
+    forEach { (k, v) -> if (k != null) result[k] = v }
+    return result
+}
+
+fun <K, V : Any> Map<K, V?>.filterValuesNotNull(): Map<K, V> {
+    val result = hashMapOf<K, V>()
+    forEach { (k, v) -> if (v != null) result[k] = v }
+    return result
+}
