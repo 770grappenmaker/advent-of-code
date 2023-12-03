@@ -23,6 +23,13 @@ data class LiteralParameter(val value: Int) : Parameter {
     override fun set(vm: VM, value: Int) = error("Cannot set a literal value!")
 }
 
+fun launchVM(input: List<String>) = VM(input.map {
+    val s = it.split(" ")
+    Insn(s.first(), s.drop(1).map { p ->
+        if (p.first().isDigit()) LiteralParameter(p.toInt()) else RegisterParameter(p.single() - 'a')
+    })
+})
+
 class VM(private val instructions: List<Insn>) {
     var ptr = 0
     var halted = false
@@ -45,7 +52,9 @@ class VM(private val instructions: List<Insn>) {
 
     fun interpret(insn: Insn) {
         // Implementation
-        TODO()
+        when (insn.opcode) {
+            else -> error("Invalid/unexpected opcode ${insn.opcode}")
+        }
     }
 
     fun halt() {

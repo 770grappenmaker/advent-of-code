@@ -37,6 +37,10 @@ fun <T> List<T>.splitHalf() = chunked(size / 2).asPair()
 fun <T> List<T>.splitAt(index: Int) = subList(0, index) to subList(index, size)
 fun <T> List<T>.splitAtExcluding(index: Int) = subList(0, index) to subList(index, size).drop(1)
 
+fun String.splitHalf() = chunked(length / 2).asPair()
+fun String.splitAt(index: Int) = substring(0, index) to substring(index, length)
+fun String.splitAtExcluding(index: Int) = substring(0, index) to substring(index, length).drop(1)
+
 fun <A, B> Pair<A, B>.swap() = second to first
 
 inline fun <T> MutableList<T>.mapInPlace(transform: (T) -> T) = forEachIndexed { idx, t -> this[idx] = transform(t) }
@@ -500,4 +504,14 @@ fun <K, V : Any> Map<K, V?>.filterValuesNotNull(): Map<K, V> {
     val result = hashMapOf<K, V>()
     forEach { (k, v) -> if (v != null) result[k] = v }
     return result
+}
+
+inline fun <T, V> Iterable<T>.singleNotNullOf(block: (T) -> V?): V {
+    for (el in this) return block(el) ?: continue
+    error("Did not find single element matching predicate")
+}
+
+inline fun <T, V> Iterable<T>.singleNotNullOfOrNull(block: (T) -> V?): V? {
+    for (el in this) return block(el) ?: continue
+    return null
 }
