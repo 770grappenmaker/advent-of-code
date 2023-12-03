@@ -5,18 +5,15 @@ import com.grappenmaker.aoc.Direction.*
 
 fun PuzzleSet.day3() = puzzle(day = 3) {
     val g = inputLines.asCharGrid()
-    val numbers = g.findPoints { it.isDigit() }.asSequence()
-        .filter { with(g) { it.allAdjacent() }.any { p -> g[p] != '.' && !g[p].isDigit() } }
-        .mapTo(hashSetOf()) { p -> generateSequence(p) { it + LEFT }.takeWhile { it in g && g[it].isDigit() }.last() }
-        .map { s -> floodFill(s) { listOfNotNull((it + RIGHT).takeIf { p -> p in g && g[p].isDigit() }) } }
-        .map { ps ->
-            ps to ps.sortedByDescending { it.x }.foldIndexed(0) { i, a, c -> a + g[c].digitToInt() * 10.pow(i) }
-        }.toList()
+    fun Point.seq(dir: Direction) = generateSequence(this) { it + dir }.takeWhile { it in g && g[it].isDigit() }
+
+    val numbers = g.pointsSequence
+        .filter { g[it].isDigit() && with(g) { it.allAdjacent() }.any { p -> g[p] != '.' && !g[p].isDigit() } }
+        .mapTo(hashSetOf()) { it.seq(LEFT).last() }.map { it.seq(RIGHT) }
+        .map { it to inputLines[it.first().y].substring(it.first().x..it.last().x).toInt() }
 
     partOne = numbers.sumOf { (_, n) -> n }.s()
-
-    val gears = g.findPointsValued('*').toSet()
     partTwo = numbers.groupBy { (n) ->
-        n.flatMapTo(hashSetOf()) { with(g) { it.allAdjacent() } }.intersect(gears).singleOrNull()
-    }.filterKeysNotNull().values.filter { it.size == 2 }.sumOf { it.map { (_, n) -> n }.product() }.s()
+        n.firstNotNullOfOrNull { with(g) { it.allAdjacent() }.singleOrNull { g[it] == '*' } }
+    }.filterKeysNotNull().values.filter { it.size == 2 }.sumOf { (a, b) -> a.second * b.second }.s()
 }

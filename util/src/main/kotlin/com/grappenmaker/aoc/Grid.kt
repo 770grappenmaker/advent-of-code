@@ -145,8 +145,10 @@ interface Plane {
     fun List<Point>.toIndices() = map { it.toIndex() }
 }
 
-val Plane.points get() = (0..<width * height).map { pointFromIndex(it) }
-val Plane.pointsSequence get() = sequence { (0..<width * height).forEach { yield(pointFromIndex(it)) } }
+val Plane.points get() = xRange.flatMap { x -> yRange.map { Point(x, it) } }
+val Plane.pointsSequence get() = xRange.asSequence().flatMap { x -> yRange.map { Point(x, it) } }
+//val Plane.pointsSequence get() = sequence { for (x in xRange) for (y in yRange) yield(Point(x, y)) }
+
 val Plane.xRange get() = 0..<width
 val Plane.yRange get() = 0..<height
 
