@@ -507,11 +507,25 @@ fun <K, V : Any> Map<K, V?>.filterValuesNotNull(): Map<K, V> {
 }
 
 inline fun <T, V> Iterable<T>.singleNotNullOf(block: (T) -> V?): V {
-    for (el in this) return block(el) ?: continue
-    error("Did not find single element matching predicate")
+    var result: V? = null
+
+    for (el in this) {
+        val curr = block(el)
+        if (result != null) error("Collection contains more than one matching element")
+        result = curr
+    }
+
+    return result ?: error("Collection contains no element matching the predicate")
 }
 
 inline fun <T, V> Iterable<T>.singleNotNullOfOrNull(block: (T) -> V?): V? {
-    for (el in this) return block(el) ?: continue
-    return null
+    var result: V? = null
+
+    for (el in this) {
+        val curr = block(el)
+        if (result != null) return null
+        result = curr
+    }
+
+    return result
 }
