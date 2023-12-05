@@ -1,9 +1,6 @@
 package com.grappenmaker.aoc.year23
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.doubleLines
-import com.grappenmaker.aoc.lcm
-import com.grappenmaker.aoc.repeatInfinitely
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day8() = puzzle(day = 8) {
     val (insns, grid) = input.doubleLines()
