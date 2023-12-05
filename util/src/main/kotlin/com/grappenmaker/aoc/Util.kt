@@ -417,6 +417,12 @@ fun Long.toDigits() = buildList {
 fun IntRange.overlaps(other: IntRange) = first <= other.last && other.first >= last
 fun LongRange.overlaps(other: LongRange) = first <= other.last && other.first >= last
 
+fun LongRange.overlap(other: LongRange) =
+    (maxOf(first, other.first)..minOf(last, other.last)).takeIf { !it.isEmpty() }
+
+fun IntRange.overlap(other: IntRange) =
+    (maxOf(first, other.first)..minOf(last, other.last)).takeIf { !it.isEmpty() }
+
 fun IntRange.width() = last - first + 1
 fun LongRange.width() = last - first + 1
 
@@ -511,8 +517,10 @@ inline fun <T, V> Iterable<T>.singleNotNullOf(block: (T) -> V?): V {
 
     for (el in this) {
         val curr = block(el)
-        if (result != null) error("Collection contains more than one matching element")
-        result = curr
+        if (curr != null) {
+            if (result != null) error("Collection contains more than one matching element")
+            result = curr
+        }
     }
 
     return result ?: error("Collection contains no element matching the predicate")
@@ -523,8 +531,10 @@ inline fun <T, V> Iterable<T>.singleNotNullOfOrNull(block: (T) -> V?): V? {
 
     for (el in this) {
         val curr = block(el)
-        if (result != null) return null
-        result = curr
+        if (curr != null) {
+            if (result != null) return null
+            result = curr
+        }
     }
 
     return result
