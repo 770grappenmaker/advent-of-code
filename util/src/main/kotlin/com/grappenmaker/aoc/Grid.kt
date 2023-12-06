@@ -673,6 +673,7 @@ fun Iterable<Point3D>.maxZ() = maxOf { it.z }
 fun Iterable<Point3D>.minBound() = Point3D(minX(), minY(), minZ())
 fun Iterable<Point3D>.maxBound() = Point3D(maxX(), maxY(), maxZ())
 fun Iterable<Point3D>.shiftDelta() = Point3D(-minX(), -minY(), -maxZ())
+fun Iterable<Point3D>.boundary() = Cube(minBound(), maxBound())
 
 data class Cube(val a: Point3D, val b: Point3D) {
     val width get() = abs(a.x - b.x) + 1
@@ -721,6 +722,7 @@ infix fun PointND.manhattanDistanceTo(other: PointND) = (this - other).manhattan
 
 fun Iterable<PointND>.minBound() = PointND(List(first().dimensions) { dim -> minOf { it.coords[dim] } })
 fun Iterable<PointND>.maxBound() = PointND(List(first().dimensions) { dim -> maxOf { it.coords[dim] } })
+fun Iterable<PointND>.boundary() = NDVolume(minBound(), maxBound())
 
 private inline fun ndRecursion(dimensions: Int, selector: (Int) -> List<Int>): List<PointND> {
     val result = mutableListOf<PointND>()
