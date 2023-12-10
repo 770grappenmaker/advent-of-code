@@ -20,30 +20,35 @@ fun generateYear(
     year: Int,
     packag: String,
     numToName: (Int) -> String = { "Day${it.toString().padStart(2, '0')}Kt" }
-) = generateClass(implements = listOf(internalNameOf<PuzzleSetGenerator>())) {
-    generateMethod("generate", "()L${internalNameOf<PuzzleSet>()};") {
-        // Init puzzleset
-        visitTypeInsn(NEW, internalNameOf<PuzzleSet>())
-        visitInsn(DUP)
-        visitIntInsn(SIPUSH, year)
-        visitMethodInsn(INVOKESPECIAL, internalNameOf<PuzzleSet>(), "<init>", "(I)V", false)
+): PuzzleSet {
+    val actualPackage = packag.removeSuffix("/")
+    val nodes = (1..25).mapNotNull { loadAsNode("$actualPackage/${numToName(it)}") }
+    if (nodes.isEmpty()) return PuzzleSet(year)
 
-        // On stack: PuzzleSet (keep on stack)
-        // TODO: clean up this horrible code
-        val actualPackage = packag.removeSuffix("/")
-        (1..25).mapNotNull { loadAsNode("$actualPackage/${numToName(it)}") }.forEach { node ->
-            node.methods.singleOrNull {
-                it.desc == "(L${internalNameOf<PuzzleSet>()};)V" && it.access and ACC_STATIC != 0
-            }?.let { method ->
-                visitInsn(DUP)
-                visitMethodInsn(INVOKESTATIC, node.name, method.name, method.desc, false)
-            } ?: error("No single puzzle method has been found in ${node.name}!")
+    return generateClass(implements = listOf(internalNameOf<PuzzleSetGenerator>())) {
+        generateMethod("generate", "()L${internalNameOf<PuzzleSet>()};") {
+            // Init puzzleset
+            visitTypeInsn(NEW, internalNameOf<PuzzleSet>())
+            visitInsn(DUP)
+            visitIntInsn(SIPUSH, year)
+            visitMethodInsn(INVOKESPECIAL, internalNameOf<PuzzleSet>(), "<init>", "(I)V", false)
+
+            // On stack: PuzzleSet (keep on stack)
+            // TODO: clean up this horrible code
+            nodes.forEach { node ->
+                node.methods.singleOrNull {
+                    it.desc == "(L${internalNameOf<PuzzleSet>()};)V" && it.access and ACC_STATIC != 0
+                }?.let { method ->
+                    visitInsn(DUP)
+                    visitMethodInsn(INVOKESTATIC, node.name, method.name, method.desc, false)
+                } ?: error("No single puzzle method has been found in ${node.name}!")
+            }
+
+            // Still on stack: PuzzleSet
+            visitInsn(ARETURN)
         }
-
-        // Still on stack: PuzzleSet
-        visitInsn(ARETURN)
-    }
-}.instance<PuzzleSetGenerator>().generate()
+    }.instance<PuzzleSetGenerator>().generate()
+}
 
 fun loadAsNode(internalName: String, loader: ClassLoader = PuzzleSetGenerator::class.java.classLoader): ClassNode? =
     ClassNode().also {

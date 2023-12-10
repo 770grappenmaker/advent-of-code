@@ -349,17 +349,21 @@ inline fun <T> Iterable<T>.allIndexed(block: (idx: Int, T) -> Boolean): Boolean 
     return true
 }
 
-inline fun <T : Any> T.patternRepeating(totalIterations: Int, next: (T) -> T): T {
-    val seen = mutableMapOf<T, Int>()
+@JvmName("patternRepeatingInts")
+inline fun <T : Any> T.patternRepeating(totalIterations: Int, next: (T) -> T) =
+    patternRepeating(totalIterations.toLong(), next)
 
-    var iter = 0
+inline fun <T : Any> T.patternRepeating(totalIterations: Long, next: (T) -> T): T {
+    val seen = mutableMapOf<T, Long>()
+
+    var iter = 0L
     var left = totalIterations
     var curr = this
 
     while (left > 0) {
         if (curr in seen && iter != seen.getValue(curr)) {
             val steps = iter - seen.getValue(curr)
-            if (steps != 0) {
+            if (steps != 0L) {
                 iter += left / steps
                 left %= steps
             }

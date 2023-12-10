@@ -147,6 +147,8 @@ interface Plane {
 
 val Plane.points get() = xRange.flatMap { x -> yRange.map { Point(x, it) } }
 val Plane.pointsSequence get() = xRange.asSequence().flatMap { x -> yRange.map { Point(x, it) } }
+val Plane.pointsFlipped get() = yRange.flatMap { y -> xRange.map { Point(it, y) } }
+val Plane.pointsSequenceFlipped get() = yRange.asSequence().flatMap { y -> xRange.map { Point(it, y) } }
 //val Plane.pointsSequence get() = sequence { for (x in xRange) for (y in yRange) yield(Point(x, y)) }
 
 val Plane.xRange get() = 0..<width
@@ -771,19 +773,16 @@ inline fun <T> floydWarshall(
     for (vertex in collected) {
         val trivial = mutableMapOf(vertex to 0)
         neighbors(vertex).forEach { trivial[it] = distance(vertex, it) }
+        trivial[vertex] = 0
         dist[vertex] = trivial
     }
 
-    for (k in collected) {
-        for (i in collected) {
-            for (j in collected) {
-                val id = dist.getValue(i)
-                val ij = id[j] ?: Int.MAX_VALUE
-                val ik = id[k] ?: Int.MAX_VALUE
-                val kj = dist.getValue(k)[j] ?: Int.MAX_VALUE
-                if (ij > ik + kj) id[j] = ik + kj
-            }
-        }
+    for (k in collected) for (i in collected) for (j in collected) {
+        val id = dist.getValue(i)
+        val ij = id[j]
+        val ik = id[k]
+        val kj = dist.getValue(k)[j]
+        if (ik != null && kj != null && (ij == null || ij > ik + kj)) id[j] = ik + kj
     }
 
     return dist

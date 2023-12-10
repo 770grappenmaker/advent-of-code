@@ -61,9 +61,9 @@ data class PuzzleSet(val year: Int) {
 }
 
 // jank!
-val years = (15..23).map { generateYear(2000 + it, "com/grappenmaker/aoc/year$it") }
+val years by lazy { (15..23).map { generateYear(2000 + it, "com/grappenmaker/aoc/year$it") } }
 
-val puzzles = years.flatMap { it.puzzles }
+val puzzles by lazy { years.flatMap { it.puzzles } }
 
 // Quote the official Advent of Code website:
 // The first puzzles will unlock on December 1st at midnight EST (UTC-5). See you then!
