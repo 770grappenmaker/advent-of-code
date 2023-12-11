@@ -53,6 +53,7 @@ fun Point.map(block: (coord: Int) -> Int) = copy(x = block(x), y = block(y))
 
 val Point.manhattanDistance get() = abs(x) + abs(y)
 infix fun Point.manhattanDistanceTo(other: Point) = abs(x - other.x) + abs(y - other.y)
+infix fun PointL.manhattanDistanceTo(other: PointL) = abs(x - other.x) + abs(y - other.y)
 
 val Point.chebyshevDistance get() = max(abs(x), abs(y))
 infix fun Point.chebyshevDistanceTo(other: Point) = max(abs(x - other.x), abs(y - other.y))
