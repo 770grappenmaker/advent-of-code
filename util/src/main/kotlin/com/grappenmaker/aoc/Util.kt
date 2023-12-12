@@ -2,6 +2,7 @@ package com.grappenmaker.aoc
 
 import com.grappenmaker.aoc.Direction.*
 import java.util.*
+import kotlin.math.absoluteValue
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -296,6 +297,9 @@ fun List<Int>.lcm() = reduce { a, b -> lcm(a, b) }
 @JvmName("lcmLongs")
 fun List<Long>.lcm() = reduce { a, b -> lcm(a, b) }
 
+fun Int.isCoprimeWith(other: Int) = gcd(this, other) == 1
+fun Long.isCoprimeWith(other: Long) = gcd(this, other) == 1L
+
 fun rangeDirection(a: Int, b: Int) = if (b < a) a downTo b else a..b
 
 fun Char.parseDirection() = when (this) {
@@ -549,3 +553,62 @@ operator fun <T> List<T>.component7() = this[6]
 operator fun <T> List<T>.component8() = this[7]
 operator fun <T> List<T>.component9() = this[8]
 operator fun <T> List<T>.component10() = this[9]
+
+data class EuclideanResult(val d: Int, val s: Int = 0, val t: Int = 1)
+data class EuclideanResultL(val d: Long, val s: Long = 0, val t: Long = 1)
+
+fun euclideanAlgo(a: Int, b: Int): EuclideanResult = if (a == 0) EuclideanResult(b) else {
+    val (d, s, t) = euclideanAlgo(b % a, a)
+    EuclideanResult(d, t - (b / a) * s, s)
+}
+
+fun fullEuclideanAlgo(a: Int, b: Int): List<EuclideanResult> =
+    generateSequence(EuclideanResult(a, 1, 0) to EuclideanResult(b)) { (u, v) ->
+        val (r1, s1, t1) = u
+        val (r2, s2, t2) = v
+        if (r2 == 0) return@generateSequence v to v
+
+        val d = r1 / r2
+        v to EuclideanResult(r1 % r2, s1 - d * s2, t1 - d * t2)
+    }.takeUntil { (_, b) -> b.d != 0 }.map { (a) -> a }.toList()
+
+fun euclideanAlgo(a: Long, b: Long): EuclideanResultL = if (a == 0L) EuclideanResultL(b) else {
+    val (d, s, t) = euclideanAlgo(b % a, a)
+    EuclideanResultL(d, t - (b / a) * s, s)
+}
+
+fun fullEuclideanAlgo(a: Long, b: Long): List<EuclideanResultL> =
+    generateSequence(EuclideanResultL(a, 1L, 0L) to EuclideanResultL(b)) { (u, v) ->
+        val (r1, s1, t1) = u
+        val (r2, s2, t2) = v
+        if (r2 == 0L) return@generateSequence v to v
+
+        val d = r1 / r2
+        v to EuclideanResultL(r1 % r2, s1 - d * s2, t1 - d * t2)
+    }.takeUntil { (_, b) -> b.d != 0L }.map { (a) -> a }.toList()
+
+fun Int.modInverse(mod: Int): Int {
+    val (d, s, _) = euclideanAlgo(this, mod)
+    if (d != 1) error("No (real?) mod inverse for x $this^-1 % $mod = 1")
+    return s.mod(mod)
+}
+
+fun Long.modInverse(mod: Long): Long {
+    val (d, s, _) = euclideanAlgo(this, mod)
+    if (d != 1L) error("No (real?) mod inverse for x $this^-1 % $mod = 1")
+    return s.mod(mod)
+}
+
+fun chineseRemainder(nums: List<Int>, rem: List<Int>): Int =
+    chineseRemainder(nums.map { it.toLong() }, rem.map { it.toLong() }).toInt()
+
+fun chineseRemainder(nums: List<Long>, rem: List<Long>): Long {
+    require(nums.size == rem.size) { "sizes of nums and rem do not match!" }
+    require(nums.zipWithNext().all { (a, b) -> a.isCoprimeWith(b) }) { "pairwise coprimality violated!" }
+
+    val prod = rem.product()
+    return rem.indices.sumOf { i ->
+        val pm1 = prod / rem[i]
+        nums[i] * pm1 * pm1.modInverse(rem[i])
+    }.mod(prod)
+}
