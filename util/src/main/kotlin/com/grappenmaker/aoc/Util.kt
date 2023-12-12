@@ -1,8 +1,11 @@
 package com.grappenmaker.aoc
 
 import com.grappenmaker.aoc.Direction.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import java.util.*
-import kotlin.math.absoluteValue
+import kotlin.concurrent.thread
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -611,4 +614,90 @@ fun chineseRemainder(nums: List<Long>, rem: List<Long>): Long {
         val pm1 = prod / rem[i]
         nums[i] * pm1 * pm1.modInverse(rem[i])
     }.mod(prod)
+}
+
+suspend fun <T, R> List<T>.parallelize(block: (T) -> R) = coroutineScope { map { async { block(it) } }.awaitAll() }
+
+fun <T, R> List<T>.parallelizeThreads(
+    n: Int = Runtime.getRuntime().availableProcessors(),
+    block: (T) -> R
+): List<R> {
+    val division = indices.chunked(size / n + size % n)
+    val results = mutableListOf<Pair<Int, List<R>>>()
+
+    val threads = (0..<n).map { idx ->
+        thread(isDaemon = true) { results += idx to division[idx].map { block(this[it]) } }
+    }
+
+    threads.forEach { it.join() }
+
+    return results.sortedBy { (a) -> a }.flatMap { (_, b) -> b }
+}
+
+fun <T> Iterable<List<T>>.joinToList(el: T) = joinToList(el) { it }
+inline fun <T, R> Iterable<List<T>>.joinToList(el: R, transform: (T) -> R): List<R> {
+    val result = mutableListOf<R>()
+    var seen = false
+
+    for (e in this) {
+        if (seen) result += el
+        result += e.map(transform)
+        seen = true
+    }
+
+    return result
+}
+
+// repeats = 1 -> normal list
+// repeats = 0 -> empty list
+// repeats = -1 -> circular list (even negative indices)
+// repeats = n (n > 1) -> repeated list
+class PseudoList<T>(
+    private val repeats: Int = 1,
+    private val backing: List<T>,
+    maxSize: Int = if (repeats == -1) Int.MAX_VALUE else backing.size * repeats
+) : List<T> by backing {
+    init {
+        require(repeats > -1) { "repeats value $repeats invalid!" }
+    }
+
+    override val size = maxSize
+    override fun get(index: Int) = when {
+        repeats == -1 -> backing[index.mod(backing.size)]
+        index >= size -> throw IndexOutOfBoundsException("$index for size $size")
+        else -> backing[index % backing.size]
+    }
+
+    override fun isEmpty() = repeats == 0 || backing.isEmpty()
+    override fun iterator() = listIterator()
+
+    private inner class Iter(private var idx: Int = 0) : ListIterator<T> {
+        override fun hasNext() = repeats == -1 || idx < size
+        override fun hasPrevious() = repeats == -1 || idx > 0
+        override fun next() = get(idx++)
+        override fun nextIndex() = if (repeats == -1) idx + 1 else (idx + 1).coerceAtMost(size)
+        override fun previous() = get(idx--)
+        override fun previousIndex() = if (repeats == -1) idx - 1 else (idx - 1).coerceAtLeast(-1)
+    }
+
+    override fun listIterator(): ListIterator<T> = Iter()
+    override fun listIterator(index: Int): ListIterator<T> = Iter(index)
+
+    override fun subList(fromIndex: Int, toIndex: Int): List<T> = when {
+        repeats != -1 && fromIndex < 0 -> throw IndexOutOfBoundsException("$fromIndex < 0")
+        repeats != -1 && toIndex > size -> throw IndexOutOfBoundsException("$toIndex > $size")
+        else -> {
+            println("Warning: subLists in PseudoList are clones!")
+            (fromIndex..<toIndex).map(this::get)
+        }
+    }
+
+    override fun lastIndexOf(element: T) = if (repeats == -1) error("Cannot find last index of object on infinite list")
+    else backing.lastIndexOf(element).let { if (it < 0) it else (repeats - 1) * backing.size + it }
+}
+
+fun <T> Iterable<T>.asPseudoList(n: Int) = PseudoList(n, toList())
+fun <T> Iterable<T>.repeatWithSeparatorExp(n: Int, sep: T): PseudoList<T> {
+    val operated = this + sep
+    return PseudoList(n, operated, operated.size * n - 1)
 }
