@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTypeInference::class)
+
 package com.grappenmaker.aoc
 
 import com.grappenmaker.aoc.Direction.*
@@ -6,6 +8,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import java.util.*
 import kotlin.concurrent.thread
+import kotlin.experimental.ExperimentalTypeInference
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -700,4 +703,19 @@ fun <T> Iterable<T>.asPseudoList(n: Int) = PseudoList(n, toList())
 fun <T> Iterable<T>.repeatWithSeparatorExp(n: Int, sep: T): PseudoList<T> {
     val operated = this + sep
     return PseudoList(n, operated, operated.size * n - 1)
+}
+
+@OverloadResolutionByLambdaReturnType
+fun <T> Iterable<T>.sumOfNotNull(block: (T) -> Int?): Int {
+    var res = 0
+    for (el in this) res += block(el) ?: 0
+    return res
+}
+
+@JvmName("sumOfNotNullLongs")
+@OverloadResolutionByLambdaReturnType
+fun <T> Iterable<T>.sumOfNotNull(block: (T) -> Long?): Long {
+    var res = 0L
+    for (el in this) res += block(el) ?: 0L
+    return res
 }
