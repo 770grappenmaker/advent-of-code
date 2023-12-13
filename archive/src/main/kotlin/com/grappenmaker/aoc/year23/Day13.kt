@@ -17,14 +17,9 @@ fun PuzzleSet.day13() = puzzle(day = 13) {
 
             val ra = l.takeLast(ms)
             val rb = r.take(ms).asReversed()
+            val off = ra.indices.sumOf { a -> ra[a].indices.count { ra[a][it] != rb[a][it] } }
 
-            when {
-                partTwo ->
-//                    if (ra.zip(rb) { a, c -> a.zip(c).count { (d, e) -> d != e } }.sum() == 1) t.size else null
-                    if (ra.indices.sumOf { a -> ra[a].indices.count { ra[a][it] != rb[a][it] } } == 1) l.size else null
-                ra == rb -> l.size
-                else -> null
-            }
+            if (off == (if (partTwo) 1 else 0)) l.size else null
         }
     }
 
