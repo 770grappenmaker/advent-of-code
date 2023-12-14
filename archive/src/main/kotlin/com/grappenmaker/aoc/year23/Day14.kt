@@ -4,47 +4,28 @@ import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
 
 fun PuzzleSet.day14() = puzzle(day = 14) {
-    val start = inputLines.asCharGrid()
-    val maze = start.mapElements { if (it == 'O') '.' else it }
+    val start: CharGrid = inputLines.asCharGrid()
+    val order = listOf(
+        start.columns.flatten(),
+        start.rows.flatMap { it.asReversed() },
+        start.columns.flatMap { it.asReversed() },
+        start.rows.flatten(),
+    )
 
-    // optimized solution
-    val ps = start.findPointsValued('O').toSet()
+    fun CharGrid.roll(d: Direction): CharGrid = asMutableGrid().apply {
+        for (p in order[d.ordinal]) {
+            if (this[p] != 'O') continue
 
-    fun Set<Point>.isEnd(p: Point, d: Direction) = p + d !in maze || maze[p + d] != '.' || p + d in this
-    fun Set<Point>.step(d: Direction): Set<Point> {
-        val res = toHashSet()
-
-        for (p in this) {
             var curr = p
-            while (!isEnd(curr, d)) {
-                res -= curr
+            while (curr + d in this && this[curr + d] == '.') {
+                this[curr] = '.'
                 curr += d
-                res += curr
+                this[curr] = 'O'
             }
         }
-
-        return res
     }
 
-    fun Set<Point>.solve() = sumOf { start.height - it.y }.s()
-    fun Set<Point>.roll(d: Direction) = generateSequence(this) { it.step(d) }.first { g -> g.all { g.isEnd(it, d) } }
-
-    partOne = ps.roll(UP).solve()
-    partTwo = ps.patternRepeating(1000000000) { it.roll(UP).roll(LEFT).roll(DOWN).roll(RIGHT) }.solve()
-
-    // sane solution
-//    fun Grid<Char>.step(d: Direction): Grid<Char> = asMutableGrid().apply {
-//        findPointsValued('O').asSequence().filter { it + d in this && this[it + d] == '.' }.forEach { p ->
-//            this[p + d] = 'O'
-//            this[p] = '.'
-//        }
-//    }.asGrid()
-//
-//    fun Grid<Char>.solve() = findPointsValued('O').sumOf { height - it.y }.s()
-//    fun Grid<Char>.roll(d: Direction) = generateSequence(this) { it.step(d) }.first { g ->
-//        g.findPointsValued('O').all { it + d !in g || g[it + d] != '.' }
-//    }
-//
-//    partOne = start.roll(UP).solve()
-//    partTwo = start.patternRepeating(1000000000) { it.roll(UP).roll(LEFT).roll(DOWN).roll(RIGHT) }.solve()
+    fun GridLike<Char>.solve() = findPointsValued('O').sumOf { height - it.y }.s()
+    partOne = start.roll(UP).solve()
+    partTwo = start.patternRepeating(1000000000) { it.roll(UP).roll(LEFT).roll(DOWN).roll(RIGHT) }.solve()
 }
