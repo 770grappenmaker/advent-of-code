@@ -15,10 +15,12 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
         val res = toHashSet()
 
         for (p in this) {
-            if (isEnd(p, d)) continue
-
-            res -= p
-            res += p + d
+            var curr = p
+            while (!isEnd(curr, d)) {
+                res -= curr
+                curr += d
+                res += curr
+            }
         }
 
         return res
