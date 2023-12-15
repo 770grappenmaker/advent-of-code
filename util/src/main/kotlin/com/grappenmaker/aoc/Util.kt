@@ -710,7 +710,7 @@ fun <T> Iterable<T>.repeatWithSeparatorExp(n: Int, sep: T): PseudoList<T> {
 }
 
 @OverloadResolutionByLambdaReturnType
-fun <T> Iterable<T>.sumOfNotNull(block: (T) -> Int?): Int {
+inline fun <T> Iterable<T>.sumOfNotNull(block: (T) -> Int?): Int {
     var res = 0
     for (el in this) res += block(el) ?: 0
     return res
@@ -718,8 +718,23 @@ fun <T> Iterable<T>.sumOfNotNull(block: (T) -> Int?): Int {
 
 @JvmName("sumOfNotNullLongs")
 @OverloadResolutionByLambdaReturnType
-fun <T> Iterable<T>.sumOfNotNull(block: (T) -> Long?): Long {
+inline fun <T> Iterable<T>.sumOfNotNull(block: (T) -> Long?): Long {
     var res = 0L
     for (el in this) res += block(el) ?: 0L
+    return res
+}
+
+@OverloadResolutionByLambdaReturnType
+inline fun <T> Iterable<T>.sumOfIndexed(block: (idx: Int, T) -> Int): Int {
+    var res = 0
+    for ((idx, el) in withIndex()) res += block(idx, el)
+    return res
+}
+
+@JvmName("sumOfIndexedLongs")
+@OverloadResolutionByLambdaReturnType
+inline fun <T> Iterable<T>.sumOfIndexed(block: (idx: Int, T) -> Long): Long {
+    var res = 0L
+    for ((idx, el) in withIndex()) res += block(idx, el)
     return res
 }
