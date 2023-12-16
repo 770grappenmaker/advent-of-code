@@ -152,6 +152,10 @@ val Plane.pointsFlipped get() = yRange.flatMap { y -> xRange.map { Point(it, y) 
 val Plane.pointsSequenceFlipped get() = yRange.asSequence().flatMap { y -> xRange.map { Point(it, y) } }
 //val Plane.pointsSequence get() = sequence { for (x in xRange) for (y in yRange) yield(Point(x, y)) }
 
+val Plane.minX get() = 0
+val Plane.minY get() = 0
+val Plane.maxX get() = width - 1
+val Plane.maxY get() = height - 1
 val Plane.xRange get() = 0..<width
 val Plane.yRange get() = 0..<height
 
@@ -164,6 +168,12 @@ val Plane.topRightCorner get() = Point(width - 1, 0)
 val Plane.bottomLeftCorner get() = Point(0, height - 1)
 val Plane.bottomRightCorner get() = Point(width - 1, height - 1)
 val Plane.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner)
+val Plane.edges get() = listOf(
+    topLeftCorner..topRightCorner,
+    topRightCorner..bottomRightCorner,
+    topLeftCorner..bottomLeftCorner,
+    bottomLeftCorner..bottomRightCorner
+)
 
 val Plane.area get() = width * height
 val Plane.areaLong get() = width.toLong() * height.toLong()
