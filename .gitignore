@@ -15,3 +15,6 @@ inputs/*/day-*.txt
 
 # Ignore built getInput
 getInput.jar
+
+# Ignore .kotlin
+.kotlin

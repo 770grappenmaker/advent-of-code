@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0-Beta1")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0-Beta2")
 }
 
 kotlin {
