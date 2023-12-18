@@ -81,6 +81,7 @@ operator fun PointL.plus(other: Direction) = PointL(x + other.dx.toLong(), y + o
 operator fun Direction.plus(other: Direction) = Point(dx + other.dx, dy + other.dy)
 operator fun Direction.minus(other: Direction) = Point(dx - other.dx, dy - other.dy)
 operator fun Direction.times(n: Int) = Point(dx * n, dy * n)
+operator fun Direction.times(n: Long) = PointL(dx.toLong() * n, dy.toLong() * n)
 operator fun Direction.unaryMinus() = (-toPoint()).asDirection()
 
 fun Point.asDirection() = enumValues<Direction>().first { it.dx == x && it.dy == y }
