@@ -6,6 +6,7 @@ import com.grappenmaker.aoc.Direction.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import java.math.BigInteger
 import java.util.*
 import kotlin.concurrent.thread
 import kotlin.experimental.ExperimentalTypeInference
@@ -39,6 +40,9 @@ fun Iterable<Int>.product() = reduce { acc, curr -> acc * curr }
 
 @JvmName("productLongs")
 fun Iterable<Long>.product() = reduce { acc, curr -> acc * curr }
+
+@JvmName("productBigs")
+fun Iterable<BigInteger>.product() = reduce { acc, curr -> acc * curr }
 
 fun <T> List<T>.splitHalf() = chunked(size / 2).asPair()
 fun <T> List<T>.splitAt(index: Int) = subList(0, index) to subList(index, size)
