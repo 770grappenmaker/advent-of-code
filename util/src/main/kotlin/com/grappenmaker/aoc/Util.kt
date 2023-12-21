@@ -742,3 +742,6 @@ inline fun <T> Iterable<T>.sumOfIndexed(block: (idx: Int, T) -> Long): Long {
     for ((idx, el) in withIndex()) res += block(idx, el)
     return res
 }
+
+inline fun <T, R> Iterable<T>.mapToSet(block: (T) -> R): Set<R> = mapTo(hashSetOf(), block)
+inline fun <T, R> Iterable<T>.flatMapToSet(block: (T) -> Iterable<R>): Set<R> = flatMapTo(hashSetOf(), block)
