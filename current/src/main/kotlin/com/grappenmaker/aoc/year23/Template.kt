@@ -11,6 +11,7 @@ fun PuzzleSet.dayxx() = puzzle {
     // Good luck!
 
     partOne = inputLines.map { l -> }.s()
+//    partOne = launchVM(inputLines).also { it.run() }.registers[0].s()
 //    partOne = inputLines.asCharGrid().s()
 //    partOne = inputLines.asDigitGrid().s()
 //    partOne = inputLines.asGrid { it == '#' }.s()
