@@ -745,3 +745,26 @@ inline fun <T> Iterable<T>.sumOfIndexed(block: (idx: Int, T) -> Long): Long {
 
 inline fun <T, R> Iterable<T>.mapToSet(block: (T) -> R): Set<R> = mapTo(hashSetOf(), block)
 inline fun <T, R> Iterable<T>.flatMapToSet(block: (T) -> Iterable<R>): Set<R> = flatMapTo(hashSetOf(), block)
+
+data class Edge<T>(val to: T, val weight: Int = 1)
+
+fun <T> Set<T>.asWeightedGraph(dist: (from: T, to: T) -> Int = { _, _ -> 1 }, neighbors: (T) -> List<T>) = buildMap {
+    this@asWeightedGraph.forEach { p ->
+        this[p] = buildList {
+            val queue = queueOf(p to 0)
+            val seen = hashSetOf(p)
+
+            while (queue.isNotEmpty()) {
+                val (curr, d) = queue.removeFirst()
+                if (curr in this@asWeightedGraph && curr != p) {
+                    add(Edge(curr, d))
+                    continue
+                }
+
+                neighbors(curr).filter { seen.add(it) }.map { queue.addLast(it to d + dist(curr, it)) }
+            }
+        }
+    }
+}
+
+fun <T> Map<T, List<Edge<T>>>.weights() = mapValues { (_, v) -> v.associate { it.to to it.weight } }
