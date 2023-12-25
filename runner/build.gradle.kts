@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-//    implementation(project(":archive"))
+    implementation(project(":archive"))
     implementation(project(":current"))
     implementation(project(":util"))
 }

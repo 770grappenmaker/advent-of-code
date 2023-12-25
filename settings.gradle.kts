@@ -6,7 +6,7 @@ includeBuild("nasty-jvm-util") {
 }
 
 //include("archive", "visualisations")
-include("current", "runner", "util")
+include("archive", "current", "runner", "util")
 
 pluginManagement {
     plugins {

@@ -768,3 +768,13 @@ fun <T> Set<T>.asWeightedGraph(dist: (from: T, to: T) -> Int = { _, _ -> 1 }, ne
 }
 
 fun <T> Map<T, List<Edge<T>>>.weights() = mapValues { (_, v) -> v.associate { it.to to it.weight } }
+
+fun <T> Iterable<T>.randomSamples(n: Int, block: (T) -> Unit) {
+    val curr = toMutableList()
+    repeat(n) { curr.random().also(block).also { curr -= it } }
+}
+
+fun <T> Set<T>.randomSamples(n: Int, block: (T) -> Unit) {
+    val curr = toHashSet()
+    repeat(n) { curr.random().also(block).also { curr -= it } }
+}
