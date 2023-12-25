@@ -769,12 +769,23 @@ fun <T> Set<T>.asWeightedGraph(dist: (from: T, to: T) -> Int = { _, _ -> 1 }, ne
 
 fun <T> Map<T, List<Edge<T>>>.weights() = mapValues { (_, v) -> v.associate { it.to to it.weight } }
 
-fun <T> Iterable<T>.randomSamples(n: Int, block: (T) -> Unit) {
-    val curr = toMutableList()
+inline fun <T> Iterable<T>.randomSamples(n: Int, block: (T) -> Unit) = toList().randomSamples(n, block)
+
+inline fun <T> Set<T>.randomSamples(n: Int, block: (T) -> Unit) {
+    require(n <= size) { "$n samples greater than max (size=$size)" }
+
+    val curr = toHashSet()
     repeat(n) { curr.random().also(block).also { curr -= it } }
 }
 
-fun <T> Set<T>.randomSamples(n: Int, block: (T) -> Unit) {
-    val curr = toHashSet()
-    repeat(n) { curr.random().also(block).also { curr -= it } }
+inline fun <T> List<T>.randomSamples(n: Int, block: (T) -> Unit) {
+    require(n <= size) { "$n samples greater than max (size=$size)" }
+
+    val seenIndices = hashSetOf<Int>()
+    repeat(n) {
+        var idx: Int
+        do idx = indices.random() while (idx in seenIndices)
+        seenIndices += idx
+        block(this[idx])
+    }
 }

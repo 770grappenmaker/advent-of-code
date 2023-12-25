@@ -26,20 +26,25 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
         return groups
     }
 
-    val comb = total.keys.combinations(2).toSet()
+    fun build(excludes: Set<Set<String>>): Map<String, MutableList<String>> {
+        val m = total.mapValues { it.value.toMutableList() }
+        excludes.map { it.toList() }.forEach { (f, t) ->
+            m.getValue(f) -= t
+            m.getValue(t) -= f
+        }
+
+        return m
+    }
+
+    val comb = total.keys.combinations(2).toList()
     a@ while (true) {
         val removed = hashSetOf<Set<String>>()
 
         repeat(3) {
-            val m = total.mapValues { it.value.toMutableList() }
-            removed.map { it.toList() }.forEach { (f, t) ->
-                m.getValue(f) -= t
-                m.getValue(t) -= f
-            }
-
+            val m = build(removed)
             val freq = hashMapOf<Set<String>, Int>().withDefault { 0 }
 
-            comb.randomSamples(10) { (f, t) ->
+            comb.randomSamples(15) { (f, t) ->
                 val res = dijkstra(f, isEnd = { it == t }, neighbors = { m.getValue(it) }, findCost = { 1 })
                 res?.path?.zipWithNext()?.forEach { (f, t) ->
                     val k = setOf(f, t)
@@ -52,13 +57,7 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
             }.maxBy { it.second }.first
         }
 
-        val m = total.mapValues { it.value.toMutableList() }
-        removed.map { it.toList() }.forEach { (f, t) ->
-            m.getValue(f) -= t
-            m.getValue(t) -= f
-        }
-
-        val (big, small) = eval(m).partition { it.size > 100 }
+        val (big, small) = eval(build(removed)).partition { it.size > 100 }
         if (big.size != 2) continue@a
 
         val (a, b) = big.map { it.toHashSet() }
