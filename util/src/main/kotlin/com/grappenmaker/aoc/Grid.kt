@@ -217,6 +217,17 @@ fun Rectangle.overlapsInclusive(other: Rectangle) =
     minX <= other.maxX && maxX >= other.minX && minY <= other.maxY && maxY >= other.minY
 
 fun Rectangle.intersect(other: Rectangle) = points.intersect(other.points.toSet())
+
+
+fun Rectangle.overlap(other: Rectangle): Rectangle? {
+    val x1 = maxOf(minX, other.minX)
+    val y1 = maxOf(minY, other.minY)
+    val x2 = minOf(maxX, other.maxX)
+    val y2 = minOf(maxY, other.maxY)
+    if (x1 >= x2 || y1 >= y2) return null
+    return Rectangle(Point(x1, y1), Point(x2, y2))
+}
+
 fun Rectangle.onEdge(other: Point) = other.x == minX || other.x == maxX || other.y == minY || other.y == maxY
 
 fun sizedRect(width: Int, height: Int, atX: Int = 0, atY: Int = 0) =

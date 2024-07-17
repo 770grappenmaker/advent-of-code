@@ -156,7 +156,7 @@ fun <T> List<T>.permutations(r: Int = size) = sequence {
 
     val ind = indices.toMutableList()
     val cyc = (size downTo size - r).toMutableList()
-    yield(take(r + 1))
+    yield(take(r))
 
     while (true) {
         for (i in r - 1 downTo 0) {
