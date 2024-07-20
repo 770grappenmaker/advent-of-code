@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day16() = puzzle(day = 16) {
     val initialConfiguration = (0..15).toList()
     val insns = input.split(',').map {

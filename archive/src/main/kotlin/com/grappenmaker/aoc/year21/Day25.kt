@@ -4,7 +4,9 @@ import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction
 import com.grappenmaker.aoc.Direction.DOWN
 import com.grappenmaker.aoc.Direction.RIGHT
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day25() = puzzle(day = 25) {
     fun GridLike<Char>.pass(dir: Direction, type: Char) = with(this) {
         asMutableGrid().also { pass ->

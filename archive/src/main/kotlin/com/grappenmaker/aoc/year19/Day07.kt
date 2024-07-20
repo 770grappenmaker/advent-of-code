@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.permutations
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle(7) {
     val configurations = (0L..4L).toList().permutations()
     partOne = configurations.maxOf { seq ->

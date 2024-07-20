@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day1() = puzzle {
     partOne = (input.count { it == '(' } - input.count { it == ')' }).s()
 

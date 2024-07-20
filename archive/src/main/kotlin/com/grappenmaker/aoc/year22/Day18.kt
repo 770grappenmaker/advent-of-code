@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day18() = puzzle {
     val cubes = inputLines.map { l ->
         val (x, y, z) = l.splitInts()

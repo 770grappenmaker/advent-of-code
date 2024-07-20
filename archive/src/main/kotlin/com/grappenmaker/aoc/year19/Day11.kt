@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day11() = puzzle(11) {
     fun sim(partTwo: Boolean) = with(startComputer(input)) {
         val enabled = if (partTwo) hashSetOf(Point(0, 0)) else hashSetOf()

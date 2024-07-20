@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.permPairsExclusive
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle(21) {
     data class SpecialItem(val cost: Int, val dmg: Int, val arm: Int)
     operator fun SpecialItem.plus(other: SpecialItem) = SpecialItem(cost + other.cost, dmg + other.dmg, arm + other.arm)

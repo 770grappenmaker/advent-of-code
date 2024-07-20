@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.allDistinct
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day4() = puzzle {
     val passphrases = inputLines.map { it.split(" ") }
     partOne = passphrases.count { it.allDistinct() }.s()

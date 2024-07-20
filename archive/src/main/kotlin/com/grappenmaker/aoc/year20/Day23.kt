@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day23() = puzzle(day = 23) {
     fun solve(initial: List<Int>, n: Int): DLL<Int> {
         val dll = initial.toDLLS()

@@ -3,8 +3,10 @@ package com.grappenmaker.aoc.year20
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.asPair
 import com.grappenmaker.aoc.countContains
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.toRange
 
+@PuzzleEntry
 fun PuzzleSet.day2() = puzzle {
     val passwords = inputLines.map {
         val (range, letter, password) = it.split(" ")

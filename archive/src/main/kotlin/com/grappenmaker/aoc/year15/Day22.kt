@@ -3,9 +3,11 @@ package com.grappenmaker.aoc.year15
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.drain
 import com.grappenmaker.aoc.hasDuplicateBy
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitInts
 import java.util.*
 
+@PuzzleEntry
 fun PuzzleSet.day22() = puzzle(day = 22) {
     val (initialBossHP, bossDMG) = input.splitInts()
 

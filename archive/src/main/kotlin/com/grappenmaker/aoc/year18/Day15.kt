@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.util.*
 
+@PuzzleEntry
 fun PuzzleSet.day15() = puzzle(day = 15) {
     val initialGrid = inputLines.asCharGrid().mapIndexedElements { p, v ->
         when (v) {

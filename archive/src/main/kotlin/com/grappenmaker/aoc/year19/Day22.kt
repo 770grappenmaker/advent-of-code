@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.rotateInPlace
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day22() = puzzle(day = 22) {
     var deck = (0..10006).toMutableList()
     inputLines.forEach { l ->

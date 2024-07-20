@@ -7,11 +7,5 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(20)
-
-    sourceSets.all {
-        languageSettings {
-            languageVersion = "2.0"
-        }
-    }
+    jvmToolchain(21)
 }

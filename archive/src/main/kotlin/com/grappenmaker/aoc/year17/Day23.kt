@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.sqrt
 
+@PuzzleEntry
 fun PuzzleSet.day23() = puzzle(day = 23) {
     var partOneAns = 0
     val program = inputLines.parseProgram()

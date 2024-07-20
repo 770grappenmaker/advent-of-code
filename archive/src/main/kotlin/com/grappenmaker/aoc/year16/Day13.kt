@@ -4,7 +4,9 @@ import com.grappenmaker.aoc.Point
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.adjacentSidesInf
 import com.grappenmaker.aoc.bfsDistance
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day13() = puzzle(13) {
     val no = input.toInt()
     fun isValid(p: Point) = p.x >= 0 && p.y >= 0 &&

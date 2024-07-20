@@ -2,9 +2,11 @@ package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.allIdentical
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.product
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day15() = puzzle(day = 15) {
     data class Disc(val positions: Int, val current: Int)
 

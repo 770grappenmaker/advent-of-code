@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day14() = puzzle {
     val lines = inputLines.flatMap { l ->
         l.split(" -> ").map { it.split(",").map(String::toInt).asPair().toPoint() }

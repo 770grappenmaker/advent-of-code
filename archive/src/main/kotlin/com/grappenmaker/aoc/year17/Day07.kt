@@ -2,8 +2,10 @@ package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.diff
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.absoluteValue
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle(day = 7) {
     val tree = inputLines.map { l ->
         val parts = l.split(" -> ")

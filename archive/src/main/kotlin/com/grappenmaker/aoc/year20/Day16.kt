@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.util.PriorityQueue
 
+@PuzzleEntry
 fun PuzzleSet.day16() = puzzle(day = 16) {
     val (rulesPart, yourPart, othersPart) = input.doubleLines().map(String::lines)
 

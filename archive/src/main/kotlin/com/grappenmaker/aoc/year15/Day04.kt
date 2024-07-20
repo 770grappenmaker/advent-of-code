@@ -1,10 +1,12 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.security.MessageDigest
 
 val md5: MessageDigest = MessageDigest.getInstance("MD5")
 
+@PuzzleEntry
 fun PuzzleSet.day4() = puzzle {
     val findSolution = { startingPoint: Int, zeroes: Int ->
         // n zeroes (hex) = first n * 4 bits are zero

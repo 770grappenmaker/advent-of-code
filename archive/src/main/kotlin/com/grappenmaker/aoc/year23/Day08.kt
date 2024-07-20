@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day8() = puzzle(day = 8) {
     val (insns, grid) = input.doubleLines()
     val dirs = insns.map { if (it == 'L') 0 else 1 }

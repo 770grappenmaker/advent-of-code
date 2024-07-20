@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.atan2
 
+@PuzzleEntry
 fun PuzzleSet.day10() = puzzle(day = 10) {
     with(inputLines.asGrid { it == '#' }) {
         val asteroids = filterTrue().toSet()

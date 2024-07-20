@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.toDigits
 
+@PuzzleEntry
 fun PuzzleSet.day14() = puzzle(day = 14) {
     val recipes = mutableListOf(3, 7)
     var elfOne = 0

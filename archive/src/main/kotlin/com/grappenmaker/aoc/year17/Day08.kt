@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.max
 
+@PuzzleEntry
 fun PuzzleSet.day8() = puzzle {
     val registers = mutableMapOf<String, Int>()
     fun String.getReg() = registers.getOrPut(this) { 0 }

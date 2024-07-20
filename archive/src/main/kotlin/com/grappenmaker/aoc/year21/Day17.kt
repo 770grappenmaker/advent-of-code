@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.abs
 
+@PuzzleEntry
 fun PuzzleSet.day17() = puzzle(day = 17) {
     // Get instruction
     val instruction = inputLines.first().substring(13).split(", ")

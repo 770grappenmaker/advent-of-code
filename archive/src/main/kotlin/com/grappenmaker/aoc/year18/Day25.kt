@@ -3,8 +3,10 @@ package com.grappenmaker.aoc.year18
 import com.grappenmaker.aoc.PointND
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.floodFill
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.manhattanDistanceTo
 
+@PuzzleEntry
 fun PuzzleSet.day25() = puzzle {
     val coords = inputLines.map { PointND(it.split(',').map(String::toInt)) }
     val left = coords.toHashSet()

@@ -1,13 +1,10 @@
-import java.net.URLClassLoader
-import java.time.OffsetDateTime
-import java.time.ZoneOffset
-
 plugins {
     id("kotlin")
-    kotlin("plugin.serialization")
+    id("ksp")
+    alias(libs.plugins.serialization)
 }
 
 dependencies {
-    implementation(project(":util"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation(projects.util)
+    implementation(libs.serialization.json)
 }

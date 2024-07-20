@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day15() = puzzle(day = 15) {
     fun String.hash() = fold(0) { a, ch -> ((a + ch.code) * 17) % 256 }
     val parts = input.split(",")

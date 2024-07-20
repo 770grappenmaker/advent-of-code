@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day18() = puzzle(day = 18) {
     val initial = inputLines.asCharGrid()
     fun solve(n: Int) = initial.patternRepeating(n) { curr ->

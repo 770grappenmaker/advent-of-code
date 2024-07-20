@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day5() = puzzle(day = 5) {
     val blocks = input.doubleLines()
     val seeds = blocks.first().substringAfter(": ").split(" ").map(String::toLong)

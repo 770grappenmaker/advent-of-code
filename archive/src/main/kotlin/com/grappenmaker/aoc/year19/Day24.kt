@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day24() = puzzle(day = 24) {
     val initial = inputLines.asGrid { it == '#' }
     val emptyGrid = initial.mapElements { false }

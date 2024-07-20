@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.sign
 
+@PuzzleEntry
 fun PuzzleSet.day12() = puzzle(day = 12) {
     data class MoonInfo(val pos: Point3D, val velo: Point3D = Point3D(0, 0, 0))
     fun MoonInfo.energy() = pos.manhattanDistance * velo.manhattanDistance

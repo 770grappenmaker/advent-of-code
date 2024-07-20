@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.permPairs
 
+@PuzzleEntry
 fun PuzzleSet.day18() = puzzle(day = 18) {
     // Parse all numbers (AST like)
     val numbers = inputLines.map { SnailfishNumber.parse(it) }

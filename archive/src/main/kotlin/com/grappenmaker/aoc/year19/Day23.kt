@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.queueOf
 
+@PuzzleEntry
 fun PuzzleSet.day23() = puzzle(day = 23) {
     fun seq(partTwo: Boolean) = sequence {
         var lastNATX: Long? = null

@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day12() = puzzle(day = 12) {
     // Part one
     val graph = inputLines.generateGraph()

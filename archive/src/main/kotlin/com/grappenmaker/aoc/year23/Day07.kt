@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle(day = 7) {
     data class Hand(val l: List<Char>, val bid: Long)
     val hs = inputLines.map { l ->

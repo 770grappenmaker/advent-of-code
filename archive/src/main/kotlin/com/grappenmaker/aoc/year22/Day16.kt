@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitInts
 import kotlin.math.max
 
+@PuzzleEntry
 fun PuzzleSet.day16() = puzzle {
     val valves = inputLines.map { l ->
         val conns = l.substringAfter("valves ").substringAfter("valve ").split(", ")

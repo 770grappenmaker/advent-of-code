@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day8() = puzzle(day = 8) {
     val width = 25
     val height = 6

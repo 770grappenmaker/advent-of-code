@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day19() = puzzle(day = 19) {
     fun Point3D.permutations() = listOf(
         this,

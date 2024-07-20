@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.permPairs
 
+@PuzzleEntry
 fun PuzzleSet.day2() = puzzle {
     fun eval(noun: Long, verb: Long) = with(startComputer(input)) {
         this[1] = noun

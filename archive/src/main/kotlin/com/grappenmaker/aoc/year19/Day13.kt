@@ -2,8 +2,10 @@ package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.Point
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.sign
 
+@PuzzleEntry
 fun PuzzleSet.day13() = puzzle(13) {
     val drawn = input.programResults().map(Long::toInt).chunked(3).map { (x, y, t) -> Point(x, y) to t }
     partOne = drawn.count { (_, t) -> t == 2 }.s()

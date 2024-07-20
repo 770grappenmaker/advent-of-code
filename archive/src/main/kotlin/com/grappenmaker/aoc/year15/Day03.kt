@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day3() = puzzle {
     val directions = input.map { it.toDirection().toPoint() }
     fun createPath(startIdx: Int, jump: Int) =

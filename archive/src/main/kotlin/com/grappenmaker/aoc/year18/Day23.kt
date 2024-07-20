@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day23() = puzzle(day = 23) {
     data class Bot(val pos: Point3D, val r: Int)
     val bots = inputLines.map { l ->

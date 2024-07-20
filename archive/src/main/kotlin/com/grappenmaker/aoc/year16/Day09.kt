@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.onceSplit
 
+@PuzzleEntry
 fun PuzzleSet.day09() = puzzle {
     fun String.createParts(): List<ExplodePart> = buildList {
         var left = this@createParts

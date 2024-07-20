@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle(day = 21) {
     val g = inputLines.asCharGrid()
     val s = g.findPointsValued('S').single()

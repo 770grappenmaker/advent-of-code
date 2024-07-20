@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.absoluteValue
 
+@PuzzleEntry
 fun PuzzleSet.day16() = puzzle(day = 16) {
     fun List<Int>.solve() = take(8).joinToString("")
 

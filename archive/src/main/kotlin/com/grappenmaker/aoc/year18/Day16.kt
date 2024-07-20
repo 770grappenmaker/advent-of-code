@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day16() = puzzle(day = 16) {
     val (examplePart, sampleProgramPart) = input.split("\n\n\n")
 

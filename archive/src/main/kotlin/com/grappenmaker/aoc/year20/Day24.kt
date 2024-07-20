@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day24() = puzzle(day = 24) {
     fun Char.parseDirection() = when (this) {
         'n' -> UP

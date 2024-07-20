@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle(day = 21) {
     // Note to self: helpful to debug these kinds of things instead of writing a full "decompilation"
     // Just printing out the instructions and finding the single reference to the reg0 would have been sufficient

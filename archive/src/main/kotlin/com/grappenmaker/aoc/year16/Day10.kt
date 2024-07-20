@@ -1,12 +1,14 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.product
 import kotlin.math.max
 import kotlin.math.min
 
 private const val outputMask = 0xff0000
 
+@PuzzleEntry
 fun PuzzleSet.day10() = puzzle {
     val insns = inputLines.map { l ->
         val parts = l.split(" ")

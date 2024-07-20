@@ -2,8 +2,10 @@ package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.firstNotDistinctBy
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day6() = puzzle {
     fun solve(start: List<Int>) = generateSequence(start) { old ->
         val new = old.toMutableList()

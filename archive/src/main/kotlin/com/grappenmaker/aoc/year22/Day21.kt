@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.random.Random
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle {
     val monkeys = inputLines.associate { line ->
         val (name, job) = line.split(": ")

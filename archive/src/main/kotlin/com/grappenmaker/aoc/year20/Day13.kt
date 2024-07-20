@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day13() = puzzle(day = 13) {
     val (startTimePart, busesPart) = inputLines
     val startTime = startTimePart.toLong()

@@ -289,26 +289,37 @@ fun <T> Sequence<T>.repeatInfinitely() = sequence { while (true) yieldAll(this@r
 
 fun gcd(a: Int, b: Int): Int = if (a == 0) b else gcd(b % a, a)
 fun gcd(a: Long, b: Long): Long = if (a == 0L) b else gcd(b % a, a)
+fun gcd(a: BigInteger, b: BigInteger): BigInteger = if (a == BigInteger.ZERO) b else gcd(b % a, a)
 fun lcm(a: Int, b: Int): Int = (a * b) / gcd(a, b)
 fun lcm(a: Long, b: Long): Long = (a * b) / gcd(a, b)
+fun lcm(a: BigInteger, b: BigInteger): BigInteger = (a * b) / gcd(a, b)
 
 fun gcdOf(vararg i: Int) = i.reduce { acc, curr -> gcd(acc, curr) }
 fun gcdOf(vararg i: Long) = i.reduce { acc, curr -> gcd(acc, curr) }
+fun gcdOf(vararg i: BigInteger) = i.reduce { acc, curr -> gcd(acc, curr) }
 fun lcmOf(vararg i: Int) = i.reduce { acc, curr -> lcm(acc, curr) }
 fun lcmOf(vararg i: Long) = i.reduce { acc, curr -> lcm(acc, curr) }
+fun lcmOf(vararg i: BigInteger) = i.reduce { acc, curr -> lcm(acc, curr) }
 
 fun List<Int>.gcd() = reduce { a, b -> gcd(a, b) }
 
 @JvmName("gcdLongs")
 fun List<Long>.gcd() = reduce { a, b -> gcd(a, b) }
 
+@JvmName("gcdBigs")
+fun List<BigInteger>.gcd() = reduce { a, b -> gcd(a, b) }
+
 fun List<Int>.lcm() = reduce { a, b -> lcm(a, b) }
 
 @JvmName("lcmLongs")
 fun List<Long>.lcm() = reduce { a, b -> lcm(a, b) }
 
+@JvmName("lcmBigs")
+fun List<BigInteger>.lcm() = reduce { a, b -> lcm(a, b) }
+
 fun Int.isCoprimeWith(other: Int) = gcd(this, other) == 1
 fun Long.isCoprimeWith(other: Long) = gcd(this, other) == 1L
+fun BigInteger.isCoprimeWith(other: BigInteger) = gcd(this, other) == BigInteger.ONE
 
 fun rangeDirection(a: Int, b: Int) = if (b < a) a downTo b else a..b
 
@@ -420,19 +431,19 @@ fun <T> List<T>.delegate(index: Int) = ReadOnlyProperty<Any?, T> { _, _ -> get(i
 fun Iterable<Boolean>.countTrue() = count { it }
 fun Iterable<Boolean>.countFalse() = count { !it }
 
-fun Int.toDigits() = buildList {
+fun Int.toDigits(base: Int = 10) = buildList {
     var curr = this@toDigits
     while (curr != 0) {
-        add(0, curr % 10)
-        curr /= 10
+        add(0, curr % base)
+        curr /= base
     }
 }
 
-fun Long.toDigits() = buildList {
+fun Long.toDigits(base: Long = 10L) = buildList {
     var curr = this@toDigits
     while (curr != 0L) {
-        add(0, curr % 10L)
-        curr /= 10L
+        add(0, curr % base)
+        curr /= base
     }
 }
 
@@ -788,4 +799,24 @@ inline fun <T> List<T>.randomSamples(n: Int, block: (T) -> Unit) {
         seenIndices += idx
         block(this[idx])
     }
+}
+
+fun <T> Iterator<T>.toList() = asSequence().toList()
+
+inline fun findZero(
+    guess: Double,
+    dx: Double = .001,
+    rounds: Int = 20,
+    noinline derivative: ((Double) -> Double)? = null,
+    func: (Double) -> Double
+): Double {
+    var curr = guess
+
+    repeat(rounds) {
+        val eval = func(curr)
+        if (eval == 0.0 || eval.isNaN() || curr.isNaN()) return curr
+        curr -= if (derivative != null) eval / derivative(curr) else eval * dx / (func(curr + dx) - eval)
+    }
+
+    return curr
 }

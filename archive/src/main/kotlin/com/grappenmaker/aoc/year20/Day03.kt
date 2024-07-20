@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day3() = puzzle {
     with(inputLines.asGrid { it == '#' }) {
         val countTrees = { slope: Point ->

@@ -1,11 +1,13 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.security.MessageDigest
 
 val md5: MessageDigest = MessageDigest.getInstance("MD5")
 
 // Why md5 again??
+@PuzzleEntry
 fun PuzzleSet.day5() = puzzle {
     fun seq() = generateSequence(0) { it + 1 }
         .map { i ->

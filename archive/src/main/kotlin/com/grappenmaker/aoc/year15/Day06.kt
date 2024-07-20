@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day6() = puzzle {
     val toggled = mutableBooleanGrid(1000, 1000)
     val brightness = mutableIntGrid(1000, 1000)

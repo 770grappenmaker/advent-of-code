@@ -1,11 +1,13 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.product
 import com.grappenmaker.aoc.splitInts
 import kotlin.math.max
 import kotlin.math.min
 
+@PuzzleEntry
 fun PuzzleSet.day19() = puzzle {
     val costs = inputLines.map { l -> l.splitInts().drop(1).parseCosts() }
 

@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day20() = puzzle(day = 20) {
     data class Particle(val pos: Point3D, val vel: Point3D, val acc: Point3D)
 

@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year15
 
 import kotlin.math.min
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day2() = puzzle {
     val cuboids = inputLines.map {
         val (length, width, height) = it.split("x").map(String::toInt)

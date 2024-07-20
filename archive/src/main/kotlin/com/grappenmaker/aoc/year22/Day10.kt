@@ -4,8 +4,10 @@ import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.buildBooleanGrid
 import com.grappenmaker.aoc.debug
 import com.grappenmaker.aoc.enable
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.abs
 
+@PuzzleEntry
 fun PuzzleSet.day10() = puzzle {
     val cycles = buildList {
         var curr = 1

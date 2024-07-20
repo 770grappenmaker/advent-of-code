@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day24() = puzzle(day = 24) {
     data class Stone(val pos: List<Double>, val vel: List<Double>)
     val stones = inputLines.map { l ->

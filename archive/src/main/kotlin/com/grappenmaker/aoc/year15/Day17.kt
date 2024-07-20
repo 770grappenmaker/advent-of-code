@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day17() = puzzle {
     val containerSizes = inputLines.map { it.toInt() }
 

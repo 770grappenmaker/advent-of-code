@@ -1,7 +1,8 @@
 plugins {
     id("kotlin")
+    id("ksp")
 }
 
 dependencies {
-    implementation(project(":util"))
+    implementation(projects.util)
 }

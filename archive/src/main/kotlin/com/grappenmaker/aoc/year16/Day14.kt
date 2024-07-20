@@ -3,7 +3,9 @@ package com.grappenmaker.aoc.year16
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.allIdentical
 import com.grappenmaker.aoc.deepen
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day14() = puzzle(day = 14) {
     fun solve(iter: Int = 1): String {
         fun hash(idx: Int): String {

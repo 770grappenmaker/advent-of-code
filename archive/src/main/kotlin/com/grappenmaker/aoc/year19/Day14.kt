@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.ceil
 
+@PuzzleEntry
 fun PuzzleSet.day14() = puzzle(day = 14) {
     data class Ratio(val amount: Long, val of: String)
     data class Recipe(val inputs: List<Ratio>, val output: Ratio)

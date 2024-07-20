@@ -3,8 +3,10 @@ package com.grappenmaker.aoc.year20
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.year20.Opcode.*
 import com.grappenmaker.aoc.hasDuplicateBy
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.untilNotDistinctBy
 
+@PuzzleEntry
 fun PuzzleSet.day8() = puzzle(8) {
     val insns = inputLines.map { l ->
         val (a, b) = l.split(" ")

@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day1() = puzzle {
     val nums = inputLines.map(String::toInt)
     partOne = nums.sumOf { (it / 3) - 2 }.s()

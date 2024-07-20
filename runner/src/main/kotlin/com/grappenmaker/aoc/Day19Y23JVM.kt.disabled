@@ -1,0 +1,95 @@
+package com.grappenmaker.aoc
+
+import org.objectweb.asm.Label
+import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.Opcodes.*
+
+fun main() = simplePuzzle(19, 2023) {
+    val (rules, parts) = input.doubleLines()
+
+    val cName = "com/grappenmaker/aoc/generated/Day19Y23JVM"
+    val iName = "com/grappenmaker/aoc/Day19Y23JVM"
+    partOne = generateClass(cName, implements = listOf(iName)) {
+        val evalDesc = "(IIII)Z"
+        fun MethodVisitor.callFlow(name: String) {
+            visitVarInsn(ALOAD, 0)
+            (1..4).forEach { visitVarInsn(ILOAD, it) }
+            visitMethodInsn(INVOKEVIRTUAL, cName, name, evalDesc, false)
+        }
+
+        rules.lines().forEach { l ->
+            val name = l.substringBefore('{')
+            val rls = l.drop(name.length + 1).dropLast(1).split(",")
+
+            generateMethod(name, evalDesc) {
+                rls.dropLast(1).forEach { rr ->
+                    val (rest, to) = rr.split(":")
+                    val label = Label()
+
+                    visitVarInsn(ILOAD, "xmas".indexOf(rest.first()) + 1)
+                    visitLdcInsn(rest.drop(2).toInt())
+                    visitJumpInsn(
+                        when (rest[1]) {
+                            '<' -> IF_ICMPGE
+                            '>' -> IF_ICMPLE
+                            else -> error("Impossible")
+                        }, label
+                    )
+
+                    callFlow(to)
+                    visitInsn(IRETURN)
+
+                    visitLabel(label)
+                }
+
+                callFlow(rls.last())
+                visitInsn(IRETURN)
+            }
+        }
+
+        listOf("A" to true, "R" to false).forEach { (n, v) ->
+            generateMethod(n, evalDesc) {
+                visitInsn(if (v) ICONST_1 else ICONST_0)
+                visitInsn(IRETURN)
+            }
+        }
+
+        generateMethod("getAnswer", "()J") {
+            visitInsn(LCONST_0)
+            visitVarInsn(LSTORE, 1)
+
+            parts.lines().forEach { l ->
+                visitVarInsn(ALOAD, 0)
+
+                l.drop(1).dropLast(1).split(",").map { p ->
+                    val (c, d) = p.split("=")
+                    c to d.toInt()
+                }.sortedBy { (a) -> "xmas".indexOf(a) }.forEachIndexed { idx, (_, b) ->
+                    visitLdcInsn(b)
+                    visitInsn(DUP)
+                    visitVarInsn(ISTORE, idx + 3)
+                }
+
+                val label = Label()
+                visitMethodInsn(INVOKEVIRTUAL, cName, "in", evalDesc, false)
+                visitJumpInsn(IFEQ, label)
+
+                visitVarInsn(LLOAD, 1)
+                (3..6).forEach { visitVarInsn(ILOAD, it) }
+                repeat(3) { visitInsn(IADD) }
+                visitInsn(I2L)
+                visitInsn(LADD)
+                visitVarInsn(LSTORE, 1)
+
+                visitLabel(label)
+            }
+
+            visitVarInsn(LLOAD, 1)
+            visitInsn(LRETURN)
+        }
+    }.instance<Day19Y23JVM>().answer.s()
+}
+
+interface Day19Y23JVM {
+    val answer: Long
+}

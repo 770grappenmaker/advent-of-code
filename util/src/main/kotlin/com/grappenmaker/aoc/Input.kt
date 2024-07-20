@@ -1,17 +1,19 @@
-import java.net.*
+package com.grappenmaker.aoc
+
 import java.io.File
-import java.time.OffsetDateTime
-import java.time.ZoneOffset
+import java.net.HttpURLConnection
+import java.net.URI
+import kotlin.io.path.createDirectories
+import kotlin.io.path.outputStream
 
 fun main(args: Array<String>) {
-    val unlockOffset: ZoneOffset = ZoneOffset.ofHours(-5)
     val token = File(".TOKEN").readText().trim()
-    val now = OffsetDateTime.now().withOffsetSameInstant(unlockOffset)
+    val now = now()
     val day = (args.firstOrNull()?.toIntOrNull() ?: now.dayOfMonth).coerceIn(1..25)
     val year = args.getOrNull(1)?.toIntOrNull() ?: now.year
     println("Fetching day $day year $year")
 
-    val file = File("inputs/$year", "day-${"%02d".format(day)}.txt")
+    val file = inputsDir(year).also { it.createDirectories() }.resolve(inputName(day))
     println("Writing to $file")
 
     with(URI("https://adventofcode.com/$year/day/$day/input").toURL().openConnection() as HttpURLConnection) {

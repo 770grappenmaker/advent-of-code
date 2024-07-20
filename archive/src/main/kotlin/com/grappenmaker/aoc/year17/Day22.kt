@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day22() = puzzle(day = 22) {
     val initialGrid = inputLines.asGrid { it == '#' }
     val initialAntPos = Point(initialGrid.width / 2, initialGrid.height / 2)

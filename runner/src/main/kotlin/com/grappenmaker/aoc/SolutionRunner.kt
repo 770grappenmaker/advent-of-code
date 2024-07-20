@@ -2,11 +2,11 @@
 
 package com.grappenmaker.aoc
 
+import com.grappenmaker.aoc.years.puzzles
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.time.LocalDate
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.readLines
@@ -23,6 +23,7 @@ fun main(args: Array<String>) {
     val year = args.getOrNull(1)?.toInt()
         ?: eventYear.also { println("Using the 'current' AOC year ($it)") }
 
+    // obviously bad code but like, I don't really want to over optimize
     val puzzle = puzzles.find { it.day == day && it.year == year }
         ?: panic("Unknown puzzle for day $day and year $year (not yet implemented?)")
 
@@ -86,8 +87,6 @@ fun runPuzzle(puzzle: Puzzle, input: List<String>) {
     }
 }
 
-fun inputsDir(year: Int): Path = Paths.get("inputs", year.toString())
-fun inputName(day: Int, title: String = "day") = "$title-${day.toString().padStart(2, '0')}.txt"
 fun defaultInput(year: Int, day: Int, title: String = "day"): Path = inputsDir(year).resolve(inputName(day, title))
 
 fun simplePuzzle(

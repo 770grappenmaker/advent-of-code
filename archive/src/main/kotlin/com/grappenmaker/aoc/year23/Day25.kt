@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day25() = puzzle(day = 25) {
     // I am quite happy I solved it with a viz, this algorithm is... not great
     val total = buildMap<String, List<String>> {

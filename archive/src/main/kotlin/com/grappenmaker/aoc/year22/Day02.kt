@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day2() = puzzle {
     fun List<Pair<Int, Int>>.score() = sumOf { (l, r) ->
         when {

@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day18() = puzzle(day = 18) {
     val parsed = input.map { it == '^' }
 

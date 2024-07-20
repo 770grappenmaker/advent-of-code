@@ -1,10 +1,12 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.repeatInfinitely
 import com.grappenmaker.aoc.splitInts
 import kotlin.math.max
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle(day = 21) {
     val (startOne, startTwo) = inputLines.map { it.splitInts().last() }
     data class PlayerState(

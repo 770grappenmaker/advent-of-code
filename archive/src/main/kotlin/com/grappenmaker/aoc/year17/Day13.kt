@@ -2,9 +2,11 @@ package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.asPair
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.queueOf
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day13() = puzzle(day = 13) {
     // depth -> range
     val layers = inputLines.associate { it.splitInts().asPair() }

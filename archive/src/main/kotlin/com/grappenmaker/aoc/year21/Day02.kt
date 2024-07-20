@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day2() = puzzle(day = 2) {
     // Part one
     val instructions = inputLines.map {

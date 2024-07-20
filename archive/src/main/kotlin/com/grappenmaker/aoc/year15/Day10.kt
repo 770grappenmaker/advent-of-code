@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day10() = puzzle {
     // Parse as digits (48 is the ascii code of zero)
     val digits = input.trim().map { it.code - 48 }

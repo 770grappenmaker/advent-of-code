@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day22() = puzzle {
     data class Instruction(val amount: Int, val direction: Int)
 

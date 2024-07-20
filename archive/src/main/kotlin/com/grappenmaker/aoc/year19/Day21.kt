@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle(day = 21) {
     fun solve(program: String) = with(
         startComputer(input, program.lines().flatMap { it.toList().map { c -> c.code.toLong() } + 10L })

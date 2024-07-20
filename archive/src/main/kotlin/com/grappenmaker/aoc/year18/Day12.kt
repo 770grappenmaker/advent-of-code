@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.nth
 
+@PuzzleEntry
 fun PuzzleSet.day12() = puzzle(day = 12) {
     fun String.parse() = map { it == '#' }.withIndex().filter { it.value }.map { it.index }
 

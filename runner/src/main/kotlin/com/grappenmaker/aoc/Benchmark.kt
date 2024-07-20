@@ -1,5 +1,7 @@
 package com.grappenmaker.aoc
 
+import com.grappenmaker.aoc.years.puzzles
+import com.grappenmaker.aoc.years.years
 import kotlin.io.path.exists
 import kotlin.io.path.readLines
 import kotlin.system.measureTimeMillis

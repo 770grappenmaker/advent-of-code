@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(project(":"))
 
+    // TODO: convert to version catalog
     val gdxVersion = "1.11.0"
     implementation("com.badlogicgames.gdx:gdx:$gdxVersion")
     implementation("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop")

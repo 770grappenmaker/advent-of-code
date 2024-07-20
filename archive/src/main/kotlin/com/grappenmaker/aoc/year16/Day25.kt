@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day25() = puzzle(day = 25) {
     // Probably the ugliest AOC code so far
     partOne = generateSequence(1L, Long::inc).first { i ->

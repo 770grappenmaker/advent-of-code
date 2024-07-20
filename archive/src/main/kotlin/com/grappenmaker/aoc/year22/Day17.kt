@@ -2,8 +2,10 @@ package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.abs
 
+@PuzzleEntry
 fun PuzzleSet.day17() = puzzle {
     val instructions = input.map {
         when (it) {

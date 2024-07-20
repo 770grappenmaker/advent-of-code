@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.abs
 
+@PuzzleEntry
 fun PuzzleSet.day11() = puzzle {
     val password = input.trim().map { it.digitCode }
     val (first, second) = generateSequence(password) { it.nextPassword() }

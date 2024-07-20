@@ -2,8 +2,10 @@ package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.deepen
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.permPairs
 
+@PuzzleEntry
 fun PuzzleSet.day2() = puzzle {
     val counts = inputLines.deepen().map { w -> w.groupingBy { it }.eachCount().values }
     partOne = (counts.count { 2 in it } * counts.count { 3 in it }).s()

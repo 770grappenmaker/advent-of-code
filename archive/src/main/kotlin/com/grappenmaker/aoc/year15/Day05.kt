@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year15
 
 import kotlin.math.abs
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day5() = puzzle {
     val vowels = listOf('a', 'e', 'i', 'o', 'u')
     val disallowed = listOf("ab", "cd", "pq", "xy")

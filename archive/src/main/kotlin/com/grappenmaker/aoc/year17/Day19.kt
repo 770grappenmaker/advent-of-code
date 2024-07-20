@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day19() = puzzle(day = 19) {
     val grid = inputLines.asCharGrid()
     val start = grid.row(0).first { grid[it] == '|' }

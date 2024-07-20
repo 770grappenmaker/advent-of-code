@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.pow
 
+@PuzzleEntry
 fun PuzzleSet.day3() = puzzle(day = 3) {
     // Part one
     val lines = inputLines

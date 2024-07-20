@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day16() = puzzle(day = 16) {
     fun List<Boolean>.dragon() = this + false + asReversed().map { !it }
     fun List<Boolean>.checksum(): List<Boolean> =

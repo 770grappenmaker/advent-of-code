@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day11() = puzzle(day = 11) {
     val dirs = input.split(",").map {
         when (it) {

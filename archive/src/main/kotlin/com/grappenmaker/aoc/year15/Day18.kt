@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day18() = puzzle {
     // mutable state better?
     fun solve(partTwo: Boolean) = inputLines.asGrid { it == '#' }.automaton { loc, on ->

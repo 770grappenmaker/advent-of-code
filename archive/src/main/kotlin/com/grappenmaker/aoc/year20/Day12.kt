@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day12() = puzzle(12) {
     val actions = inputLines.map { l -> l.first() to l.drop(1).toInt() }
     partOne = actions.fold(Point(0, 0) to RIGHT) { (p, d), (a, v) ->

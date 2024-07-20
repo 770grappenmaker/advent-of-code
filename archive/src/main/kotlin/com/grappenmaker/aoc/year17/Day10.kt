@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day10() = puzzle(day = 10) {
     val (a, b) = knotHash(input.split(",").map(String::toInt)).data
     partOne = (a * b).s()

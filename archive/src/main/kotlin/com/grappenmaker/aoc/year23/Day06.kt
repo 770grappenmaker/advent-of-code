@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day6() = puzzle(day = 6) {
     // oh boy do we love optimizing problems needlessly
     fun solve(t: Long, d: Long): Long {

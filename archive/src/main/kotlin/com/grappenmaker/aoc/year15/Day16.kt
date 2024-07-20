@@ -1,6 +1,7 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.year15.AuntProperty.*
 
 val givenInfo = mapOf(
@@ -16,6 +17,7 @@ val givenInfo = mapOf(
     PERFUMES to 1
 )
 
+@PuzzleEntry
 fun PuzzleSet.day16() = puzzle {
     val aunts = inputLines.map { l ->
         val props = l.substringAfter(": ").split(", ")

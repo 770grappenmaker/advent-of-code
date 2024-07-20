@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day18() = puzzle(day = 18) {
     fun solve(partTwo: Boolean): String {
         var p = 0L

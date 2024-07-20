@@ -3,7 +3,9 @@ package com.grappenmaker.aoc.year19
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.year19.MazeEntity.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day15() = puzzle(15) {
     val pc = startComputer(input)
     fun Direction.asLong() = when (this) {

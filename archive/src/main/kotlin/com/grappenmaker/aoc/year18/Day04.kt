@@ -1,11 +1,13 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.mostFrequent
 import com.grappenmaker.aoc.splitInts
 import java.text.SimpleDateFormat
 import java.time.ZoneOffset
 
+@PuzzleEntry
 fun PuzzleSet.day4() = puzzle {
     // Wacky way to do this stuff
     val format = SimpleDateFormat("yyyy-MM-dd HH:mm")

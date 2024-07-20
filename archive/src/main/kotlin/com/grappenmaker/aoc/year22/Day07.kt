@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.queueOf
 import kotlin.math.abs
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle {
     val normalFiles = mutableMapOf<String, Int>()
     val dirs = buildMap<String, List<String>> {

@@ -1,9 +1,12 @@
 package com.grappenmaker.aoc
 
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.Month
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
+import kotlin.io.path.Path
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -22,27 +25,24 @@ class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
     val input by lazy { inputLines.joinToString("\n").trim() }
     val rawInput by lazy { inputLines.joinToString("\n") }
 
-    inner class PartDelegate(part: Int) : ReadWriteProperty<Any?, String> {
+    inner class PartDelegate(part: Int) {
         var underlying =
             if (part == 2 && puzzle.day == 25) "Merry Christmas! And a Happy New Year!" else "Not implemented"
 
         var touched = false
             private set
 
-        override fun getValue(thisRef: Any?, property: KProperty<*>) = underlying
-        override fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
+        operator fun getValue(thisRef: Any?, property: KProperty<*>) = underlying
+        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Any) {
             touched = true
-            underlying = value
+            underlying = value.toString()
         }
     }
 
     val partOneDelegate = PartDelegate(1)
     val partTwoDelegate = PartDelegate(2)
-    var partOne by partOneDelegate
-    var partTwo by partTwoDelegate
-
-//    var partOne = "Not implemented"
-//    var partTwo = "Not implemented"
+    var partOne: Any by partOneDelegate
+    var partTwo: Any by partTwoDelegate
 
     // Utility to convert to string (felt shorter to use)
     fun <T> T.s() = toString()
@@ -60,11 +60,6 @@ data class PuzzleSet(val year: Int) {
     }
 }
 
-// jank!
-val years by lazy { (15..23).map { generateYear(2000 + it, "com/grappenmaker/aoc/year$it") } }
-
-val puzzles by lazy { years.flatMap { it.puzzles } }
-
 // Quote the official Advent of Code website:
 // The first puzzles will unlock on December 1st at midnight EST (UTC-5). See you then!
 val unlockOffset: ZoneOffset = ZoneOffset.ofHours(-5)
@@ -76,3 +71,6 @@ fun midnight(): OffsetDateTime = LocalDate.now(unlockOffset).atStartOfDay().atOf
 fun eventYear() = now().let { if (it.month.value < 11) it.year - 1 else it.year }
 fun isAdvent() = now().let { it.month == Month.DECEMBER && it.dayOfMonth in 1..25 }
 fun eventDay() = if (isAdvent()) now().dayOfMonth else null
+
+fun inputsDir(year: Int): Path = Path("inputs", year.toString())
+fun inputName(day: Int, title: String = "day") = "$title-${day.toString().padStart(2, '0')}.txt"

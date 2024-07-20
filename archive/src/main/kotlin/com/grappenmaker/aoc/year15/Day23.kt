@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.onceSplit
 
+@PuzzleEntry
 // Overengineering sometimes is also good
 fun PuzzleSet.day23() = puzzle(23) {
     val insns = inputLines.map { l ->

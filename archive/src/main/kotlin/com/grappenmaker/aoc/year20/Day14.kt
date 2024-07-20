@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day14() = puzzle(day = 14) {
     // Don't think I can generalize here
     fun solve(solution: (memory: MutableMap<Long, Long>) -> Unit) =

@@ -2,8 +2,10 @@ package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.doubleLines
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.toQueue
 
+@PuzzleEntry
 fun PuzzleSet.day22() = puzzle(day = 22) {
     val (initialP1, initialP2) = input.doubleLines().map { it.lines().drop(1).map(String::toInt) }
 

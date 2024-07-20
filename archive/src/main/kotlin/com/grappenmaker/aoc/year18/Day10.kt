@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.absoluteValue
 
+@PuzzleEntry
 fun PuzzleSet.day10() = puzzle(day = 10) {
     val curr = inputLines.map {
         val (x, y, vx, vy) = it.splitInts()

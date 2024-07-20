@@ -2,8 +2,10 @@ package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.util.*
 
+@PuzzleEntry
 fun PuzzleSet.day23() = puzzle(day = 23) {
     fun List<String>.parse() = map { it.padEnd(inputLines.first().length, ' ') }.asCharGrid()
 

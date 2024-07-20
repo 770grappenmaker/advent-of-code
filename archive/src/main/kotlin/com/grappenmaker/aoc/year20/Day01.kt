@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.permPairs
 import com.grappenmaker.aoc.product
 
+@PuzzleEntry
 fun PuzzleSet.day1() = puzzle {
     val numbers = inputLines.map(String::toInt)
     val reverse = numbers.map { 2020 - it }

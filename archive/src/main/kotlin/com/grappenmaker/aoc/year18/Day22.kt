@@ -1,12 +1,14 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.math.BigInteger
 
 // I don't like this code
 private val mod = 20183.toBigInteger()
 private val xTimes = 16807L.toBigInteger()
 private val yTimes = 48271L.toBigInteger()
+@PuzzleEntry
 
 fun PuzzleSet.day22() = puzzle {
     val (depth, targetX, targetY) = rawInput.splitInts()

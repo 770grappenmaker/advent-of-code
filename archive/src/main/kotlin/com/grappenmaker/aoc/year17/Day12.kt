@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.floodFill
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day12() = puzzle(day = 12) {
     val graph = inputLines.flatMap { l ->
         val (from, toList) = l.split(" <-> ")

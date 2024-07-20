@@ -3,9 +3,11 @@ package com.grappenmaker.aoc.year22
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.asList
 import com.grappenmaker.aoc.asPair
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlinx.serialization.json.*
 import kotlin.math.min
 
+@PuzzleEntry
 fun PuzzleSet.day13() = puzzle {
     val pairs = input.split("\n\n").map { p -> p.lines().map { parseValue(it) }.asPair() }
     partOne = pairs.mapIndexed { idx, (a, b) -> a.inOrderWith(b) to idx + 1 }

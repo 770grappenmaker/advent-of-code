@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year19
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.parseRange
 import com.grappenmaker.aoc.toDigits
 
+@PuzzleEntry
 fun PuzzleSet.day4() = puzzle {
     val range = input.parseRange()
     fun solve(partTwo: Boolean) = range.count { p ->

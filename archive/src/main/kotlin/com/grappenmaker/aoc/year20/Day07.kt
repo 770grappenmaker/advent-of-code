@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle(7) {
     val rules = inputLines.associate { l ->
         val (bag, contains) = l.split(" contain ")

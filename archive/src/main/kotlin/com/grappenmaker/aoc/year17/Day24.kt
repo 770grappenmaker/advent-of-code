@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day24() = puzzle(day = 24) {
     data class Component(val portA: Int, val portB: Int)
     val allComponents = inputLines.map { l -> l.splitInts().let { (a, b) -> Component(a, b) } }

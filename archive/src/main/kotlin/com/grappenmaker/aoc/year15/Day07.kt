@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.year15.Wiring.*
 import com.grappenmaker.aoc.year15.Operator.*
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle {
     val insns = inputLines.associate { l ->
         val (operation, target) = l.split(" -> ")

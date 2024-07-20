@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day13() = puzzle(day = 13) {
     val gs = input.doubleLines().map { it.lines().asGrid { c -> c == '#' } }
 

@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.asPair
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle(day = 7) {
     val pairs = inputLines.map {
         it.split(" ")

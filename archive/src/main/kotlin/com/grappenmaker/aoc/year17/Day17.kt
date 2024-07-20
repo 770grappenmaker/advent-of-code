@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.queueOf
 import com.grappenmaker.aoc.rotateInPlace
 
+@PuzzleEntry
 fun PuzzleSet.day17() = puzzle(day = 17) {
     val steps = input.toInt()
     val curr = queueOf(0)

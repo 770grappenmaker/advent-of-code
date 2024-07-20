@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.abs
 import kotlin.math.min
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle(day = 7) {
     // Part one
     val numbers = input.trim().split(",").map { it.toInt() }.sorted()

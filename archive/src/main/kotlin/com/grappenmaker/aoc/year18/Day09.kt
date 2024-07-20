@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day9() = puzzle(day = 9) {
     val (players, totalMarbles) = input.splitInts()
     val scores = MutableList(players) { 0L }

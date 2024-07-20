@@ -1,11 +1,18 @@
 plugins {
     id("kotlin")
+    id("ksp")
 }
 
 dependencies {
-    implementation(project(":archive"))
-    implementation(project(":current"))
-    implementation(project(":util"))
+    implementation(projects.archive)
+    implementation(projects.current)
+    implementation(projects.util)
+//    implementation(libs.bundles.asm)
+}
+
+ksp {
+    arg("generatePuzzleSets", "false")
+    arg("generateYearSet", "true")
 }
 
 tasks {

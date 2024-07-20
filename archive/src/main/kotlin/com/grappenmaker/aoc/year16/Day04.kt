@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.deepen
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day4() = puzzle {
     val rooms = inputLines.map { l ->
         val (name, info) = l.substringBeforeLast('-') to l.substringAfterLast('-')

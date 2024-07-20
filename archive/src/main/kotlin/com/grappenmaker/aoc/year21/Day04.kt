@@ -1,12 +1,14 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.floor
 
 // 5x5
 const val BOARD_SIZE = 5
 val spacePattern = """\s+""".toRegex()
 
+@PuzzleEntry
 fun PuzzleSet.day4() = puzzle(day = 4) {
     // Part one
     val lines = inputLines

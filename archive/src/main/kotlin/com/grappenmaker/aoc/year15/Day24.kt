@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.permutations
 import com.grappenmaker.aoc.product
 
+@PuzzleEntry
 fun PuzzleSet.day24() = puzzle(day = 24) {
     val packages = inputLines.map(String::toInt)
     val weightSum = packages.sum()

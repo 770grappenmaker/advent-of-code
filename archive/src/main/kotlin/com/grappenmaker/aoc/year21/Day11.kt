@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Point
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day11() = puzzle(day = 11) {
     with(inputLines.asMutableDigitGrid()) {
         var flashes = 0

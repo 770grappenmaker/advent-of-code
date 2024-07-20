@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day9() = puzzle(day = 9) {
     // Pretty ewey non-kotlin'y code, but F A S T
     var idx = 0

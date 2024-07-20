@@ -1,6 +1,7 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
 data class LicenseNode(val children: List<LicenseNode>, val meta: List<Int>)
 val LicenseNode.metaSum: Int get() = meta.sum() + children.sumOf { it.metaSum }
@@ -9,6 +10,7 @@ val LicenseNode.value: Int get() = when {
     else -> meta.sum()
 }
 
+@PuzzleEntry
 fun PuzzleSet.day8() = puzzle(8) {
     fun List<Int>.parse(): Pair<LicenseNode, List<Int>> {
         val (childCount, metaCount) = take(2)

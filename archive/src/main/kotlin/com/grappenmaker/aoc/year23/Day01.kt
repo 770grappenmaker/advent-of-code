@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day1() = puzzle(day = 1) {
     val d = listOf("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
     val s = d.mapTo(hashSetOf()) { it.first() }

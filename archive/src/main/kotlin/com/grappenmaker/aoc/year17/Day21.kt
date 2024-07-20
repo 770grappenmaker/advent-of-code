@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle(day = 21) {
     data class Rule(val inputs: Set<BooleanGrid>, val output: BooleanGrid)
     fun String.parseRuleGrid() = split("/").asGrid { it == '#' }

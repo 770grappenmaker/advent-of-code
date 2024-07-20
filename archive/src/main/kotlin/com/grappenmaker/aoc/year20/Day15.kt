@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day15() = puzzle(day = 15) {
     val starting = input.splitInts()
     val lookup = IntArray(30000000) { -1 }

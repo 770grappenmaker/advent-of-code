@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day2() = puzzle {
     val insns = inputLines.map { it.deepen().map { c -> c.parseDirection().toPoint() } }
     val telephoneGrid = """

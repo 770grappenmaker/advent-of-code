@@ -3,10 +3,18 @@ plugins {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC")
-    api("com.grappenmaker:nasty-jvm-util") {
-        capabilities {
-            requireCapability("com.grappenmaker:nasty-jvm-util-reflect")
-        }
+    api(libs.coroutines)
+}
+
+tasks {
+    register<Jar>("inputJar") {
+        dependsOn(classes)
+        from(sourceSets.main.map { it.output.classesDirs })
+        from(configurations.runtimeClasspath.map { conf ->
+            conf.map { if (it.isDirectory) it else zipTree(it) }
+        })
+
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        archiveClassifier = "input"
     }
 }

@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day22() = puzzle(day = 22) {
     val bp = inputLines.map { l ->
         val (a, b) = l.split("~").map { p ->

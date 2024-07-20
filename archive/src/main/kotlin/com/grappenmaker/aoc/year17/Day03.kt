@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.ceil
 import kotlin.math.sqrt
 
+@PuzzleEntry
 fun PuzzleSet.day3() = puzzle {
     // Welcome to the yearly competition of "what in the jank"!
     val inputSquare = input.toInt()

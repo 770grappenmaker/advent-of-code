@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.queueOf
 import com.grappenmaker.aoc.removeLastN
 
+@PuzzleEntry
 fun PuzzleSet.day18() = puzzle(day = 18) {
     fun lexer(l: String): List<Token> {
         var ptr = 0

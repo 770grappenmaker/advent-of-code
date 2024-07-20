@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlinx.serialization.json.*
 
+@PuzzleEntry
 fun PuzzleSet.day12() = puzzle {
     // Nice solution, but this will not do for part two
     // val numberRegex = "-?\\d+".toRegex()

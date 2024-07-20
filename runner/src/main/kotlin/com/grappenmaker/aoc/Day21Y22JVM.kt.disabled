@@ -1,8 +1,5 @@
 package com.grappenmaker.aoc
 
-import com.grappenmaker.jvmutil.generateMethod
-import com.grappenmaker.jvmutil.instance
-import com.grappenmaker.jvmutil.internalNameOf
 import org.objectweb.asm.Label
 import org.objectweb.asm.Opcodes.*
 import java.lang.invoke.MethodHandles
@@ -28,7 +25,8 @@ fun main() = simplePuzzle(21, 2022) {
     }
 
     val cName = "com/grappenmaker/aoc/year22/Day21JVMGenerated"
-    val eval = generateClass(name = cName, implements = listOf(internalNameOf<Day21Eval>())) {
+    val iName = "com/grappenmaker/aoc/Day21Eval"
+    val eval = generateClass(name = cName, implements = listOf(iName)) {
         parsed.forEach { (name, info) ->
             generateMethod(name, "(D)D") {
                 if (name == "humn") {

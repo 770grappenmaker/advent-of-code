@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day12() = puzzle(day = 12) {
     //    data class Memo(val left: List<Boolean?>, val sizes: List<Int>)
     data class Memo(val configIdx: Int, val sizesIdx: Int)

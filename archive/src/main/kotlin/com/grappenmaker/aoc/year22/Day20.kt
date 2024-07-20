@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day20() = puzzle {
     val encrypted = inputLines.map(String::toLong)
     fun List<Long>.step(rounds: Int = 1): List<Long> {

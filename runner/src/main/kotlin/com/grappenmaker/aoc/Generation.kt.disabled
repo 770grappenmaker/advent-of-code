@@ -1,0 +1,76 @@
+package com.grappenmaker.aoc
+
+import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.Opcodes
+import org.objectweb.asm.util.TraceClassVisitor
+import java.io.PrintWriter
+
+object GenerationClassLoader : ClassLoader() {
+    fun loader(bytes: ByteArray, name: String) = defineClass(name, bytes, 0, bytes.size)
+}
+
+inline fun generateClass(
+    name: String,
+    extends: String = "java/lang/Object",
+    implements: List<String> = listOf(),
+    defaultConstructor: Boolean = true,
+    access: Int = Opcodes.ACC_PUBLIC or Opcodes.ACC_FINAL,
+    writerFlags: Int = ClassWriter.COMPUTE_FRAMES,
+    version: Int = Opcodes.V1_8,
+    loader: (bytes: ByteArray, name: String) -> Class<*> = GenerationClassLoader::loader,
+    debug: Boolean = false,
+    generator: ClassVisitor.() -> Unit
+): Class<*> = loader(
+    generateClassBytes(name, extends, implements, access, defaultConstructor, writerFlags, version, debug, generator),
+    name.replace('/', '.')
+)
+
+inline fun generateClassBytes(
+    name: String,
+    extends: String = "java/lang/Object",
+    implements: List<String> = listOf(),
+    access: Int = Opcodes.ACC_PUBLIC or Opcodes.ACC_FINAL,
+    defaultConstructor: Boolean = access and Opcodes.ACC_INTERFACE == 0,
+    writerFlags: Int = ClassWriter.COMPUTE_FRAMES,
+    version: Int = Opcodes.V1_8,
+    debug: Boolean = false,
+    generator: ClassVisitor.() -> Unit
+): ByteArray {
+    val writer = ClassWriter(writerFlags)
+    val visitor = if (debug) TraceClassVisitor(writer, PrintWriter(System.out)) else writer
+    with(visitor) {
+        visit(version, access, name, null, extends, implements.toTypedArray())
+
+        if (defaultConstructor) generateMethod("<init>", "()V") {
+            visitVarInsn(Opcodes.ALOAD, 0)
+            visitMethodInsn(Opcodes.INVOKESPECIAL, extends, "<init>", "()V", false)
+            visitInsn(Opcodes.RETURN)
+        }
+
+        generator()
+        visitEnd()
+    }
+
+    return writer.toByteArray()
+}
+
+fun ClassVisitor.generateMethod(
+    name: String,
+    descriptor: String,
+    access: Int = Opcodes.ACC_PUBLIC,
+    maxStack: Int = 0,
+    maxLocals: Int = 0,
+    generator: (MethodVisitor.() -> Unit)? = null
+): Unit = with(visitMethod(access, name, descriptor, null, null)) {
+    if (generator != null) {
+        visitCode()
+        generator()
+        visitMaxs(maxStack, maxLocals)
+    }
+
+    visitEnd()
+}
+
+inline fun <reified T : Any> Class<*>.instance() = getConstructor().newInstance() as T

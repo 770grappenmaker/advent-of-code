@@ -2,9 +2,11 @@ package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.Point3D
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.rangeTo
 import com.grappenmaker.aoc.volumeLong
 
+@PuzzleEntry
 fun PuzzleSet.day22() = puzzle(day = 22) {
     // This took me way too long to come up with
     // My initial idea of cutting ended up too slow, since after you cut a region once,

@@ -1,10 +1,12 @@
 package com.grappenmaker.aoc.year22
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.removeLastN
 import com.grappenmaker.aoc.swapOrder
 import com.grappenmaker.aoc.toQueue
 
+@PuzzleEntry
 fun PuzzleSet.day5() = puzzle {
     val (initial, guide) = rawInput.split("\n\n")
     val stackLines = initial.lines().dropLast(1)

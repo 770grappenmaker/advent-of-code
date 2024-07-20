@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day9() = puzzle(day = 9) {
     val seq = inputLines.map { ns ->
         generateSequence(ns.split(" ").map(String::toInt)) { c -> c.windowed(2) { (a, b) -> b - a } }

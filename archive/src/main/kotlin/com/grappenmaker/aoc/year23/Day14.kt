@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year23
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day14() = puzzle(day = 14) {
     val start: CharGrid = inputLines.asCharGrid()
     val order = listOf(

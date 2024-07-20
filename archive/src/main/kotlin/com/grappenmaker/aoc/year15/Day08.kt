@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
 // Dirty but gets the job done. JS folks are probably using eval() anyway
+@PuzzleEntry
 fun PuzzleSet.day8() = puzzle {
     val codeSize = inputLines.sumOf { it.length }
     val memSize = inputLines.sumOf { l ->

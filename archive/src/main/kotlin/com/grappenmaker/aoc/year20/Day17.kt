@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day17() = puzzle(day = 17) {
     val initial = inputLines.asGrid { it == '#' }.filterTrue().map { (x, y) -> PointND(listOf(x, y, 0, 0)) }
 

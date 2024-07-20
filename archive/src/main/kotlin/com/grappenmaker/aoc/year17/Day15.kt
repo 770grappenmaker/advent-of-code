@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitInts
 
+@PuzzleEntry
 fun PuzzleSet.day15() = puzzle(day = 15) {
     val (startA, startB) = input.splitInts().map(Int::toLong)
     fun seq(start: Long, mul: Long, div: Long = 1L) = generateSequence(start) { it * mul % Int.MAX_VALUE.toLong() }

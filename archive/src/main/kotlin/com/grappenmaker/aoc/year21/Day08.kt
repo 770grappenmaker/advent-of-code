@@ -1,11 +1,13 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.pow
 
 // Maps segments count to the number (we do be lazy)
 val knownLengths = mapOf(1 to 2, 7 to 3, 4 to 4, 8 to 7)
 
+@PuzzleEntry
 fun PuzzleSet.day8() = puzzle(day = 8) {
     // Part one
     val data = inputLines.map { it.split(" | ") }

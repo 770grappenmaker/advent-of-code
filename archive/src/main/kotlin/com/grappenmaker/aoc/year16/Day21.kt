@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year16
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.util.*
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle(day = 21) {
     fun String.scramble(): String {
         val curr = toMutableList()

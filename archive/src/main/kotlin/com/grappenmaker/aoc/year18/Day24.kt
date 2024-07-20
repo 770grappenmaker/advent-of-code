@@ -2,9 +2,11 @@ package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.doubleLines
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitInts
 import com.grappenmaker.aoc.takeUntil
 
+@PuzzleEntry
 fun PuzzleSet.day24() = puzzle {
     data class Group(
         val units: Int,

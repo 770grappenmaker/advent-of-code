@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day15() = puzzle(day = 15) {
     val grid = inputLines.asDigitGrid()
     partOne = grid.solve(grid.width, grid.height)

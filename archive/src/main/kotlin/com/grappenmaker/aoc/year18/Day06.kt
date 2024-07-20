@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year18
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day6() = puzzle(day = 6) {
     val points = inputLines.map { it.splitInts().asPair().toPoint() }
     val bound = points.boundary()

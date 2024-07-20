@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.asPair
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day4() = puzzle {
     val colorRegex = """^#([0-9]|[a-f]){6}$""".toRegex()
     val eyeColors = "amb blu brn gry grn hzl oth".split(" ")

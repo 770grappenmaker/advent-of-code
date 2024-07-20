@@ -3,7 +3,9 @@ package com.grappenmaker.aoc.year16
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.deepen
 import com.grappenmaker.aoc.deinterlace
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day7() = puzzle {
     val parts = inputLines.map { it.split('[', ']').deinterlace() }
     partOne = parts.count { (norm, net) -> norm.any { it.hasAbba() } && net.none { it.hasAbba() } }.s()

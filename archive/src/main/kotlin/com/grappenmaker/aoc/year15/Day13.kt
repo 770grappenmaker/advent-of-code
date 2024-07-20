@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.permutations
 
+@PuzzleEntry
 fun PuzzleSet.day13() = puzzle {
     val exclusiveSeatings = inputLines.map { l ->
         val split = l.split(" ")

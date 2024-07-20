@@ -2,7 +2,9 @@ package com.grappenmaker.aoc.year20
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.deepen
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day5() = puzzle {
     val isTruthy = listOf('B', 'R')
     val ids = inputLines.map { l ->

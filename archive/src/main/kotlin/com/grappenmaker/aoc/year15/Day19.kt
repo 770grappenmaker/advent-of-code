@@ -2,8 +2,10 @@ package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
 import com.grappenmaker.aoc.asPair
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.grappenmaker.aoc.splitAt
 
+@PuzzleEntry
 fun PuzzleSet.day19() = puzzle(day = 19) {
     val (rulesPart, molecule) = input.split("\n\n")
     val rules = rulesPart.lines().map { it.split(" => ").asPair() }

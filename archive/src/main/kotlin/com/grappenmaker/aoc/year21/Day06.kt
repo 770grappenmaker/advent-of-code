@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year21
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day6() = puzzle(day = 6) {
     // Part one
     val fish = input.split(",").groupingBy { it.trim().toInt() }.eachCount()

@@ -1,7 +1,9 @@
 package com.grappenmaker.aoc.year17
 
 import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day18() = puzzle(day = 18) {
     val insns = inputLines.parseProgram()
     partOne = VM(insns).also { it.stepUntilHalt() }.recovered.s()
