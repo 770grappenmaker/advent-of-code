@@ -13,8 +13,5 @@ inputs/*/day-*.txt
 # Ignore personal token
 .TOKEN
 
-# Ignore built getInput
-getInput.jar
-
 # Ignore .kotlin
 .kotlin

@@ -7,7 +7,7 @@ dependencies {
 }
 
 tasks {
-    register<Jar>("inputJar") {
+    val inputJar by registering(Jar::class) {
         dependsOn(classes)
         from(sourceSets.main.map { it.output.classesDirs })
         from(configurations.runtimeClasspath.map { conf ->
@@ -17,4 +17,6 @@ tasks {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         archiveClassifier = "input"
     }
+
+    assemble { dependsOn(inputJar) }
 }
