@@ -44,7 +44,7 @@ fun Iterable<Long>.product() = reduce { acc, curr -> acc * curr }
 @JvmName("productBigs")
 fun Iterable<BigInteger>.product() = reduce { acc, curr -> acc * curr }
 
-fun <T> List<T>.splitHalf() = chunked(size / 2).asPair()
+fun <T> Collection<T>.splitHalf() = chunked(size / 2).asPair()
 fun <T> List<T>.splitAt(index: Int) = subList(0, index) to subList(index, size)
 fun <T> List<T>.splitAtExcluding(index: Int) = subList(0, index) to subList(index, size).drop(1)
 
@@ -117,10 +117,10 @@ fun <T> MutableList<T>.rotateInPlace(amount: Int) {
 }
 
 @JvmName("deepenIterable")
-fun <T> List<Iterable<T>>.deepen() = map { it.toList() }
+fun <T> Iterable<Iterable<T>>.deepen() = map { it.toList() }
 
 @JvmName("deepenString")
-fun List<String>.deepen() = map { it.toList() }
+fun Iterable<String>.deepen() = map { it.toList() }
 
 fun String.deepen() = toList()
 
@@ -130,7 +130,7 @@ inline fun <T> Iterator<T>.drain(use: (T) -> Unit) {
 
 // Heap's algorithm
 // See https://en.wikipedia.org/wiki/Heap%27s_algorithm
-fun <T> List<T>.permutationsHeaps(): List<List<T>> = buildList {
+fun <T> Collection<T>.permutationsHeaps(): List<List<T>> = buildList {
     fun recurse(list: MutableList<T>, k: Int) {
         if (k == 1) {
             add(list.toList())
@@ -301,21 +301,21 @@ fun lcmOf(vararg i: Int) = i.reduce { acc, curr -> lcm(acc, curr) }
 fun lcmOf(vararg i: Long) = i.reduce { acc, curr -> lcm(acc, curr) }
 fun lcmOf(vararg i: BigInteger) = i.reduce { acc, curr -> lcm(acc, curr) }
 
-fun List<Int>.gcd() = reduce { a, b -> gcd(a, b) }
+fun Iterable<Int>.gcd() = reduce { a, b -> gcd(a, b) }
 
 @JvmName("gcdLongs")
-fun List<Long>.gcd() = reduce { a, b -> gcd(a, b) }
+fun Iterable<Long>.gcd() = reduce { a, b -> gcd(a, b) }
 
 @JvmName("gcdBigs")
-fun List<BigInteger>.gcd() = reduce { a, b -> gcd(a, b) }
+fun Iterable<BigInteger>.gcd() = reduce { a, b -> gcd(a, b) }
 
-fun List<Int>.lcm() = reduce { a, b -> lcm(a, b) }
+fun Iterable<Int>.lcm() = reduce { a, b -> lcm(a, b) }
 
 @JvmName("lcmLongs")
-fun List<Long>.lcm() = reduce { a, b -> lcm(a, b) }
+fun Iterable<Long>.lcm() = reduce { a, b -> lcm(a, b) }
 
 @JvmName("lcmBigs")
-fun List<BigInteger>.lcm() = reduce { a, b -> lcm(a, b) }
+fun Iterable<BigInteger>.lcm() = reduce { a, b -> lcm(a, b) }
 
 fun Int.isCoprimeWith(other: Int) = gcd(this, other) == 1
 fun Long.isCoprimeWith(other: Long) = gcd(this, other) == 1L
@@ -331,7 +331,7 @@ fun Char.parseDirection() = when (this) {
     else -> error("Invalid direction marker $this")
 }
 
-inline fun <T> List<T>.takeUntil(cond: (T) -> Boolean): MutableList<T> {
+inline fun <T> Iterable<T>.takeUntil(cond: (T) -> Boolean): MutableList<T> {
     val list = mutableListOf<T>()
     forEach { el ->
         list.add(el)
@@ -638,7 +638,7 @@ fun chineseRemainder(nums: List<Long>, rem: List<Long>): Long {
     }.mod(prod)
 }
 
-suspend fun <T, R> List<T>.parallelize(block: (T) -> R) = coroutineScope { map { async { block(it) } }.awaitAll() }
+suspend fun <T, R> Iterable<T>.parallelize(block: (T) -> R) = coroutineScope { map { async { block(it) } }.awaitAll() }
 
 fun <T, R> List<T>.parallelizeThreads(
     n: Int = Runtime.getRuntime().availableProcessors(),
@@ -656,8 +656,8 @@ fun <T, R> List<T>.parallelizeThreads(
     return results.sortedBy { (a) -> a }.flatMap { (_, b) -> b }
 }
 
-fun <T> Iterable<List<T>>.joinToList(el: T) = joinToList(el) { it }
-inline fun <T, R> Iterable<List<T>>.joinToList(el: R, transform: (T) -> R): List<R> {
+fun <T> Iterable<Iterable<T>>.joinToList(el: T) = joinToList(el) { it }
+inline fun <T, R> Iterable<Iterable<T>>.joinToList(el: R, transform: (T) -> R): List<R> {
     val result = mutableListOf<R>()
     var seen = false
 

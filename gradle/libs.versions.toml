@@ -1,8 +1,8 @@
 [versions]
-kotlin = "2.0.0"
-kxser = "1.7.0-RC"
-coroutines = "1.9.0-RC"
-asm = "9.7"
+kotlin = "2.0.21"
+kxser = "1.7.3"
+coroutines = "1.9.0"
+asm = "9.7.1"
 ksp = "2.0.0-1.0.23"
 poet = "1.18.1"
 

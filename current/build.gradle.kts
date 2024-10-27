@@ -1,6 +1,6 @@
 plugins {
     id("kotlin")
-    id("ksp")
+//    id("ksp")
 }
 
 dependencies {

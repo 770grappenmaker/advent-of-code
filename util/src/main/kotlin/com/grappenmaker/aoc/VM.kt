@@ -26,7 +26,7 @@
 //fun launchVM(input: List<String>) = VM(input.map {
 //    val s = it.split(" ")
 //    Insn(s.first(), s.drop(1).map { p ->
-//        if (p.first().isDigit()) LiteralParameter(p.toInt()) else RegisterParameter(p.single() - 'a')
+//        if (p.first().isLetter()) RegisterParameter(p.single() - 'a') else LiteralParameter(p.toInt())
 //    })
 //})
 //
@@ -45,7 +45,7 @@
 //        val curr = instructions[ptr]
 //        interpret(curr)
 //
-//        ptr += curr.params.size + 1
+//        ptr++
 //        cycles++
 //        if (ptr !in instructions.indices) halt()
 //    }
@@ -60,9 +60,10 @@
 //    fun halt() {
 //        halted = true
 //    }
-//fun jump(offset: Int) {
-//    ptr += offset - 1
-//}
+//
+//    fun jump(offset: Int) {
+//        ptr += offset - 1
+//    }
 //
 //    fun run(onStep: VM.() -> Unit = {}) {
 //        while (!halted) {

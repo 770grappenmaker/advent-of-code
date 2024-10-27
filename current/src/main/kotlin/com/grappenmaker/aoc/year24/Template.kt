@@ -1,11 +1,8 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-// MAKE SURE TO UNCOMMENT THIS
-// @PuzzleEntry
-fun PuzzleSet.dayxx() = puzzle {
+fun PuzzleSet.dayxx() = puzzle(day = 1) {
     // test input overwrite
 //    val inputLines = """
 //
