@@ -351,6 +351,7 @@ fun <T> Sequence<T>.takeUntil(cond: (T) -> Boolean): Sequence<T> {
 }
 
 fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
+fun String.ints() = splitInts() // shortcut
 
 fun String.onceSplit(at: String, default: String = this) = substringBefore(at, default) to substringAfter(at, default)
 
@@ -363,7 +364,7 @@ inline fun <T> T.applyN(n: Int, block: (T) -> T): T {
 fun String.doubleLineSequence() = splitToSequence("\r\r\n\n", "\n\n", "\r\r")
 fun String.doubleLines() = doubleLineSequence().toList()
 
-fun IntRange.sum() = (start - endInclusive + 1) * (start + endInclusive) / 2
+fun IntRange.sum() = if (start > endInclusive) 0 else endInclusive * (endInclusive + 1) / 2 - start * (start -  1) / 2
 
 fun <T> Iterable<T>.frequencies() = groupingBy { it }.eachCount()
 fun <T> Iterable<T>.mostFrequent() = frequencies().maxBy { it.value }.key
@@ -819,4 +820,25 @@ inline fun findZero(
     }
 
     return curr
+}
+
+fun Iterable<Boolean>.all() = all { it }
+fun Sequence<Boolean>.all() = all { it }
+fun Iterable<Boolean>.none() = none { it }
+fun Sequence<Boolean>.none() = none { it }
+
+fun Iterable<BigInteger>.sum(): BigInteger = fold(BigInteger.ZERO) { acc, curr -> acc + curr }
+fun Sequence<BigInteger>.sum(): BigInteger = fold(BigInteger.ZERO) { acc, curr -> acc + curr }
+
+infix fun <T> Set<T>.subseteq(other: Set<T>) = other.containsAll(this)
+infix fun <T> Set<T>.supseteq(other: Set<T>) = other.subseteq(this)
+
+fun counter(start: Int = 1) = iterator {
+    var i = start
+    while (true) yield(i++)
+}
+
+fun counterSequence(start: Int = 1) = sequence {
+    var i = start
+    while (true) yield(i++)
 }

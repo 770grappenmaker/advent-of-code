@@ -1,6 +1,6 @@
 package com.grappenmaker.aoc.year24
 
-import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.*
 
 fun PuzzleSet.dayxx() = puzzle(day = 1) {
     // test input overwrite

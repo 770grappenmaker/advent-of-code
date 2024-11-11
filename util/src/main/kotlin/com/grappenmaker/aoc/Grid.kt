@@ -96,14 +96,21 @@ data class Line(val a: Point, val b: Point) {
     val yRange get() = rangeDirection(a.y, b.y)
 }
 
-fun Line.isHorizontal() = a.y == b.y
-fun Line.isVertical() = a.x == b.x
-fun Line.isDiagonal() = abs(a.x - b.x) == abs(a.y - b.y)
-fun Line.isStraight() = isHorizontal() || isVertical()
+val Line.isHorizontal get() = a.y == b.y
+val Line.isVertical get() = a.x == b.x
+val Line.isDiagonal get() = abs(a.x - b.x) == abs(a.y - b.y)
+val Line.isStraight get() = isHorizontal || isVertical
 fun Line.allPoints() = when {
-    isHorizontal() -> xRange.map { Point(it, a.y) }
-    isVertical() -> yRange.map { Point(a.x, it) }
-    isDiagonal() -> xRange.zip(yRange).map(Pair<Int, Int>::toPoint)
+    isHorizontal -> xRange.map { Point(it, a.y) }
+    isVertical -> yRange.map { Point(a.x, it) }
+    isDiagonal -> xRange.zip(yRange) { a, b -> Point(a, b) }
+    else -> error("Line must be horizontal, vertical or diagonal (from $a to $b)")
+}
+
+fun Line.allPointsSequence() = when {
+    isHorizontal -> xRange.asSequence().map { Point(it, a.y) }
+    isVertical -> yRange.asSequence().map { Point(a.x, it) }
+    isDiagonal -> xRange.asSequence().zip(yRange.asSequence()) { a, b -> Point(a, b) }
     else -> error("Line must be horizontal, vertical or diagonal (from $a to $b)")
 }
 
@@ -115,6 +122,7 @@ fun Line.intersections(other: Line) = allPoints().intersect(other.allPoints().to
 
 fun List<Line>.connect() = flatMap { it.allPoints().dropLast(1) } + last().b
 
+// TODO: rewrite this a little
 interface Plane {
     val width: Int
     val height: Int
