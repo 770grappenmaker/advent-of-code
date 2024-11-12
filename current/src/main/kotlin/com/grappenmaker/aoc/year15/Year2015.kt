@@ -1,9 +1,6 @@
-@file:Suppress("PackageDirectoryMismatch")
-
-package com.grappenmaker.aoc.years
+package com.grappenmaker.aoc.year15
 
 import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year15.*
 
 // For speed, handwritten
 val year2015 = PuzzleSet(2015).apply {
