@@ -29,12 +29,19 @@ fun <T> MutableList<T>.remove(range: IntRange) = range.map { removeAt(range.firs
 
 fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = buildList {
     val iterators = this@swapOrder.map { it.iterator() }
-    while (iterators.all { it.hasNext() }) {
-        add(iterators.map { it.next() })
-    }
-
+    while (iterators.all { it.hasNext() }) add(iterators.map { it.next() })
     if (forceDrain && iterators.any { it.hasNext() }) error("Iterators were not drained while swapping")
 }
+
+fun <T> Sequence<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = sequence {
+    val iterators = this@swapOrder.map { it.iterator() }.toList()
+    while (iterators.all { it.hasNext() }) yield(iterators.map { it.next() })
+    if (forceDrain && iterators.any { it.hasNext() }) error("Iterators were not drained while swapping")
+}
+
+@JvmName("swapOrderSequences")
+fun <T> Sequence<Sequence<T>>.swapOrder(forceDrain: Boolean = true) =
+    map { it.asIterable() }.swapOrder(forceDrain).map { it.asSequence() }
 
 fun Iterable<Int>.product() = reduce { acc, curr -> acc * curr }
 
@@ -351,7 +358,9 @@ fun <T> Sequence<T>.takeUntil(cond: (T) -> Boolean): Sequence<T> {
 }
 
 fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
+fun String.splitIntsPos() = "\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
 fun String.ints() = splitInts() // shortcut
+fun String.intsPos() = splitIntsPos() // shortcut
 
 fun String.onceSplit(at: String, default: String = this) = substringBefore(at, default) to substringAfter(at, default)
 

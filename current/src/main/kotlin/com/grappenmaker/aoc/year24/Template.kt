@@ -6,6 +6,7 @@ import com.grappenmaker.aoc.*
 import kotlin.math.*
 import java.util.PriorityQueue
 
+// remember that input is trimmed
 fun PuzzleSet.dayxx() = puzzle(day = 1) {
     // test input overwrite
 //    val inputLines = """
