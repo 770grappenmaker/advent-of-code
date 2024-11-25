@@ -1,3 +1,5 @@
+import com.grappenmaker.aoc.*
+
 //package com.grappenmaker.aoc
 //
 //// Template for a VM
@@ -70,5 +72,11 @@
 //            step()
 //            onStep()
 //        }
+//    }
+//    fun reset() {
+//        ptr = 0
+//        registers.mapInPlace { 0 }
+//        halted = false
+//        cycles = 0
 //    }
 //}

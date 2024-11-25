@@ -12,4 +12,6 @@ val year2021 = PuzzleSet(2021).apply {
     day09()
     day10()
     day11()
+    day15()
+    day21()
 }

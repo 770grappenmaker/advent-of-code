@@ -12,6 +12,12 @@ val dAllAdjacent = dAdjacentSides + dAdjacentDiagonals
 data class Point(val x: Int, val y: Int)
 data class PointL(val x: Long, val y: Long)
 
+val Point.r get() = y
+val Point.c get() = x
+
+val PointL.r get() = y
+val PointL.c get() = x
+
 fun Point.toL() = PointL(x.toLong(), y.toLong())
 
 fun Pair<Int, Int>.toPoint() = Point(first, second)
@@ -19,6 +25,7 @@ fun Point.toIndex(width: Int) = x + y * width
 fun asPointIndex(x: Int, y: Int, width: Int) = x + y * width
 fun pointFromIndex(index: Int, width: Int) = Point(index % width, index / width)
 
+// TODO: maybe rewrite this?
 private fun Point.getAdjacent(of: List<Point>, width: Int, height: Int) =
     of.map { this + it }.filter { it.x in 0..<width && it.y in 0..<height }
 
@@ -37,11 +44,17 @@ fun Point.clampUnit() = clamp(1, 1)
 operator fun Point.plus(other: Point) = Point(x + other.x, y + other.y)
 operator fun PointL.plus(other: PointL) = PointL(x + other.x, y + other.y)
 operator fun Point.minus(other: Point) = Point(x - other.x, y - other.y)
+operator fun PointL.minus(other: PointL) = PointL(x - other.x, y - other.y)
 operator fun Point.times(tim: Int) = Point(x * tim, y * tim)
+operator fun PointL.times(tim: Long) = PointL(x * tim, y * tim)
 operator fun Point.times(other: Point) = Point(x * other.x, y * other.y)
+operator fun PointL.times(other: PointL) = PointL(x * other.x, y * other.y)
 operator fun Point.div(by: Int) = Point(x / by, y / by)
+operator fun PointL.div(by: Long) = PointL(x / by, y / by)
 operator fun Point.rem(with: Int) = Point(x % with, y % with)
+operator fun PointL.rem(with: Long) = PointL(x % with, y % with)
 operator fun Point.unaryMinus() = Point(-x, -y)
+operator fun PointL.unaryMinus() = PointL(-x, -y)
 operator fun Point.rangeTo(other: Point) = Line(this, other)
 
 fun Point.map(block: (x: Int, y: Int) -> Pair<Int, Int>) = block(x, y).toPoint()
@@ -77,6 +90,7 @@ operator fun Point.minus(other: Direction) = Point(x - other.dx, y - other.dy)
 fun Direction.toPoint() = Point(dx, dy)
 
 operator fun PointL.plus(other: Direction) = PointL(x + other.dx.toLong(), y + other.dy.toLong())
+operator fun PointL.minus(other: Direction) = PointL(x - other.dx.toLong(), y - other.dy.toLong())
 
 operator fun Direction.plus(other: Direction) = Point(dx + other.dx, dy + other.dy)
 operator fun Direction.minus(other: Direction) = Point(dx - other.dx, dy - other.dy)
@@ -255,8 +269,8 @@ interface GridLike<T> : Plane, Iterable<T> {
     fun Point.allAdjacentElements() = allAdjacent().map { get(it) }
     fun Point.allAdjacentIndexed() = allAdjacent().map { it to get(it) }
 
-    fun rowValues(index: Int) = row(index).map { this[it] }
-    fun columnValues(index: Int) = column(index).map { this[it] }
+    fun rowValues(row: Int) = elements.slice(width * row..<width * (row + 1))
+    fun columnValues(column: Int) = elements.slice(column..width * maxY + column step width)
 
     operator fun get(key: Point) = if (key !in this) error("Invalid key $key") else elements[key.toIndex()]
     fun getOrNull(by: Point) = if (by !in this) null else get(by)

@@ -8,6 +8,7 @@ import com.grappenmaker.aoc.year16.year2016
 import com.grappenmaker.aoc.year20.year2020
 import com.grappenmaker.aoc.year21.year2021
 import com.grappenmaker.aoc.year22.year2022
+import com.grappenmaker.aoc.year23.year2023
 import com.grappenmaker.aoc.year24.dayxx
 
 // For speed, handwritten
@@ -19,6 +20,7 @@ val years = listOf(
     year2020,
     year2021,
     year2022,
+    year2023,
     year2024,
 )
 

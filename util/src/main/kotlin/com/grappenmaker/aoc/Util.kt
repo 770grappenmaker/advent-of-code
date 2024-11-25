@@ -463,6 +463,18 @@ fun LongRange.overlaps(other: LongRange) = first <= other.last && other.first >=
 fun LongRange.overlap(other: LongRange) =
     (maxOf(first, other.first)..minOf(last, other.last)).takeIf { !it.isEmpty() }
 
+// returns everything in this range but not in other
+operator fun LongRange.minus(other: LongRange): List<LongRange> = buildList {
+    (first..minOf(last, maxOf(first, other.first) - 1)).let { if (!it.isEmpty()) add(it) }
+    (maxOf(minOf(last, other.last) + 1, first)..last).let { if (!it.isEmpty()) add(it) }
+}
+
+// returns everything in this range but not in other
+operator fun IntRange.minus(other: IntRange): List<IntRange> = buildList {
+    (first..minOf(last, maxOf(first, other.first) - 1)).let { if (!it.isEmpty()) add(it) }
+    (maxOf(minOf(last, other.last) + 1, first)..last).let { if (!it.isEmpty()) add(it) }
+}
+
 fun IntRange.overlap(other: IntRange) =
     (maxOf(first, other.first)..minOf(last, other.last)).takeIf { !it.isEmpty() }
 
