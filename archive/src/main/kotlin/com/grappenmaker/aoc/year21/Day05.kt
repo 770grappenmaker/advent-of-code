@@ -10,6 +10,6 @@ fun PuzzleSet.day5() = puzzle(day = 5) {
     }
 
     fun Iterable<Line>.solve() = flatMap { it.allPoints() }.frequencies().count { it.value >= 2 }
-    partOne = lines.filter { it.isStraight() }.solve().s()
+    partOne = lines.filter { it.isStraight }.solve().s()
     partTwo = lines.solve().s()
 }

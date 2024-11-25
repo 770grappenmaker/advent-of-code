@@ -2,7 +2,7 @@
 
 package com.grappenmaker.aoc.years
 
-import com.grappenmaker.aoc.PuzzleSet
+import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.year24.dayxx
 
 // For speed, handwritten

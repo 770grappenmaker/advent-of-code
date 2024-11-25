@@ -29,12 +29,19 @@ fun <T> MutableList<T>.remove(range: IntRange) = range.map { removeAt(range.firs
 
 fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = buildList {
     val iterators = this@swapOrder.map { it.iterator() }
-    while (iterators.all { it.hasNext() }) {
-        add(iterators.map { it.next() })
-    }
-
+    while (iterators.all { it.hasNext() }) add(iterators.map { it.next() })
     if (forceDrain && iterators.any { it.hasNext() }) error("Iterators were not drained while swapping")
 }
+
+fun <T> Sequence<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = sequence {
+    val iterators = this@swapOrder.map { it.iterator() }.toList()
+    while (iterators.all { it.hasNext() }) yield(iterators.map { it.next() })
+    if (forceDrain && iterators.any { it.hasNext() }) error("Iterators were not drained while swapping")
+}
+
+@JvmName("swapOrderSequences")
+fun <T> Sequence<Sequence<T>>.swapOrder(forceDrain: Boolean = true) =
+    map { it.asIterable() }.swapOrder(forceDrain).map { it.asSequence() }
 
 fun Iterable<Int>.product() = reduce { acc, curr -> acc * curr }
 
@@ -351,7 +358,9 @@ fun <T> Sequence<T>.takeUntil(cond: (T) -> Boolean): Sequence<T> {
 }
 
 fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
+fun String.splitIntsPos() = "\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
 fun String.ints() = splitInts() // shortcut
+fun String.intsPos() = splitIntsPos() // shortcut
 
 fun String.onceSplit(at: String, default: String = this) = substringBefore(at, default) to substringAfter(at, default)
 
@@ -453,6 +462,18 @@ fun LongRange.overlaps(other: LongRange) = first <= other.last && other.first >=
 
 fun LongRange.overlap(other: LongRange) =
     (maxOf(first, other.first)..minOf(last, other.last)).takeIf { !it.isEmpty() }
+
+// returns everything in this range but not in other
+operator fun LongRange.minus(other: LongRange): List<LongRange> = buildList {
+    (first..minOf(last, maxOf(first, other.first) - 1)).let { if (!it.isEmpty()) add(it) }
+    (maxOf(minOf(last, other.last) + 1, first)..last).let { if (!it.isEmpty()) add(it) }
+}
+
+// returns everything in this range but not in other
+operator fun IntRange.minus(other: IntRange): List<IntRange> = buildList {
+    (first..minOf(last, maxOf(first, other.first) - 1)).let { if (!it.isEmpty()) add(it) }
+    (maxOf(minOf(last, other.last) + 1, first)..last).let { if (!it.isEmpty()) add(it) }
+}
 
 fun IntRange.overlap(other: IntRange) =
     (maxOf(first, other.first)..minOf(last, other.last)).takeIf { !it.isEmpty() }
@@ -579,6 +600,17 @@ operator fun <T> List<T>.component7() = this[6]
 operator fun <T> List<T>.component8() = this[7]
 operator fun <T> List<T>.component9() = this[8]
 operator fun <T> List<T>.component10() = this[9]
+
+operator fun String.component1() = this[0]
+operator fun String.component2() = this[1]
+operator fun String.component3() = this[2]
+operator fun String.component4() = this[3]
+operator fun String.component5() = this[4]
+operator fun String.component6() = this[5]
+operator fun String.component7() = this[6]
+operator fun String.component8() = this[7]
+operator fun String.component9() = this[8]
+operator fun String.component10() = this[9]
 
 data class EuclideanResult(val d: Int, val s: Int = 0, val t: Int = 1)
 data class EuclideanResultL(val d: Long, val s: Long = 0, val t: Long = 1)
