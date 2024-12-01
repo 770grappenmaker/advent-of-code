@@ -8,17 +8,18 @@ import kotlin.math.absoluteValue
 fun PuzzleSet.day01() = puzzle(day = 1) {
     val al = mutableListOf<Int>()
     val bl = mutableListOf<Int>()
+    val freq = IntArray(100000)
 
     for (l in inputLines) {
-        val (a, b) = l.ints()
+        val (a, b) = l.split("""   """).map { it.toInt() }
         al += a
         bl += b
+        freq[b]++
     }
 
     al.sort()
     bl.sort()
 
-    val freq = bl.frequencies()
-    partOne = al.zip(bl).sumOf { (a, b) -> (a - b).absoluteValue }
-    partTwo = al.sumOf { it * freq.getOrDefault(it, 0) }
+    partOne = al.sumOfIndexed { idx, n -> (n - bl[idx]).absoluteValue }
+    partTwo = al.sumOf { it * freq[it] }
 }
