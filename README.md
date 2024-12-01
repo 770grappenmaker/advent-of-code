@@ -2,9 +2,6 @@
 This repo contains all of my solutions for [Advent of Code](https://adventofcode.com/), written in [Kotlin](https://kotlinlang.org).
 
 ## Leaderboard positions
-### 2022
-First year participating competitively, did not end up on any global leaderboard. Got 4th place in the Kotlin leaderboard.
-
 ### 2023
 Final leaderboard placement: #121  
 Total: 552 points  
@@ -39,8 +36,16 @@ Day       Time  Rank  Score       Time  Rank  Score
   1   00:00:56    12     89   00:14:28   953      0
 ```
 
+## 2024
+Points: 0
+```
+      -------Part 1--------   -------Part 2--------
+Day       Time  Rank  Score       Time  Rank  Score
+  1   00:01:31   126      0   00:02:57   166      0
+```
+
 ## Progress (as of 2024)
-- [ ] 2024: 0/25 (0 🌟) (0.0%)
+- [ ] 2024: 1/25 (2 🌟) (4.0%)
 - [x] 2023: 25/25 (50 🌟) (100.0%)
 - [x] 2022: 25/25 (50 🌟) (100.0%)
 - [x] 2021: 25/25 (50 🌟) (100.0%)
@@ -50,4 +55,4 @@ Day       Time  Rank  Score       Time  Rank  Score
 - [x] 2017: 25/25 (50 🌟) (100.0%)
 - [x] 2016: 25/25 (50 🌟) (100.0%)
 - [x] 2015: 25/25 (50 🌟) (100.0%)
-- [x] Total: 225/250 (500 🌟) (90.0%)
+- [x] Total: 226/250 (452 🌟) (90.4%)
