@@ -27,21 +27,21 @@ fun <T> MutableList<T>.removeLastN(n: Int) = (0..<n).map { removeLast() }.asReve
 fun <T> MutableList<T>.removeNAt(n: Int, atIdx: Int) = (0..<n).map { removeAt(atIdx) }
 fun <T> MutableList<T>.remove(range: IntRange) = range.map { removeAt(range.first) }
 
-fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = buildList {
-    val iterators = this@swapOrder.map { it.iterator() }
+fun <T> Iterable<Iterable<T>>.transpose(forceDrain: Boolean = true) = buildList {
+    val iterators = this@transpose.map { it.iterator() }
     while (iterators.all { it.hasNext() }) add(iterators.map { it.next() })
     if (forceDrain && iterators.any { it.hasNext() }) error("Iterators were not drained while swapping")
 }
 
-fun <T> Sequence<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = sequence {
-    val iterators = this@swapOrder.map { it.iterator() }.toList()
+fun <T> Sequence<Iterable<T>>.transpose(forceDrain: Boolean = true) = sequence {
+    val iterators = this@transpose.map { it.iterator() }.toList()
     while (iterators.all { it.hasNext() }) yield(iterators.map { it.next() })
     if (forceDrain && iterators.any { it.hasNext() }) error("Iterators were not drained while swapping")
 }
 
 @JvmName("swapOrderSequences")
-fun <T> Sequence<Sequence<T>>.swapOrder(forceDrain: Boolean = true) =
-    map { it.asIterable() }.swapOrder(forceDrain).map { it.asSequence() }
+fun <T> Sequence<Sequence<T>>.transpose(forceDrain: Boolean = true) =
+    map { it.asIterable() }.transpose(forceDrain).map { it.asSequence() }
 
 fun Iterable<Int>.product() = reduce { acc, curr -> acc * curr }
 

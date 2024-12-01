@@ -3,31 +3,19 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import com.grappenmaker.aoc.Direction.*
 import kotlin.math.*
 import java.util.PriorityQueue
+import com.grappenmaker.aoc.Direction.*
 
-fun PuzzleSet.day01() = puzzle(day = 1) {
+// remember that input is trimmed
+fun PuzzleSet.day02() = puzzle(day = 2) {
     // test input overwrite
 //    val inputLines = """
 //
 //    """.trimIndent().lines()
 //    val input = inputLines.joinToString("\n")
 
-    // Good luck!
-
-//    partOne = inputLines.map { l -> l.toInt() }.sumOf { it }
-//    partOne = inputLines.flatMap { it.splitInts() }.sumOf { it }
-//    partOne = input.split("\n\n").map { block -> block.split("\n").sumOf { it.toInt() } }.sumOf { it }
-
-    val list = mutableListOf<Int>()
-    var ans = 0
-
-    for (l in inputLines) {
-        ans += l.toInt()
-    }
-
-    partOne = ans
+    partOne = inputLines.map { l -> }
 
 //    partOne = launchVM(inputLines).also { it.run() }.registers[0]
 //    partOne = inputLines.asCharGrid()
