@@ -45,7 +45,7 @@ class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
     var partTwo: Any by partTwoDelegate
 
     // Utility to convert to string (felt shorter to use)
-    fun <T> T.s() = toString()
+//    fun <T> T.s() = toString()
 }
 
 data class PuzzleSet(val year: Int) {

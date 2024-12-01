@@ -269,8 +269,10 @@ interface GridLike<T> : Plane, Iterable<T> {
     fun Point.allAdjacentElements() = allAdjacent().map { get(it) }
     fun Point.allAdjacentIndexed() = allAdjacent().map { it to get(it) }
 
-    fun rowValues(row: Int) = elements.slice(width * row..<width * (row + 1))
-    fun columnValues(column: Int) = elements.slice(column..width * maxY + column step width)
+    fun rowValues(index: Int) = row(index).map { this[it] }
+    fun columnValues(index: Int) = column(index).map { this[it] }
+//    fun rowValues(row: Int) = elements.slice(width * row..<width * (row + 1))
+//    fun columnValues(column: Int) = elements.slice(column..width * maxY + column step width)
 
     operator fun get(key: Point) = if (key !in this) error("Invalid key $key") else elements[key.toIndex()]
     fun getOrNull(by: Point) = if (by !in this) null else get(by)
@@ -743,9 +745,6 @@ val Cube.points get() = (a.x..b.x).flatMap { x -> (a.y..b.y).flatMap { y -> (a.z
 
 operator fun Cube.contains(point: Point3D) = point.x in xRange && point.y in yRange && point.z in zRange
 
-// Sorry, point2d makes a line cause that makes sense,
-// but here it makes more sense to make it a cube
-// This is totally not going to hunt me
 operator fun Point3D.rangeTo(other: Point3D) = Cube(this, other)
 
 // Utility to work with n-dimensional points

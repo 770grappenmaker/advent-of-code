@@ -20,10 +20,11 @@ fun PuzzleSet.day01() = puzzle(day = 1) {
 //    partOne = inputLines.flatMap { it.splitInts() }.sumOf { it }
 //    partOne = input.split("\n\n").map { block -> block.split("\n").sumOf { it.toInt() } }.sumOf { it }
 
+    val list = mutableListOf<Int>()
     var ans = 0
 
     for (l in inputLines) {
-
+        ans += l.toInt()
     }
 
     partOne = ans
