@@ -8,6 +8,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import java.math.BigInteger
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.properties.ReadOnlyProperty
@@ -874,3 +875,5 @@ fun counterSequence(start: Int = 1) = sequence {
     var i = start
     while (true) yield(i++)
 }
+
+fun <K, V> Map<K, V>.gv(key: K): V = getValue(key)
