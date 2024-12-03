@@ -59,8 +59,8 @@ fun runPuzzle(puzzle: Puzzle, input: List<String>) {
     println()
     println(
         """
-        |Part 1: ${context.partOne}
-        |Part 2: ${context.partTwo}
+        |Part 1: ${context.partOneDelegate.underlying}
+        |Part 2: ${context.partTwoDelegate.underlying}
         """.trimMargin()
     )
     println()
@@ -68,7 +68,7 @@ fun runPuzzle(puzzle: Puzzle, input: List<String>) {
 
     listOf(context.partOneDelegate, context.partTwoDelegate).findLast { it.touched }?.let { d ->
         runCatching {
-            val selection = StringSelection(d.underlying)
+            val selection = StringSelection(d.underlying.toString())
             Toolkit.getDefaultToolkit().systemClipboard.setContents(selection, selection)
 
             println("Copied \"${d.underlying}\" to clipboard")

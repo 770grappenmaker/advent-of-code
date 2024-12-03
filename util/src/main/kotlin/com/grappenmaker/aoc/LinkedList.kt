@@ -41,7 +41,7 @@ fun <T> Iterable<T>.takeUntilFirst(): List<T> {
     return listOf(first) + iter.asSequence().takeWhile { it != first }
 }
 
-fun <T> DLL<T>.advance(n: Int = 1) = when {
+infix fun <T> DLL<T>.advance(n: Int = 1) = when {
     n < 0 -> (0..<-n).fold(this) { acc, _ -> acc.prev!! }
     else -> (0..<n).fold(this) { acc, _ -> acc.next!! }
 }
