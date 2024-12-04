@@ -200,6 +200,7 @@ val Plane.edges get() = listOf(
 
 val Plane.area get() = width * height
 val Plane.areaLong get() = width.toLong() * height.toLong()
+val Plane.rect get() = Rectangle(topLeftCorner, bottomRightCorner)
 operator fun Plane.contains(point: Point) = point.x in 0..<width && point.y in 0..<height
 
 data class SimplePlane(override val width: Int, override val height: Int) : Plane

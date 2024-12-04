@@ -3,23 +3,38 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import kotlin.math.*
-import java.util.PriorityQueue
 import com.grappenmaker.aoc.Direction.*
 
-// remember that input is trimmed
 fun PuzzleSet.day04() = puzzle(day = 4) {
-    // test input overwrite
-//    val inputLines = """
-//
-//    """.trimIndent().lines()
-//    val input = inputLines.joinToString("\n")
+    // code is slow, we ball
+    val g = inputLines.asCharGrid()
 
-    partOne = inputLines.map { l -> }
+    fun solve(
+        test: List<Char>,
+        points: (Point) -> Iterable<Iterable<Pair<Point, (Point) -> Point>>>,
+    ): Int {
+        val rev = test.asReversed()
+        return g.points.sumOf { s ->
+            points(s).count { run ->
+                run.all { (p, d) ->
+                    val v = generateSequence(p, d).takeWhile { it in g }.map { g[it] }.take(test.size).toList()
+                    v == test || v == rev
+                }
+            }
+        }
+    }
 
-//    partOne = launchVM(inputLines).also { it.run() }.registers[0]
-//    partOne = inputLines.asCharGrid()
-//    partOne = inputLines.asDigitGrid()
-//    partOne = inputLines.asGrid { it == '#' }
-//    partOne = input.doubleLines()
+    partOne = solve("XMAS".toList()) { p ->
+        listOf(
+            listOf(p to { it + UP }),
+            listOf(p to { it + LEFT }),
+            listOf(p to { it + UP + LEFT }),
+            listOf(p to { it + UP + RIGHT }),
+        )
+    }
+
+    partTwo = solve("MAS".toList()) { p ->
+        if (g[p] != 'A') return@solve emptyList()
+        listOf(listOf((p + UP + LEFT) to { it + DOWN + RIGHT }, (p + DOWN + LEFT) to { it + UP + RIGHT }))
+    }
 }
