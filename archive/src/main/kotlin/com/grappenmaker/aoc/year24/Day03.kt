@@ -5,8 +5,10 @@ package com.grappenmaker.aoc.year24
 import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day03() = puzzle(day = 3) {
-    var partOne by overwritePartOne(0L)
-    var partTwo by overwritePartTwo(0L)
+//    var partOne by overwritePartOne(0L)
+//    var partTwo by overwritePartTwo(0L)
+    var p1 = 0L
+    var p2 = 0L
 
     var on = true
     var idx = 0
@@ -35,7 +37,10 @@ fun PuzzleSet.day03() = puzzle(day = 3) {
         if (n1.length !in 1..3 || n2.length !in 1..3) continue
 
         val m = n1.toLong() * n2.toLong()
-        partOne += m
-        if (on) partTwo += m
+        p1 += m
+        if (on) p2 += m
     }
+
+    partOne = p1
+    partTwo = p2
 }

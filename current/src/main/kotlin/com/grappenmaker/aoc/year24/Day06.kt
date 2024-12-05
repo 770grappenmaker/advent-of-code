@@ -8,7 +8,7 @@ import java.util.PriorityQueue
 import com.grappenmaker.aoc.Direction.*
 
 // remember that input is trimmed
-fun PuzzleSet.day05() = puzzle(day = 5) {
+fun PuzzleSet.day06() = puzzle(day = 6) {
     // test input overwrite
 //    val inputLines = """
 //
