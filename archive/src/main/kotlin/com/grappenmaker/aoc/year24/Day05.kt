@@ -3,11 +3,10 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import java.util.Collections.swap
 
 fun PuzzleSet.day05() = puzzle(day = 5) {
     val (fp, sp) = input.doubleLines()
-    val assoc = Array(100) { mutableListOf<Int>() }
+    val assoc = Array(100) { hashSetOf<Int>() }
     for (l in fp.lines()) {
         val (a, b) = l.split('|').map { it.toInt() }
         assoc[b] += a
@@ -20,21 +19,24 @@ fun PuzzleSet.day05() = puzzle(day = 5) {
         val mut = l.split(',').mapTo(mutableListOf()) { it.toInt() }
         var broken = false
 
-        outer@ while (true) {
-            for ((idx, i) in mut.withIndex()) for (t in assoc[i]) {
-                val otherIdx = mut.indexOf(t)
-                if (otherIdx < idx) continue
+        a@ for ((idx, i) in mut.withIndex()) for (t in assoc[i]) {
+            val otherIdx = mut.indexOf(t)
+            if (otherIdx < idx) continue
 
-                broken = true
-                swap(mut, idx, otherIdx)
-                continue@outer
+            broken = true
+            mut.sortWith { a, b ->
+                when {
+                    b in assoc[a] -> -1
+                    a in assoc[b] -> 1
+                    else -> 0
+                }
             }
 
-            val ans = mut[mut.size / 2]
-            if (broken) p2 += ans else p1 += ans
-
-            break
+            break@a
         }
+
+        val ans = mut[mut.size / 2]
+        if (broken) p2 += ans else p1 += ans
     }
 
     partOne = p1
