@@ -349,12 +349,31 @@ inline fun <T> Iterable<T>.takeUntil(cond: (T) -> Boolean): MutableList<T> {
     return list
 }
 
+// same as takeUntilGraceful except the last item might be iterated over, even if it will never be yielded
+// this is a result of an old silly implementation
 fun <T> Sequence<T>.takeUntil(cond: (T) -> Boolean): Sequence<T> {
     var can = true
     return takeWhile {
         val old = can
         can = cond(it)
         old
+    }
+}
+
+// takes all elements until cond becomes false
+// this means that whenever cond becomes false, the sequence will no longer be iterated over
+// this also means that the first item, if it exists, will always be yielded, because we do not evaluate the predicate
+// for it
+fun <T> Sequence<T>.takeUntilGraceful(cond: (T) -> Boolean): Sequence<T> {
+    val iter = iterator()
+    if (!iter.hasNext()) return emptySequence()
+
+    return sequence {
+        var last: T
+        do {
+            last = iter.next()
+            yield(last)
+        } while (cond(last) && iter.hasNext())
     }
 }
 

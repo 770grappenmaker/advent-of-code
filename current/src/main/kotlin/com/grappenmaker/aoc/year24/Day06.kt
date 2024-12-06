@@ -3,17 +3,20 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.Direction.UP
 
 fun PuzzleSet.day06() = puzzle(day = 6) {
     val g = inputLines.asCharGrid()
     val start = g.findPointsValued('^').single()
 
     data class State(val pos: Point, val dir: Direction)
+
     fun State.update(grid: CharGrid): State =
         if (grid[pos + dir] == '#') copy(dir = dir.next(1)) else copy(pos = pos + dir)
 
-    fun CharGrid.seq() = generateSequence(State(start, UP)) { it.update(this) }.takeWhile { it.pos + it.dir in this }
+    fun CharGrid.seq() = generateSequence(State(start, UP)) { it.update(this) }
+        .takeUntilGraceful { it.pos + it.dir in this }
+
     fun CharGrid.isLoop(): Boolean {
         val dup = hashSetOf<State>()
         for (state in seq().take(10000)) if (!dup.add(state)) return true
@@ -24,14 +27,9 @@ fun PuzzleSet.day06() = puzzle(day = 6) {
     g.seq().forEach { p1pos += it.pos }
     partOne = p1pos.size
 
-    var p2 = 0
-    for (p in p1pos) {
-        if (g[p] != '.') continue
-
+    partTwo = p1pos.asSequence().filter { g[it] == '.' }.count {
         val copy = g.asMutableGrid()
-        copy[p] = '#'
-        if (copy.isLoop()) p2++
+        copy[it] = '#'
+        copy.isLoop()
     }
-
-    partTwo = p2
 }
