@@ -32,12 +32,12 @@ fun main(args: Array<String>) {
     require(willRun.isNotEmpty()) { "no puzzles, sad" }
 
     println("\"Warming up\" by running a few random puzzles... if you are unlucky, this can take a while")
-    repeat(20) { willRun.random().run() }
+    repeat(5) { willRun.random().run() }
 
     println("Running ${willRun.size}/${puzzles.size} (available) puzzles, this will take a while...")
     println()
 
-    val samples = 1000
+    val samples = 100
     val runningYears = willRun.mapTo(hashSetOf()) { it.year }
     val benches = years.filter { it.year in runningYears }.map { set ->
         set.year to set.puzzles.filter { it in willRun }.map { p ->
