@@ -3,9 +3,44 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import kotlin.math.ceil
-import kotlin.math.log10
-import kotlin.math.pow
+
+fun fastlog10(num: Long): Long {
+    if (num < 1000000000L) {
+        if (num < 10000L) {
+            if (num < 10L) {
+                if (num < 1L) return 1L
+                return 10L
+            }
+
+            if (num < 1000L) {
+                if (num < 100L) return 100L
+                return 1000L
+            }
+            return 10000L
+        }
+
+        if (num < 100000L) return 100000L
+        if (num < 1000000L) return 1000000L
+        if (num < 10000000L) return 10000000L
+        if (num < 100000000L) return 100000000L
+        return 1000000000L
+    }
+
+    if (num < 100000000000000L) {
+        if (num < 10000000000L) return 10000000000L
+        if (num < 100000000000L) return 100000000000L
+        if (num < 1000000000000L) return 1000000000000L
+        if (num < 10000000000000L) return 10000000000000L
+        return 100000000000000L
+    }
+
+    if (num < 10000000000000000L) {
+        if (num < 1000000000000000L) return 1000000000000000L
+        return 10000000000000000L
+    }
+
+    return if (num < 100000000000000000L) 100000000000000000L else 1000000000000000000L
+}
 
 data class Entry(val sum: Long, val operands: List<Long>)
 
@@ -33,19 +68,24 @@ class Worker(private val entries: List<Entry>, private val p2: Boolean) : Thread
             val shift = (operands.size - 2) shl 1
 
             inner@ while (workPtr > 0) {
-                val ops = takeWork()
+                val opsVal = takeWork()
+                val ops = opsVal and 0x3fffffff
+                val flag = opsVal and 0x40000000
 
                 if (ops ushr shift == 0) {
-                    val shifted = ops shl 2
+                    val shifted = (ops shl 2) or flag
                     addWork(shifted or 1)
                     addWork(shifted or 2)
-                    if (p2) addWork(shifted or 3)
+                    if (p2) addWork(shifted or 0x40000003)
                     continue
                 }
+
+                if (p2 && flag == 0) continue
 
                 var curr = operands.first()
                 var ptr = 1
                 var opLocal = ops
+
                 while (opLocal != 0) {
                     val lhs = curr
                     val rhs = operands[ptr++]
@@ -55,7 +95,7 @@ class Worker(private val entries: List<Entry>, private val p2: Boolean) : Thread
 
                     curr = when (opLocal and 3) {
                         1 -> lhs + rhs
-                        3 -> 10.0.pow(ceil(log10((rhs + 1).toDouble()))).toLong() * lhs + rhs
+                        3 -> fastlog10(rhs) * lhs + rhs
                         else -> lhs * rhs
                     }
 
