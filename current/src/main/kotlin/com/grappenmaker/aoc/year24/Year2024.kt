@@ -3,11 +3,11 @@
 package com.grappenmaker.aoc.years
 
 import com.grappenmaker.aoc.*
-import com.grappenmaker.aoc.year24.day12
+import com.grappenmaker.aoc.year24.day13
 
 // For speed, handwritten
 val year2024 = PuzzleSet(2024).apply {
-    day12()
+    day13()
 }
 
 val years = listOf(year2024)
