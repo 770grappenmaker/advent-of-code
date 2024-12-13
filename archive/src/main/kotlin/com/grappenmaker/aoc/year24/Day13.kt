@@ -3,19 +3,20 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import kotlin.math.*
-import java.util.PriorityQueue
-import com.grappenmaker.aoc.Direction.*
-import com.microsoft.z3.*
-import com.sschr15.z3kt.*
+import com.microsoft.z3.Model
+import com.microsoft.z3.Optimize
+import com.microsoft.z3.Status
+import com.sschr15.z3kt.Z3Context
+import com.sschr15.z3kt.int
+import com.sschr15.z3kt.z3
 
 fun PuzzleSet.day13() = puzzle(day = 13) {
     var p1 = 0L
     var p2 = 0L
 
-    for (ls in input.doubleLines()) {
-        val (a, b, p) = ls.lines().map { it.ints() }.map { (a, b) -> Point(a, b) }
-        z3 {
+    z3 {
+        for (ls in input.doubleLines()) {
+            val (a, b, p) = ls.lines().map { it.ints() }.map { (a, b) -> Point(a, b) }
             val i by int
             val j by int
 
