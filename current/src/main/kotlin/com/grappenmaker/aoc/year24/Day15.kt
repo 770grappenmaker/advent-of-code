@@ -3,23 +3,87 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import kotlin.math.*
-import java.util.PriorityQueue
 import com.grappenmaker.aoc.Direction.*
+import java.util.*
+import kotlin.collections.ArrayDeque
+import kotlin.collections.all
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.hashSetOf
+import kotlin.collections.isNotEmpty
+import kotlin.collections.map
+import kotlin.collections.plusAssign
+import kotlin.collections.single
+import kotlin.collections.sortedBy
+import kotlin.collections.sumOf
 
-// remember that input is trimmed
 fun PuzzleSet.day15() = puzzle(day = 15) {
-    // test input overwrite
-//    val inputLines = """
-//
-//    """.trimIndent().lines()
-//    val input = inputLines.joinToString("\n")
+    val (fp, sp) = input.doubleLines()
 
-    inputLines
+    fun solve(builder: (String) -> String = { it }): Long {
+        val g = fp.lines().map(builder).asCharGrid().asMutableGrid()
+        var r = g.findPointsValued('@').single()
+        g[r] = '.'
 
-//    partOne = launchVM(inputLines).also { it.run() }.registers[0]
-//    partOne = inputLines.asCharGrid()
-//    partOne = inputLines.asDigitGrid()
-//    partOne = inputLines.asGrid { it == '#' }
-//    partOne = input.doubleLines()
+        for (c in sp) {
+            val dir = when (c) {
+                '^' -> UP
+                'v' -> DOWN
+                '>' -> RIGHT
+                '<' -> LEFT
+                else -> continue
+            }
+
+            val ptsToMove = hashSetOf<Point>()
+            val todo = ArrayDeque<Point>()
+            todo += r
+
+            while (todo.isNotEmpty()) {
+                val p = todo.removeFirst()
+                if (!ptsToMove.add(p)) continue
+
+                val n = p + dir
+                if (n in g && (g[n] != '.' && g[n] != '#')) todo += n
+
+                if (g[p] == '[') todo += (p + RIGHT)
+                if (g[p] == ']') todo += (p + LEFT)
+            }
+
+            val allSafe = ptsToMove.all {
+                val pd = it + dir
+                pd in ptsToMove || g[pd] == '.'
+            }
+
+            if (!allSafe) continue
+
+            for (p in ptsToMove.sortedBy {
+                when (dir) {
+                    LEFT -> it.x
+                    RIGHT -> -it.x
+                    UP -> it.y
+                    DOWN -> -it.y
+                }
+            }) {
+                if (p == r) continue
+                with(g) { Collections.swap(g, p.toIndex(), (p + dir).toIndex()) }
+            }
+
+            r += dir
+        }
+
+        return g.points.sumOf { p -> if (g[p] == '[' || g[p] == 'O') 100L * p.y + p.x else 0L }
+    }
+
+    partOne = solve()
+    partTwo = solve { l ->
+        buildString {
+            for (c in l) when (c) {
+                '#' -> append("##")
+                'O' -> append("[]")
+                '.' -> append("..")
+                '@' -> append("@.")
+                else -> continue
+            }
+        }
+    }
 }
