@@ -5,17 +5,6 @@ package com.grappenmaker.aoc.year24
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
 import java.util.*
-import kotlin.collections.ArrayDeque
-import kotlin.collections.all
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.hashSetOf
-import kotlin.collections.isNotEmpty
-import kotlin.collections.map
-import kotlin.collections.plusAssign
-import kotlin.collections.single
-import kotlin.collections.sortedBy
-import kotlin.collections.sumOf
 
 fun PuzzleSet.day15() = puzzle(day = 15) {
     val (fp, sp) = input.doubleLines()
