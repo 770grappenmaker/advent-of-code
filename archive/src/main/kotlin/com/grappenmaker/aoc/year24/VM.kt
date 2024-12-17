@@ -1,16 +1,10 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Label
 import org.objectweb.asm.MethodVisitor
-import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Opcodes.*
-import org.objectweb.asm.util.TraceClassVisitor
-import java.io.PrintWriter
-import kotlin.io.path.Path
-import kotlin.io.path.writeBytes
 import kotlin.random.Random
 
 // simplified vm code
