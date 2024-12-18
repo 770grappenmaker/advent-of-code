@@ -144,7 +144,7 @@ class VM(private val instructions: List<Insn>, private val haltOnBranch: Boolean
 }
 
 object SillyLoader : ClassLoader() {
-    fun createClass(name: String?, bytes: ByteArray) = defineClass(name, bytes, 0, bytes.size)
+    fun createClass(name: String?, bytes: ByteArray): Class<*> = defineClass(name, bytes, 0, bytes.size)
 }
 
 fun List<Insn>.createCompiled() =

@@ -7,19 +7,36 @@ import kotlin.math.*
 import java.util.PriorityQueue
 import com.grappenmaker.aoc.Direction.*
 
-// remember that input is trimmed
 fun PuzzleSet.day18() = puzzle(day = 18) {
-    // test input overwrite
-//    val inputLines = """
-//
-//    """.trimIndent().lines()
-//    val input = inputLines.joinToString("\n")
+    val ps = inputLines.map { l ->
+        val (x, y) = l.split(',').map { it.toInt() }
+        Point(x, y)
+    }
 
-    inputLines
+    fun test(ls: List<Point>): Int? {
+        val g = ls.asBooleanGrid()
 
-//    partOne = launchVM(inputLines).also { it.run() }.registers[0]
-//    partOne = inputLines.asCharGrid()
-//    partOne = inputLines.asDigitGrid()
-//    partOne = inputLines.asGrid { it == '#' }
-//    partOne = input.doubleLines()
+        val queue = ArrayDeque<Pair<Point, Int>>()
+        queue += g.topLeftCorner to 0
+        val seen = hashSetOf(g.topLeftCorner)
+        val end = g.bottomRightCorner
+
+        while (queue.isNotEmpty()) {
+            val (curr, d) = queue.removeLast()
+            if (curr == end) return d
+
+            with (g) {
+                for (s in curr.adjacentSides()) {
+                    if (!g[s] && seen.add(s)) queue.addFirst(s to (d + 1))
+                }
+            }
+        }
+
+        return null
+    }
+
+    partOne = test(ps.take(1024)) ?: "Somehow no path"
+
+    val (a, b) = ps[(1024..inputLines.size).first { test(ps.take(it)) == null } - 1]
+    partTwo = "$a,$b"
 }
