@@ -4,7 +4,6 @@ package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
 import kotlin.math.*
-import java.util.PriorityQueue
 import com.grappenmaker.aoc.Direction.*
 
 fun PuzzleSet.day18() = puzzle(day = 18) {
