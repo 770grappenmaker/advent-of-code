@@ -3,6 +3,7 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import kotlinx.coroutines.runBlocking
 import kotlin.math.absoluteValue
 
 fun PuzzleSet.day20() = puzzle(day = 20) {
@@ -31,7 +32,7 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
     val toDist = dist(end)
     val baseline = fromDist.gv(end)
 
-    fun solve(maxDist: Int) = g.pointsSequence.filter { g[it] != '#' }.sumOf { p ->
+    suspend fun solve(maxDist: Int) = g.pointsSequence.filter { g[it] != '#' }.asIterable().parallelize { p ->
         var ans = 0
 
         for (dx in -maxDist..maxDist) {
@@ -46,8 +47,10 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
         }
 
         ans
-    }
+    }.sum()
 
-    partOne = solve(2)
-    partTwo = solve(20)
+    runBlocking {
+        partOne = solve(2)
+        partTwo = solve(20)
+    }
 }
