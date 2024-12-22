@@ -905,3 +905,5 @@ fun counterSequence(start: Int = 1) = sequence {
 }
 
 fun <K, V> Map<K, V>.gv(key: K): V = getValue(key)
+
+class NonDataBox<T>(val value: T)

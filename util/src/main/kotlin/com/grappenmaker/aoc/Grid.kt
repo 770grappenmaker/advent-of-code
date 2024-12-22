@@ -76,6 +76,8 @@ val Point.euclideanDistance get() = sqrt(euclideanDistanceSq.toDouble())
 infix fun Point.euclideanDistanceSqTo(other: Point) = (other.x - x).let { it * it } + (other.y - y).let { it * it }
 infix fun Point.euclideanDistanceTo(other: Point) = sqrt(euclideanDistanceSqTo(other).toDouble())
 
+infix fun Point.dot(other: Point) = this * other
+
 enum class Direction(val dx: Int, val dy: Int) {
     UP(0, -1), RIGHT(1, 0), DOWN(0, 1), LEFT(-1, 0);
 
