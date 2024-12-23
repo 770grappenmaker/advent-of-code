@@ -3,28 +3,30 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import kotlin.math.*
-import com.grappenmaker.aoc.Direction.*
 
 fun PuzzleSet.day22() = puzzle(day = 22) {
-    val ctr = hashMapOf<List<Long>, Long>().withDefault { 0 }
+    val ctr = hashMapOf<Int, Int>().withDefault { 0 }
     var p1 = 0L
 
     for (l in inputLines) {
-        val nums = generateSequence(l.toLong()) { curr ->
-            var n = curr
-            n = ((n shl 6) xor n) % 16777216L
-            n = ((n ushr 5) xor n) % 16777216L
-            n = ((n shl 11) xor n) % 16777216L
-            n
-        }.take(2001).toList()
+        val seen = hashSetOf<Int>()
+        var n = l.toInt()
+        var last = n % 10
+        var key = 0
 
-        p1 += nums.last()
+        repeat(2000) {
+            n = ((n shl 6) xor n) and 0xffffff
+            n = ((n shr 5) xor n) and 0xffffff
+            n = ((n shl 11) xor n) and 0xffffff
 
-        val seen = hashSetOf<List<Long>>()
-        nums.asSequence().map { it % 10 }.zipWithNext { a, b -> a - b }.windowed(4).forEachIndexed { idx, ss ->
-            if (seen.add(ss)) ctr[ss] = ctr.gv(ss) + (nums[idx + 4] % 10)
+            val mod = n % 10
+            key = key shl 8
+            key = key or (mod - last + 9)
+            last = mod
+            if (seen.add(key)) ctr[key] = ctr.gv(key) + mod
         }
+
+        p1 += n
     }
 
     partOne = p1
