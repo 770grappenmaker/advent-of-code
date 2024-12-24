@@ -214,14 +214,14 @@ fun <T> Iterable<T>.permPairsExclusive(): List<Pair<T, T>> {
     return result
 }
 
-//fun <T> Iterable<T>.permPairsExclusiveSeq() = sequence {
-//    for ((idxa, va) in this@permPairsExclusiveSeq.withIndex()) {
-//        for ((idxb, vb) in this@permPairsExclusiveSeq.withIndex()) {
-//            if (idxa == idxb) continue
-//            yield(va to vb)
-//        }
-//    }
-//}
+fun <T> Iterable<T>.permPairsExclusiveSeq() = sequence {
+    for ((idxa, va) in this@permPairsExclusiveSeq.withIndex()) {
+        for ((idxb, vb) in this@permPairsExclusiveSeq.withIndex()) {
+            if (idxa == idxb) continue
+            yield(va to vb)
+        }
+    }
+}
 
 inline fun <T, N> Iterable<T>.permPairsExclusive(transform: (T, T) -> N): List<N> {
     val result = mutableListOf<N>()
