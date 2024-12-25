@@ -31,7 +31,7 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
             }
         }
 
-        return (idx - 1).s()
+        return (idx - 1).toString()
     }
 
     partOne = solve()

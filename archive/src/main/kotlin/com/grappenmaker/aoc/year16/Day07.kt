@@ -8,10 +8,10 @@ import com.grappenmaker.aoc.ksp.PuzzleEntry
 @PuzzleEntry
 fun PuzzleSet.day7() = puzzle {
     val parts = inputLines.map { it.split('[', ']').deinterlace() }
-    partOne = parts.count { (norm, net) -> norm.any { it.hasAbba() } && net.none { it.hasAbba() } }.s()
+    partOne = parts.count { (norm, net) -> norm.any { it.hasAbba() } && net.none { it.hasAbba() } }.toString()
     partTwo = parts.count { (norm, net) ->
         net.any { n -> n.filterABA().any { aba -> norm.any { it.hasMatchingBAB(aba) } } }
-    }.s()
+    }.toString()
 }
 
 fun String.hasAbba() = deepen().windowed(4).any { (a1, b1, b2, a2) -> a1 == a2 && b1 == b2 && b1 != a1 }

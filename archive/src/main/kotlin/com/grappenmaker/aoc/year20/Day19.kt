@@ -19,7 +19,7 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
 
     fun solve(rules: Map<Int, RuleDesc>): String {
         val toMatch = rules.getValue(0)
-        return messagesPart.lines().count { toMatch.match(it, rules).any(String::isEmpty) }.s()
+        return messagesPart.lines().count { toMatch.match(it, rules).any(String::isEmpty) }.toString()
     }
 
     partOne = solve(initialRules)

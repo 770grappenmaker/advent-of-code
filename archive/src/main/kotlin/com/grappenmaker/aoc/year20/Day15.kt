@@ -22,7 +22,7 @@ fun PuzzleSet.day15() = puzzle(day = 15) {
             last = toSay
         }
 
-        return last.s()
+        return last.toString()
     }
 
     partOne = walk(0..<2020)

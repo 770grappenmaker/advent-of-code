@@ -27,6 +27,6 @@ fun PuzzleSet.day11() = puzzle(11) {
         enabled to visited
     }
 
-    partOne = sim(false).second.size.s()
+    partOne = sim(false).second.size.toString()
     partTwo = sim(true).first.asBooleanGrid().debug(on = "oo ", off = "   ")
 }

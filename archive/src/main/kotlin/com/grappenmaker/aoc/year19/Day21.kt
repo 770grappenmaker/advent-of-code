@@ -9,7 +9,7 @@ fun PuzzleSet.day21() = puzzle(day = 21) {
         startComputer(input, program.lines().flatMap { it.toList().map { c -> c.code.toLong() } + 10L })
     ) {
         runUntilHalt()
-        output.last { it > 0xFF }.s()
+        output.last { it > 0xFF }.toString()
     }
 
     partOne = solve("""

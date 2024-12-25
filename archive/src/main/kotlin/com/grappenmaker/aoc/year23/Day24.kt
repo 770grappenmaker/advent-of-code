@@ -36,7 +36,7 @@ fun PuzzleSet.day24() = puzzle(day = 24) {
                 (if (a.stone.vel[1] < 0) yi < a.stone.pos[1] else yi > a.stone.pos[1]) &&
                 (if (b.stone.vel[0] < 0) xi < b.stone.pos[0] else xi > b.stone.pos[0]) &&
                 (if (b.stone.vel[1] < 0) yi < b.stone.pos[1] else yi > b.stone.pos[1]))
-    }.s()
+    }.toString()
 
     // Line visualization for desmos
 //    partTwo = (stones.map { (pos, vel) ->

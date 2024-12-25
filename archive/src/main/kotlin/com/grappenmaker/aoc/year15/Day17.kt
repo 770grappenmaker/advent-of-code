@@ -30,9 +30,9 @@ fun PuzzleSet.day17() = puzzle {
     }
 
     recurse(emptySet())
-    partOne = foundSolutions.size.s()
+    partOne = foundSolutions.size.toString()
 
     // Well, this part was easy?
     val bestSolution = foundSolutions.minOf { it.size }
-    partTwo = foundSolutions.count { it.size == bestSolution }.s()
+    partTwo = foundSolutions.count { it.size == bestSolution }.toString()
 }

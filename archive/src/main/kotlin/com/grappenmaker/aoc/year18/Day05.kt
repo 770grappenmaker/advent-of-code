@@ -22,6 +22,6 @@ fun PuzzleSet.day5() = puzzle(5) {
         return stack.size
     }
 
-    partOne = update().s()
-    partTwo = ('a'..'z').minOf { update(it) }.s()
+    partOne = update().toString()
+    partTwo = ('a'..'z').minOf { update(it) }.toString()
 }

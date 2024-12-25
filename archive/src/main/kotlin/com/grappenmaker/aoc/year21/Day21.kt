@@ -40,7 +40,7 @@ fun PuzzleSet.day21() = puzzle(day = 21) {
         val winner = state.winner(1000)
 
         if (winner != null) {
-            partOne = (state.other(winner).score * rolls).s()
+            partOne = (state.other(winner).score * rolls).toString()
             break
         }
     }
@@ -66,5 +66,5 @@ fun PuzzleSet.day21() = puzzle(day = 21) {
     }
 
     val total = initial.find()
-    partTwo = max(total.p1, total.p2).s()
+    partTwo = max(total.p1, total.p2).toString()
 }

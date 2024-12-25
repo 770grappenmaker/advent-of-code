@@ -40,6 +40,6 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
         ptr++
     }
 
-    partOne = result.values.max().s()
-    partTwo = result.count { (_, b) -> b >= 1000 }.s()
+    partOne = result.values.max().toString()
+    partTwo = result.count { (_, b) -> b >= 1000 }.toString()
 }

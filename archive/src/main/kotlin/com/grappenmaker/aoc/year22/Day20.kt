@@ -28,6 +28,6 @@ fun PuzzleSet.day20() = puzzle {
         return nth(1000 + zeroIndex) + nth(2000 + zeroIndex) + nth(3000 + zeroIndex)
     }
 
-    partOne = encrypted.step().coords().s()
-    partTwo = encrypted.map { it * 811589153L }.step(10).coords().s()
+    partOne = encrypted.step().coords().toString()
+    partTwo = encrypted.map { it * 811589153L }.step(10).coords().toString()
 }

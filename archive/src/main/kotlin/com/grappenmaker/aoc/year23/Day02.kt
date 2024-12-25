@@ -19,7 +19,7 @@ fun PuzzleSet.day2() = puzzle(day = 2) {
     val c = listOf("red", "green", "blue")
     partOne = g.withIndex().filter { (_, v) ->
         v.all { r -> c.allIndexed { idx, t -> r.getValue(t) <= idx + 12 } }
-    }.sumOf { (i) -> i + 1 }.s()
+    }.sumOf { (i) -> i + 1 }.toString()
 
-    partTwo = g.sumOf { r -> c.map { r.maxOf { m -> m.getValue(it) } }.product() }.s()
+    partTwo = g.sumOf { r -> c.map { r.maxOf { m -> m.getValue(it) } }.product() }.toString()
 }

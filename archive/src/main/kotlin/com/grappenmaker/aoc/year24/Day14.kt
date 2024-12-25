@@ -5,7 +5,9 @@ package com.grappenmaker.aoc.year24
 import com.grappenmaker.aoc.*
 import kotlin.math.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day14() = puzzle(day = 14) {
     val w = 101
     val h = 103

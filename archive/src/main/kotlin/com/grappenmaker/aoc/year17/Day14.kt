@@ -10,7 +10,7 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
 
     with (grid(128, 128) { (x, y) -> hashes[y][x] }) {
         val enabled = filterTrue().toSet()
-        partOne = enabled.size.s()
+        partOne = enabled.size.toString()
 
         val seen = hashSetOf<Point>()
         var count = 0
@@ -21,6 +21,6 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
             count++
         }
 
-        partTwo = count.s()
+        partTwo = count.toString()
     }
 }

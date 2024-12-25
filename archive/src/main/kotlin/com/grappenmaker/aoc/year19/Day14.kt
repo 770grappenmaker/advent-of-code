@@ -38,7 +38,7 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
         return result.inputs.sumOf { recurse(it, have) }
     }
 
-    partOne = recurse(Ratio(1, "FUEL")).s()
+    partOne = recurse(Ratio(1, "FUEL")).toString()
 
     fun bs(): Long {
         val target = 1000000000000
@@ -60,5 +60,5 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
         return min
     }
 
-    partTwo = bs().s()
+    partTwo = bs().toString()
 }

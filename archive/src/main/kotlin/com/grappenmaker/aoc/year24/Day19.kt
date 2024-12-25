@@ -3,7 +3,9 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day19() = puzzle(day = 19) {
     val (fp, sp) = input.doubleLines()
     val poss = fp.split(", ")

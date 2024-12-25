@@ -28,13 +28,13 @@ fun PuzzleSet.day4() = puzzle(day = 4) {
 
     // Simulate game
     val game = Game(numbers, boards)
-    partOne = (game.getEventualWinner()!!.score * game.lastNumber).s()
+    partOne = (game.getEventualWinner()!!.score * game.lastNumber).toString()
 
     // Part two
     game.reset()
 
     val lastWinner = game.getRanking().last()
-    partTwo = (game.lastNumber * lastWinner.score).s()
+    partTwo = (game.lastNumber * lastWinner.score).toString()
 }
 
 class Game(private val numbers: List<Int>, private val boards: Set<Board>) {

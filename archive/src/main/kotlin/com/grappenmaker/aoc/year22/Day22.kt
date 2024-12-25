@@ -140,7 +140,7 @@ fun PuzzleSet.day22() = puzzle {
         }
 
         val (x, y) = last.loc
-        return (((x + 1) * 4) + ((y + 1) * 1000) + dirCode).s()
+        return (((x + 1) * 4) + ((y + 1) * 1000) + dirCode).toString()
     }
 
     partOne = solve(::partOneWrap)

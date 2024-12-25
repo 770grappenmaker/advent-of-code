@@ -14,7 +14,7 @@ fun PuzzleSet.day5() = puzzle(day = 5) {
 
     partOne = seeds.minOf { v ->
         maps.fold(v) { a, c -> c.find { a in it.first }?.let { it.second.first + a - it.first.first } ?: a }
-    }.s()
+    }.toString()
 
     partTwo = maps.fold(seeds.chunked(2).map { (a, b) -> a..a + b }) { curr, m ->
         buildList outer@{
@@ -36,5 +36,5 @@ fun PuzzleSet.day5() = puzzle(day = 5) {
                 }
             })
         }.simplify()
-    }.minOf { it.first }.s()
+    }.minOf { it.first }.toString()
 }

@@ -5,6 +5,6 @@ import com.grappenmaker.aoc.ksp.PuzzleEntry
 
 @PuzzleEntry
 fun PuzzleSet.day9() = puzzle(day = 9) {
-    partOne = input.evalProgram(1).s()
-    partTwo = input.evalProgram(2).s()
+    partOne = input.evalProgram(1).toString()
+    partTwo = input.evalProgram(2).toString()
 }

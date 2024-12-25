@@ -38,6 +38,6 @@ fun PuzzleSet.day23() = puzzle(day = 23) {
         }).filter { g[it] != '#' }
     })
 
-    partOne = solve(false).s()
-    partTwo = solve(true).s()
+    partOne = solve(false).toString()
+    partTwo = solve(true).toString()
 }

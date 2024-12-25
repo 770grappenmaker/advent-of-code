@@ -23,7 +23,7 @@ fun PuzzleSet.day10() = puzzle {
         }
     }
 
-    partOne = (20..220 step 40).sumOf { cycles[it - 2] * it }.s()
+    partOne = (20..220 step 40).sumOf { cycles[it - 2] * it }.toString()
     partTwo = "\n" + buildBooleanGrid(40, 6) {
         var spritePos = 1
         cycles.forEachIndexed { idx, x ->

@@ -14,8 +14,8 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
         (if (partTwo) registers.max() else registers.first()).also { reset() }
     }
 
-    partOne = run(false).s()
+    partOne = run(false).toString()
 
     val toFactorize = run(true)
-    partTwo = (1..toFactorize).filter { toFactorize % it == 0 }.sum().s()
+    partTwo = (1..toFactorize).filter { toFactorize % it == 0 }.sum().toString()
 }

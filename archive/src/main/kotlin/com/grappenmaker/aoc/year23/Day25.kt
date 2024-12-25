@@ -80,7 +80,7 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
             }
         }
 
-        partOne = (a.size * b.size).s()
+        partOne = (a.size * b.size).toString()
         break
     }
 }

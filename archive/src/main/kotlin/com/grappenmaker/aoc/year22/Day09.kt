@@ -25,7 +25,7 @@ fun PuzzleSet.day9() = puzzle {
             }
         }
 
-        return seen.size.s()
+        return seen.size.toString()
     }
 
     partOne = solve(2)

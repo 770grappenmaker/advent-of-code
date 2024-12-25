@@ -11,7 +11,7 @@ fun PuzzleSet.day15() = puzzle(day = 15) {
         .drop(1).let { s -> if (div != 1L) s.filter { it % div == 0L } else s }
 
     fun solve(a: Sequence<Long>, b: Sequence<Long>, count: Int) = a.zip(b).take(count)
-        .count { (a, b) -> (a and 0xFFFFL) == (b and 0xFFFFL) }.s()
+        .count { (a, b) -> (a and 0xFFFFL) == (b and 0xFFFFL) }.toString()
 
     partOne = solve(seq(startA, 16807L), seq(startB, 48271L), 40000000)
     partTwo = solve(seq(startA, 16807L, 4), seq(startB, 48271L, 8), 5000000)

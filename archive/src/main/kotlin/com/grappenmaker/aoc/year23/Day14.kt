@@ -27,7 +27,7 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
         }
     }
 
-    fun GridLike<Char>.solve() = findPointsValued('O').sumOf { height - it.y }.s()
+    fun GridLike<Char>.solve() = findPointsValued('O').sumOf { height - it.y }.toString()
     partOne = start.roll(UP).solve()
     partTwo = start.patternRepeating(1000000000) { it.roll(UP).roll(LEFT).roll(DOWN).roll(RIGHT) }.solve()
 }

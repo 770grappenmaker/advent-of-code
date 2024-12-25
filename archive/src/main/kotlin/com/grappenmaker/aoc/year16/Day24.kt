@@ -19,7 +19,7 @@ fun PuzzleSet.day24() = puzzle(day = 24) {
                 State(next, if (grid[next] in '0'..'9' && next !in collected) collected + next else collected)
             }
         }
-    ).dist.s()
+    ).dist.toString()
 
     partOne = solve(false)
     partTwo = solve(true)

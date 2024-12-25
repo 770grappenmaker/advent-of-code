@@ -26,5 +26,5 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
         }
 
         false
-    }.s()
+    }.toString()
 }

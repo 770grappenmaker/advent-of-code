@@ -29,7 +29,7 @@ fun PuzzleSet.day17() = puzzle(day = 17) {
                 lastDir = it
             )
         }
-    }, findCost = { g[it.pos] })!!.cost.s()
+    }, findCost = { g[it.pos] })!!.cost.toString()
 
     // advent of reading comprehension "(or even before it can stop at the end)"
     partOne = solve(3)

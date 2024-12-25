@@ -42,7 +42,7 @@ fun PuzzleSet.day7() = puzzle(day = 7) {
         }
     }
 
-    partTwo = head.find().s()
+    partTwo = head.find().toString()
 }
 
 private data class DiscEntry(val name: String, val weight: Int, val children: Set<String>)

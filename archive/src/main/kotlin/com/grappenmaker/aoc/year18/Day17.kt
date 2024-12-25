@@ -64,7 +64,7 @@ fun PuzzleSet.day17() = puzzle(day = 17) {
 
     solve()
     val my = points.minY()
-    fun Set<Point>.result() = count { it.y >= my }.s()
+    fun Set<Point>.result() = count { it.y >= my }.toString()
 
     partOne = (flowing + settled).result()
     partTwo = settled.result()

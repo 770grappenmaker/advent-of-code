@@ -26,7 +26,7 @@ fun PuzzleSet.day2() = puzzle {
                 val newPoint = (a + c).clamp()
                 if (partTwo && this[newPoint] == '#') a else newPoint
             }
-        }.drop(1).joinToString("") { this[it].s() }
+        }.drop(1).joinToString("") { this[it].toString() }
 
     partOne = telephoneGrid.solve(false)
     partTwo = bathroomGrid.solve(true)

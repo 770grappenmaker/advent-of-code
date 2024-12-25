@@ -39,6 +39,6 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
 
     val (s) = bp.step()
     val t = s.map { b -> s.minusElement(b).step().second }
-    partOne = t.countContains(0).s()
-    partTwo = t.sum().s()
+    partOne = t.countContains(0).toString()
+    partTwo = t.sum().toString()
 }

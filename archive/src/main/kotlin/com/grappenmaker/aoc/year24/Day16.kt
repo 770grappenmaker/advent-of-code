@@ -4,8 +4,10 @@ package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.util.*
 
+@PuzzleEntry
 fun PuzzleSet.day16() = puzzle(day = 16) {
     val g = inputLines.asCharGrid()
     val start = g.findPointsValued('S').single()

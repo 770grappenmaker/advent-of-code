@@ -47,7 +47,7 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
             }
 
             if (search.size == cycles.size) {
-                partTwo = cycles.lcm().s()
+                partTwo = cycles.lcm().toString()
                 break@a
             }
 
@@ -74,6 +74,6 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
             }
         }
 
-        if (n == 1000L) partOne = (lo * hi).s()
+        if (n == 1000L) partOne = (lo * hi).toString()
     }
 }

@@ -29,7 +29,7 @@ fun PuzzleSet.day21() = puzzle(day = 21) {
                 toMatch.first { original in it.inputs }.output.rowsValues
             }.reduce { acc, curr -> acc + curr }.swapOrder()
         }.reduce { acc, curr -> acc + curr }.asGrid()
-    }.nth(n).countTrue().s()
+    }.nth(n).countTrue().toString()
 
     partOne = solve(5)
     partTwo = solve(18)

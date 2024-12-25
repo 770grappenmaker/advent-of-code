@@ -16,7 +16,7 @@ fun PuzzleSet.day3() = puzzle(day = 3) {
 
     val epsilon = gamma.inv() and 2.0.pow(width).toInt() - 1
 
-    partOne = (gamma * epsilon).s()
+    partOne = (gamma * epsilon).toString()
 
     // Part two
     val findRating = { doNegate: Boolean ->
@@ -35,7 +35,7 @@ fun PuzzleSet.day3() = puzzle(day = 3) {
     val oxygenRating = findRating(false)
     val co2ScrubRating = findRating(true)
 
-    partTwo = (oxygenRating * co2ScrubRating).s()
+    partTwo = (oxygenRating * co2ScrubRating).toString()
 }
 
 fun Int.getBit(index: Int) = this shr index and 1

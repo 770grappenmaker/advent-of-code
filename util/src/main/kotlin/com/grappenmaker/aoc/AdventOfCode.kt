@@ -1,13 +1,11 @@
 package com.grappenmaker.aoc
 
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.Month
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import kotlin.io.path.Path
-import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 const val aocURL = "https://adventofcode.com"
@@ -43,9 +41,6 @@ class SolveContext(val puzzle: Puzzle, val inputLines: List<String>) {
     val partTwoDelegate = PartDelegate(2)
     var partOne: Any by partOneDelegate
     var partTwo: Any by partTwoDelegate
-
-    // Utility to convert to string (felt shorter to use)
-//    fun <T> T.s() = toString()
 }
 
 data class PuzzleSet(val year: Int) {

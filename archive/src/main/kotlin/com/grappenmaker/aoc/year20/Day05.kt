@@ -11,6 +11,6 @@ fun PuzzleSet.day5() = puzzle {
         l.deepen().asReversed().foldIndexed(0) { idx, acc, c -> acc or ((if (c in isTruthy) 1 else 0) shl idx) }
     }
 
-    partOne = ids.max().s()
-    partTwo = (ids.min()..ids.max()).first { it !in ids }.s()
+    partOne = ids.max().toString()
+    partTwo = (ids.min()..ids.max()).first { it !in ids }.toString()
 }

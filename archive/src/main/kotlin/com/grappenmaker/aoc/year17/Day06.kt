@@ -17,8 +17,8 @@ fun PuzzleSet.day6() = puzzle {
     }.withIndex().firstNotDistinctBy { it.value }
 
     val (idx, partOneResult) = solve(input.splitInts())
-    partOne = idx.s()
-    partTwo = solve(partOneResult).index.s()
+    partOne = idx.toString()
+    partTwo = solve(partOneResult).index.toString()
 }
 
 // I thought this was an optimization, but it was not

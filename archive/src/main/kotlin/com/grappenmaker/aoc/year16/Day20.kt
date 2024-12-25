@@ -13,6 +13,6 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
     }.simplify()
 
 //    partOne = (0L..Long.MAX_VALUE).first { v -> ranges.none { v in it } }.s()
-    partOne = ranges.map { it.last + 1 }.sorted().first { v -> ranges.none { v in it } }.s()
-    partTwo = ranges.fold(0x100000000L) { acc, curr -> acc - curr.width() }.s()
+    partOne = ranges.map { it.last + 1 }.sorted().first { v -> ranges.none { v in it } }.toString()
+    partTwo = ranges.fold(0x100000000L) { acc, curr -> acc - curr.width() }.toString()
 }

@@ -14,7 +14,7 @@ fun PuzzleSet.day24() = puzzle(day = 24) {
         val groupSum = weightSum / n
         return (1..packages.size).firstNotNullOf { r ->
             packages.permutations(r).filter { it.sum() == groupSum }.minOfOrNull { it.map(Int::toLong).product() }
-        }.s()
+        }.toString()
     }
 
     partOne = solve(3)

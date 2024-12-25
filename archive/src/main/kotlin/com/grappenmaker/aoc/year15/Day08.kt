@@ -15,11 +15,11 @@ fun PuzzleSet.day8() = puzzle {
             .replace("\\\\x[a-fA-F0-9]{2}".toRegex(), "1").length
     }
 
-    partOne = (codeSize - memSize).s()
+    partOne = (codeSize - memSize).toString()
 
     val escapedSize = inputLines.sumOf { l ->
         2 + l.replace("\\", "\\\\").replace("\"", "\\\"").length
     }
 
-    partTwo = (escapedSize - codeSize).s()
+    partTwo = (escapedSize - codeSize).toString()
 }

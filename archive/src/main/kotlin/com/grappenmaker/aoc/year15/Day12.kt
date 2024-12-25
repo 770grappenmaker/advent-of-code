@@ -11,13 +11,13 @@ fun PuzzleSet.day12() = puzzle {
     // partOne = numberRegex.findAll(input).sumOf { it.value.toInt() }.s()
 
     val root = Json.parseToJsonElement(input)
-    partOne = root.walk().s()
+    partOne = root.walk().toString()
     partTwo = root.walk {
         val values = it.values.filterIsInstance<JsonPrimitive>().mapNotNull { p -> p.contentOrNull }
 
         // Damn it, elves!
         "red" !in it && "red" !in values
-    }.s()
+    }.toString()
 }
 
 fun JsonElement.walk(condition: (JsonObject) -> Boolean = { true }): Int = when(this) {

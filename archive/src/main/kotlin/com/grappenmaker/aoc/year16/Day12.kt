@@ -9,7 +9,7 @@ fun PuzzleSet.day12() = puzzle(day = 12) {
     fun solve(partTwo: Boolean) = VM(insns).apply {
         if (partTwo) registers['c'] = 1
         stepUntilHalted()
-    }.registers.getValue('a').s()
+    }.registers.getValue('a').toString()
 
     partOne = solve(false)
     partTwo = solve(true)

@@ -11,13 +11,13 @@ import kotlin.math.min
 fun PuzzleSet.day13() = puzzle {
     val pairs = input.split("\n\n").map { p -> p.lines().map { parseValue(it) }.asPair() }
     partOne = pairs.mapIndexed { idx, (a, b) -> a.inOrderWith(b) to idx + 1 }
-        .filter { (a) -> a == 1 }.sumOf { (_, idx) -> idx }.s()
+        .filter { (a) -> a == 1 }.sumOf { (_, idx) -> idx }.toString()
 
     val flat = pairs.flatMap { it.asList() }
     val div1 = ValueList(listOf(ValueList(listOf(LiteralValue(2)))))
     val div2 = ValueList(listOf(ValueList(listOf(LiteralValue(6)))))
     val sorted = (flat + div1 + div2).sortedDescending()
-    partTwo = ((sorted.indexOf(div1) + 1) * (sorted.indexOf(div2) + 1)).s()
+    partTwo = ((sorted.indexOf(div1) + 1) * (sorted.indexOf(div2) + 1)).toString()
 }
 
 // Coding under pressure is not fun

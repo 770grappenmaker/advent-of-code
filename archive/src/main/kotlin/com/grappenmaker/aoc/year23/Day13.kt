@@ -16,7 +16,7 @@ fun PuzzleSet.day13() = puzzle(day = 13) {
         }
     }
 
-    fun solve(match: Int) = (100 * solveDir(match) { rowsValues } + solveDir(match) { columnsValues }).s()
+    fun solve(match: Int) = (100 * solveDir(match) { rowsValues } + solveDir(match) { columnsValues }).toString()
     partOne = solve(0)
     partTwo = solve(1)
 }

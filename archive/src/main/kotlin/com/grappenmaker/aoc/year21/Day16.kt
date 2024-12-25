@@ -8,8 +8,8 @@ fun PuzzleSet.day16() = puzzle(day = 16) {
     // Retrieve decoder
     val decoder = Decoder(input.chunked(2).map { it.toInt(16).toByte() }.toByteArray().toBits())
     val packet = parsePacket(decoder)
-    partOne = packet.getAllPackets().sumOf { it.version }.s()
-    partTwo = packet.value.s()
+    partOne = packet.getAllPackets().sumOf { it.version }.toString()
+    partTwo = packet.value.toString()
 }
 
 // Parses a packet and the packets it contains

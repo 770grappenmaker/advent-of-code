@@ -46,7 +46,7 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
             if (curr.positive) known += curr.also(update)
         }
 
-        return score.s()
+        return score.toString()
     }
 
     val partialRange = -50..50

@@ -65,8 +65,8 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
         error("Not found")
     }
 
-    partOne = solve(false).s()
-    partTwo = solve(true).s()
+    partOne = solve(false).toString()
+    partTwo = solve(true).toString()
 }
 
 data class Spell(val mana: Int, val apply: (GameState) -> GameState)

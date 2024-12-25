@@ -12,12 +12,12 @@ fun PuzzleSet.day10() = puzzle(day = 10) {
             start to (asteroids - start).map { start.angle(it) }.toSet().count()
         }.maxBy { it.second }
 
-        partOne = count.s()
+        partOne = count.toString()
         val (x, y) = (asteroids - loc).groupBy { loc.angle(it) }.toList()
             .flatMap { (angle, v) -> v.sortedBy { loc manhattanDistanceTo it }.map { angle to it }.withIndex() }
             .sortedBy { it.value.first }.sortedBy { it.index }[199].value.second
 
-        partTwo = (x * 100 + y).s()
+        partTwo = (x * 100 + y).toString()
     }
 }
 

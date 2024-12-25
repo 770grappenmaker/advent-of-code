@@ -9,7 +9,7 @@ fun PuzzleSet.day20() = puzzle(20) {
     val num = input.toInt()
     val n10 = num / 10
     val list = MutableList(n10) { 0 }
-    fun solve() = list.withIndex().filter { it.value >= num }.minOf { it.index + 1 }.s()
+    fun solve() = list.withIndex().filter { it.value >= num }.minOf { it.index + 1 }.toString()
 
     (1..n10).forEach { i -> (i..n10 step i).forEach { list[it - 1] += i * 10 } }
     partOne = solve()

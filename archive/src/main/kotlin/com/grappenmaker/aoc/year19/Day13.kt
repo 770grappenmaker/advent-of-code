@@ -8,7 +8,7 @@ import kotlin.math.sign
 @PuzzleEntry
 fun PuzzleSet.day13() = puzzle(13) {
     val drawn = input.programResults().map(Long::toInt).chunked(3).map { (x, y, t) -> Point(x, y) to t }
-    partOne = drawn.count { (_, t) -> t == 2 }.s()
+    partOne = drawn.count { (_, t) -> t == 2 }.toString()
 
     with(startComputer(listOf(2L) + input.split(",").map(String::toLong).drop(1))) {
         val tiles = hashMapOf<Point, Long>()
@@ -44,6 +44,6 @@ fun PuzzleSet.day13() = puzzle(13) {
             }
         }
 
-        partTwo = score.s()
+        partTwo = score.toString()
     }
 }

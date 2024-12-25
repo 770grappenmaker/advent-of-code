@@ -20,7 +20,7 @@ fun PuzzleSet.day21() = puzzle(day = 21) {
     val allIngredients = assoc.values.flatten().flatten().toSet()
     val canBe = assoc.mapValues { it.value.reduce { acc, curr -> acc intersect curr }.toSet() }
     val yesAllergen = canBe.values.reduce { acc, curr -> acc + curr }.toSet()
-    partOne = foods.sumOf { f -> (allIngredients - yesAllergen).count { it in f.ingredients } }.s()
+    partOne = foods.sumOf { f -> (allIngredients - yesAllergen).count { it in f.ingredients } }.toString()
     partTwo = canBe.findUnambiguousSolution().entries.sortedBy { (a) -> a }.joinToString(",") { (_, b) -> b }
 }
 

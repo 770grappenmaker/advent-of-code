@@ -49,7 +49,7 @@ fun PuzzleSet.day11() = puzzle {
             }
         }
 
-        return throws.sortedDescending().take(2).map { it.toLong() }.product().s()
+        return throws.sortedDescending().take(2).map { it.toLong() }.product().toString()
     }
 
     partOne = solve(false)

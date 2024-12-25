@@ -20,7 +20,7 @@ fun PuzzleSet.day12() = puzzle {
         fun eval(start: Point, cond: (Point) -> Boolean) =
             bfsDistance(start, cond) { it.adjacentSides().filter { p -> this[it] - this[p] <= 1 } }.dist
 
-        partOne = eval(end) { it == start }.s()
-        partTwo = (eval(end) { this[it] == 0 }).s()
+        partOne = eval(end) { it == start }.toString()
+        partTwo = (eval(end) { this[it] == 0 }).toString()
     }
 }

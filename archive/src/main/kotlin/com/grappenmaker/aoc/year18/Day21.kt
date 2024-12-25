@@ -21,7 +21,7 @@ fun PuzzleSet.day21() = puzzle(day = 21) {
         // A set does exactly that
         stepUntilHalt { if (ip == checkInsn && !result.add(registers[resultReg])) halt() }
 
-        partOne = result.first().s()
-        partTwo = result.last().s()
+        partOne = result.first().toString()
+        partTwo = result.last().toString()
     }
 }

@@ -54,6 +54,6 @@ fun PuzzleSet.day21() = puzzle(21) {
     val ringPairs = rings.permPairsExclusive()
     val poss = weapons.flatMap { w -> armor.flatMap { a -> ringPairs.map { (r1, r2) -> w + a + r1 + r2 } } }.toSet()
     val (wins, loses) = poss.partition { it.sim() }
-    partOne = wins.minOf { it.cost }.s()
-    partTwo = loses.maxOf { it.cost }.s()
+    partOne = wins.minOf { it.cost }.toString()
+    partTwo = loses.maxOf { it.cost }.toString()
 }

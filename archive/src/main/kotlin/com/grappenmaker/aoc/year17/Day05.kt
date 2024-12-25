@@ -16,7 +16,7 @@ fun PuzzleSet.day5() = puzzle {
             steps++
         }
 
-        return steps.s()
+        return steps.toString()
     }
 
     partOne = solve(false)

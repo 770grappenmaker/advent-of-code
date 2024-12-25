@@ -53,7 +53,7 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
     partOne = (assembled.first().first().id.toLong() *
             assembled.first().last().id.toLong() *
             assembled.last().last().id.toLong() *
-            assembled.last().first().id.toLong()).s()
+            assembled.last().first().id.toLong()).toString()
 
     val result = assembled.map { col ->
         col.map { it.grid.removeBorders().rowsValues }.reduce { acc, curr -> acc + curr }.swapOrder()
@@ -75,5 +75,5 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
     val answer = correctOrientation.filterTrue().toMutableSet()
 
     searchArea.forEach { correctOrientation.monsterAt(it)?.let { set -> answer -= set.toSet() } }
-    partTwo = answer.size.s()
+    partTwo = answer.size.toString()
 }

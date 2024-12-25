@@ -18,6 +18,6 @@ fun PuzzleSet.day6() = puzzle(day = 6) {
         if (tp in result) result[tp] = result.getValue(tp) + 1
     }
 
-    partOne = result.values.max().s()
-    partTwo = cachedPoints.count { p -> points.sumOf { it manhattanDistanceTo p } < 10000 }.s()
+    partOne = result.values.max().toString()
+    partTwo = cachedPoints.count { p -> points.sumOf { it manhattanDistanceTo p } < 10000 }.toString()
 }

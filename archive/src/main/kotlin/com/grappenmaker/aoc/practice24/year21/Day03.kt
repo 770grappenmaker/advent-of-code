@@ -4,7 +4,7 @@ import com.grappenmaker.aoc.*
 
 fun PuzzleSet.day03() = puzzle(day = 3) {
     val nums = inputLines.map { it.toList() }
-    val gamma = nums.swapOrder().map { it.mostFrequent() }.joinToString("").toInt(2)
+    val gamma = nums.transpose().map { it.mostFrequent() }.joinToString("").toInt(2)
     val eps = gamma.inv() and 0b111111111111
     partOne = gamma.toLong() * eps.toLong()
 

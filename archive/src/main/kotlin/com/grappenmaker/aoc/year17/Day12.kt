@@ -12,11 +12,11 @@ fun PuzzleSet.day12() = puzzle(day = 12) {
     }.groupBy { (k) -> k }.mapValues { (_, t) -> t.map { it.second } }
 
     fun String.calc() = floodFill(this, neighbors = { graph[it] ?: emptyList() })
-    partOne = "0".calc().size.s()
+    partOne = "0".calc().size.toString()
 
     // optimized but weird
     val seen = hashSetOf<String>()
-    partTwo = graph.keys.mapNotNull { if (it in seen) null else it.calc().also { f -> seen += f } }.size.s()
+    partTwo = graph.keys.mapNotNull { if (it in seen) null else it.calc().also { f -> seen += f } }.size.toString()
 
     // unoptimized
     // partTwo = graph.keys.map { it.calc() }.distinct().size.s()

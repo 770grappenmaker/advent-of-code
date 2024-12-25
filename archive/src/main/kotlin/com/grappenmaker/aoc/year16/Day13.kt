@@ -16,7 +16,7 @@ fun PuzzleSet.day13() = puzzle(13) {
         bfsDistance(start, { it == end }, { it.adjacentSidesInf().filter(::isValid) }).dist
 
     val start = Point(1, 1)
-    partOne = steps(start, Point(31, 39)).s()
+    partOne = steps(start, Point(31, 39)).toString()
     partTwo = generateSequence(setOf(start)) { s -> s.flatMap { it.adjacentSidesInf().filter(::isValid) }.toSet() }
-        .take(51).flatten().distinct().count().s()
+        .take(51).flatten().distinct().count().toString()
 }

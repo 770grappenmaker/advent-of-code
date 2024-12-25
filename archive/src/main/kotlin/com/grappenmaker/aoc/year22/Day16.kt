@@ -48,8 +48,8 @@ fun PuzzleSet.day16() = puzzle {
         return result
     }
 
-    partOne = solve(initial).s()
-    partTwo = solve(initial, timeLeft = 26, partTwo = true).s()
+    partOne = solve(initial).toString()
+    partTwo = solve(initial, timeLeft = 26, partTwo = true).toString()
 }
 
 data class Valve(val name: String, val rate: Int, val connections: List<String>)

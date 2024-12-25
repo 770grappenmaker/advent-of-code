@@ -14,8 +14,8 @@ fun PuzzleSet.day10() = puzzle {
     // way of calculating this, but I am not aware. this works.
     val after40 = lasSequence(digits).take(40).last()
     val after50 = lasSequence(after40).take(10).last()
-    partOne = after40.size.s()
-    partTwo = after50.size.s()
+    partOne = after40.size.toString()
+    partTwo = after50.size.toString()
 }
 
 fun List<Int>.applyLAS() = if (isEmpty()) emptyList() else buildList {

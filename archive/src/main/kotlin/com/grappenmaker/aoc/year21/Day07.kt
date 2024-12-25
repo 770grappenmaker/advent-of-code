@@ -12,11 +12,11 @@ fun PuzzleSet.day7() = puzzle(day = 7) {
     val mid = numbers.size / 2
     val median = numbers[mid] + if (numbers.size % 2 != 0) numbers[mid - 1] else 0
 
-    partOne = numbers.sumOf { abs(it - median) }.s()
+    partOne = numbers.sumOf { abs(it - median) }.toString()
 
     // Part two
     val mean = numbers.sum() / numbers.size
     val fuel = { i: Int -> i * (i + 1) / 2 }
     val calcFuel = { meanToUse: Int -> numbers.sumOf { fuel(abs(it - meanToUse)) } }
-    partTwo = min(calcFuel(mean), calcFuel(mean - 1)).s()
+    partTwo = min(calcFuel(mean), calcFuel(mean - 1)).toString()
 }

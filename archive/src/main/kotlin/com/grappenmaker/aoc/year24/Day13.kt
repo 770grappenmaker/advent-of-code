@@ -3,7 +3,9 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day13() = puzzle(day = 13) {
     var p1 = 0L
     var p2 = 0L

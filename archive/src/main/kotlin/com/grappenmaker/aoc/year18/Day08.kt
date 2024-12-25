@@ -25,6 +25,6 @@ fun PuzzleSet.day8() = puzzle(8) {
     }
 
     val (parsed) = input.split(" ").map(String::toInt).parse()
-    partOne = parsed.metaSum.s()
-    partTwo = parsed.value.s()
+    partOne = parsed.metaSum.toString()
+    partTwo = parsed.value.toString()
 }

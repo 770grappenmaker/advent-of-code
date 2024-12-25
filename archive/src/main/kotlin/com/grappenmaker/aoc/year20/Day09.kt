@@ -14,9 +14,9 @@ fun PuzzleSet.day9() = puzzle(9) {
         v !in nums.subList(idx, idx + preambleSize).permPairsExclusive().map { (a, b) -> a + b }
     }.first()
 
-    partOne = invalid.s()
+    partOne = invalid.toString()
     val range = generateSequence(2) { it + 1 }.firstNotNullOf { nums.windowed(it).find { w -> w.sum() == invalid } }
         .sorted()
 
-    partTwo = (range.first() + range.last()).s()
+    partTwo = (range.first() + range.last()).toString()
 }

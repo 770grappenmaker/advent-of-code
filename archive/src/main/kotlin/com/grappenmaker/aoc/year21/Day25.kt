@@ -21,5 +21,5 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
     }
 
     partOne = (generateSequence<GridLike<Char>>(inputLines.asCharGrid()) { it.pass(RIGHT, '>').pass(DOWN, 'v') }
-        .zipWithNext().indexOfFirst { (a, b) -> a == b } + 1).s()
+        .zipWithNext().indexOfFirst { (a, b) -> a == b } + 1).toString()
 }

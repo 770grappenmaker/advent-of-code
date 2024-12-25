@@ -15,7 +15,7 @@ fun PuzzleSet.day11() = puzzle(day = 11) {
             emptyCols.count { it < p.x } * n + p.x,
             emptyRows.count { it < p.y } * n + p.y
         )
-    }.combinations(2).sumOf { (a, b) -> a manhattanDistanceTo b }.s()
+    }.combinations(2).sumOf { (a, b) -> a manhattanDistanceTo b }.toString()
 
     partOne = solve(1)
     partTwo = solve(1000000 - 1)

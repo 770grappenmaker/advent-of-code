@@ -11,8 +11,8 @@ fun PuzzleSet.day2() = puzzle {
         Cuboid(length, width, height)
     }
 
-    partOne = cuboids.sumOf { it.totalPaper }.s()
-    partTwo = cuboids.sumOf { it.totalRibbon }.s()
+    partOne = cuboids.sumOf { it.totalPaper }.toString()
+    partTwo = cuboids.sumOf { it.totalRibbon }.toString()
 }
 
 data class Cuboid(val length: Int, val width: Int, val height: Int)

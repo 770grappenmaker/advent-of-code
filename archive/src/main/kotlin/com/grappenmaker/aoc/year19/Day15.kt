@@ -42,8 +42,8 @@ fun PuzzleSet.day15() = puzzle(15) {
     val target = graph.entries.first { (_, v) -> v == OXYGEN }.key
     val neighs: (Point) -> Iterable<Point> = { it.adjacentSidesInf().filter { p -> graph[p] != WALL } }
 
-    partOne = bfsDistance(Point(0, 0), { it == target }, neighs).dist.s()
-    partTwo = fillDistance(target, neighs).values.max().s()
+    partOne = bfsDistance(Point(0, 0), { it == target }, neighs).dist.toString()
+    partTwo = fillDistance(target, neighs).values.max().toString()
 }
 
 enum class MazeEntity {

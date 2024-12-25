@@ -37,7 +37,7 @@ fun PuzzleSet.day09() = puzzle {
             is LengthPart -> it.length
             is MarkerPart -> it.amount * it.times
         }
-    }.s()
+    }.toString()
 
     fun List<ExplodePart>.partTwo(): Long = sumOf {
         when (it) {
@@ -46,7 +46,7 @@ fun PuzzleSet.day09() = puzzle {
         }
     }
 
-    partTwo = parts.partTwo().s()
+    partTwo = parts.partTwo().toString()
 }
 
 sealed interface ExplodePart

@@ -23,7 +23,7 @@ fun PuzzleSet.day15() = puzzle(day = 15) {
 
         return ((0..totalPeriod - discs.size).first { t ->
             (t..<t + discs.size).map { totalPoss[it][it - t].current }.allIdentical()
-        } - 1).s()
+        } - 1).toString()
     }
 
     partOne = solve(initialDiscs)

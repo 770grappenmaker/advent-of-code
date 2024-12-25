@@ -43,7 +43,7 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
         }.minOf { (key, moved, distance) -> solve(keys + this[key], pos - moved + key, memo) + distance }
     }
 
-    partOne = grid.solve().s()
+    partOne = grid.solve().toString()
     partTwo = grid.asMutableGrid().apply {
         val center = Point(width / 2, height / 2)
         val toAdd = """
@@ -54,5 +54,5 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
 
         val start = center - Point(toAdd.width / 2, toAdd.height / 2)
         toAdd.points.forEach { p -> this[start + p] = toAdd[p] }
-    }.asGrid().solve().s()
+    }.asGrid().solve().toString()
 }

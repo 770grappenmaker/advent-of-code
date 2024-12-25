@@ -11,6 +11,6 @@ fun PuzzleSet.day3() = puzzle {
     }
 
     val intersections = a.drop(1).intersect(b.drop(1).toSet())
-    partOne = intersections.minOf { it.manhattanDistance }.s()
-    partTwo = intersections.minOf { a.indexOf(it) + b.indexOf(it) }.s()
+    partOne = intersections.minOf { it.manhattanDistance }.toString()
+    partTwo = intersections.minOf { a.indexOf(it) + b.indexOf(it) }.toString()
 }

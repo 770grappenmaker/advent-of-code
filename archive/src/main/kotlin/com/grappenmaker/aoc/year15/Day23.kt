@@ -37,8 +37,8 @@ fun PuzzleSet.day23() = puzzle(23) {
         return regs.getValue(Register.B)
     }
 
-    partOne = insns.execute().s()
-    partTwo = insns.execute(a = 1).s()
+    partOne = insns.execute().toString()
+    partTwo = insns.execute(a = 1).toString()
 }
 
 enum class Register {

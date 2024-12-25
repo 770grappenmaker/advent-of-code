@@ -5,7 +5,9 @@ package com.grappenmaker.aoc.year24
 import com.grappenmaker.aoc.*
 import kotlin.math.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day10() = puzzle(day = 10) {
     val g = inputLines.asDigitGrid()
     val th = g.findPointsValued(0)

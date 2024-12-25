@@ -29,7 +29,7 @@ fun PuzzleSet.day10() = puzzle(day = 10) {
         }.map { c + it }.filter { it in g && g[it] != '.' }
     }
 
-    partOne = d.values.max().s()
+    partOne = d.values.max().toString()
 
     // get me out of here
     var n = 0
@@ -41,5 +41,5 @@ fun PuzzleSet.day10() = puzzle(day = 10) {
         }
     }
 
-    partTwo = n.s()
+    partTwo = n.toString()
 }

@@ -46,8 +46,8 @@ fun PuzzleSet.day3() = puzzle {
         step(true)
     }
 
-    partTwo = grid[curr].s()
+    partTwo = grid[curr].toString()
 
     repeat(inputSquare - steps - 1) { step(false) }
-    partOne = (curr manhattanDistanceTo center).s()
+    partOne = (curr manhattanDistanceTo center).toString()
 }

@@ -23,5 +23,5 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
         }
     }
 
-    partOne = curr.s()
+    partOne = curr.toString()
 }

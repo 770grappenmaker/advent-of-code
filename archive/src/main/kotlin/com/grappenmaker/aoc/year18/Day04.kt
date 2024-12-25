@@ -40,10 +40,10 @@ fun PuzzleSet.day4() = puzzle {
     val sleepIndex = shifts.mapValues { (_, t) -> t.flatMap { (it.sleep..<it.wake).toList() } }
     val (p1ID, targetMinutes) = sleepIndex.maxBy { (_, v) -> v.size }
     val bestMinute = targetMinutes.mostFrequent()
-    partOne = (p1ID * bestMinute).s()
+    partOne = (p1ID * bestMinute).toString()
 
     val (p2ID, globalBestMinute) = sleepIndex.flatMap { (k, v) -> v.map { t -> k to t } }.mostFrequent()
-    partTwo = (p2ID * globalBestMinute).s()
+    partTwo = (p2ID * globalBestMinute).toString()
 }
 
 sealed interface GuardEvent {

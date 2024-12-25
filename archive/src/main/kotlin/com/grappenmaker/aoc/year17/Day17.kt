@@ -16,7 +16,7 @@ fun PuzzleSet.day17() = puzzle(day = 17) {
     }
 
     update(1..2017)
-    partOne = curr.first().s()
+    partOne = curr.first().toString()
 
     // This works, but let's not
     // update(2018..50000000)
@@ -30,5 +30,5 @@ fun PuzzleSet.day17() = puzzle(day = 17) {
         if (idx++ == 0) ans = it
     }
 
-    partTwo = ans.s()
+    partTwo = ans.toString()
 }

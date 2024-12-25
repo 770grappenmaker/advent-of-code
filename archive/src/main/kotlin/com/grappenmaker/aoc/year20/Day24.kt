@@ -40,7 +40,7 @@ fun PuzzleSet.day24() = puzzle(day = 24) {
     val initialToggled = hashSetOf<Point>()
 
     instructions.forEach { p -> if (p in initialToggled) initialToggled -= p else initialToggled += p }
-    partOne = initialToggled.size.s()
+    partOne = initialToggled.size.toString()
 
     // hacky code but works :D
     val dHex = listOf(
@@ -63,5 +63,5 @@ fun PuzzleSet.day24() = puzzle(day = 24) {
             val neighs = t.neighHex().count { it in toggled }
             if (t in toggled) neighs != 0 && neighs <= 2 else neighs == 2
         }
-    }.nth(100).size.s()
+    }.nth(100).size.toString()
 }

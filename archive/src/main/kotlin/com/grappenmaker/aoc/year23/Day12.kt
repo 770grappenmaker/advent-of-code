@@ -66,7 +66,7 @@ fun PuzzleSet.day12() = puzzle(day = 12) {
         }
     }
 
-    fun List<Entry>.solve() = sumOf { recurse(Memo(0, 0), it) }.s()
+    fun List<Entry>.solve() = sumOf { recurse(Memo(0, 0), it) }.toString()
 
     partOne = s.solve()
     partTwo = s.map { (a, b) -> Entry(listOf(a).asPseudoList(5).joinToList(null), b.asPseudoList(5)) }.solve()

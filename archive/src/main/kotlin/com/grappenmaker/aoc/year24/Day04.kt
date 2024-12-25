@@ -4,7 +4,9 @@ package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day04() = puzzle(day = 4) {
     // code is slow, we ball
     val g = inputLines.asCharGrid()

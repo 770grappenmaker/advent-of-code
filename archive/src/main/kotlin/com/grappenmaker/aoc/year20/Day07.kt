@@ -19,8 +19,8 @@ fun PuzzleSet.day7() = puzzle(7) {
 
     fun findSum(type: String): Int = rules.getValue(type).toList().sumOf { (t, a) -> a * (findSum(t) + 1) }
 
-    partOne = rules.keys.map { expand(it) }.count { "shiny gold bag" in it }.s()
-    partTwo = findSum("shiny gold bag").s()
+    partOne = rules.keys.map { expand(it) }.count { "shiny gold bag" in it }.toString()
+    partTwo = findSum("shiny gold bag").toString()
 }
 
 fun String.removePlural() = if (endsWith('s')) dropLast(1) else this

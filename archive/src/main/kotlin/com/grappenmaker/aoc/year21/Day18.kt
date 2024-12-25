@@ -10,11 +10,11 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
     val numbers = inputLines.map { SnailfishNumber.parse(it) }
 
     // Part one
-    partOne = numbers.map { it.clone() }.reduce { acc, cur -> (acc + cur).reduceNumber() }.magnitude().s()
+    partOne = numbers.map { it.clone() }.reduce { acc, cur -> (acc + cur).reduceNumber() }.magnitude().toString()
 
     // Part two
     // Get permutations and calculate
-    partTwo = numbers.permPairs().maxOf { (a, b) -> (a.clone() + b.clone()).reduceNumber().magnitude() }.s()
+    partTwo = numbers.permPairs().maxOf { (a, b) -> (a.clone() + b.clone()).reduceNumber().magnitude() }.toString()
 }
 
 private sealed class SnailfishNumber(var parent: NumberPair?) {

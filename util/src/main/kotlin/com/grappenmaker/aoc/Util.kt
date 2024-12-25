@@ -28,6 +28,8 @@ fun <T> MutableList<T>.removeLastN(n: Int) = (0..<n).map { removeLast() }.asReve
 fun <T> MutableList<T>.removeNAt(n: Int, atIdx: Int) = (0..<n).map { removeAt(atIdx) }
 fun <T> MutableList<T>.remove(range: IntRange) = range.map { removeAt(range.first) }
 
+// compat
+fun <T> Iterable<Iterable<T>>.swapOrder(forceDrain: Boolean = true) = transpose(forceDrain)
 fun <T> Iterable<Iterable<T>>.transpose(forceDrain: Boolean = true) = buildList {
     val iterators = this@transpose.map { it.iterator() }
     while (iterators.all { it.hasNext() }) add(iterators.map { it.next() })

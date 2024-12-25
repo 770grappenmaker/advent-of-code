@@ -23,7 +23,7 @@ fun PuzzleSet.day17() = puzzle(day = 17) {
     }
 
     fun solve(dims: Int) = generateSequence(initial.map { PointND(it.coords.take(dims)) }.toSet()) { it.step() }
-        .drop(1).take(6).last().size.s()
+        .drop(1).take(6).last().size.toString()
 
     partOne = solve(3)
     partTwo = solve(4)

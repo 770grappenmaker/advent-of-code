@@ -21,10 +21,10 @@ fun PuzzleSet.day12() = puzzle(day = 12) {
         }
     }
 
-    partOne = seq().nth(1000).sumOf { it.energy() }.s()
+    partOne = seq().nth(1000).sumOf { it.energy() }.toString()
 
     fun findRep(extract: (Point3D) -> Int) = seq().map { it.map { (pos, velo) -> extract(pos) to extract(velo) } }
         .withIndex().firstNotDistinctBy { it.value }.index.toLong()
 
-    partTwo = lcmOf(findRep(Point3D::x), findRep(Point3D::y), findRep(Point3D::z)).s()
+    partTwo = lcmOf(findRep(Point3D::x), findRep(Point3D::y), findRep(Point3D::z)).toString()
 }

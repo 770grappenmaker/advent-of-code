@@ -5,7 +5,9 @@ package com.grappenmaker.aoc.year24
 import com.grappenmaker.aoc.*
 import kotlin.math.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day17() = puzzle(day = 17) {
     val defaultA = inputLines.first().substringAfterLast(' ').toLong()
     val program = inputLines.last().substringAfterLast(' ').split(',').map { it.toInt() }

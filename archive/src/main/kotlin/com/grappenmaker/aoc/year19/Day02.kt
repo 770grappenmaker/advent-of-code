@@ -13,8 +13,8 @@ fun PuzzleSet.day2() = puzzle {
         this[0]
     }
 
-    partOne = eval(12, 2).s()
+    partOne = eval(12, 2).toString()
 
     val (noun, verb) = (0L..99L).toList().permPairs().first { (noun, verb) -> eval(noun, verb) == 19690720L }
-    partTwo = (100 * noun + verb).s()
+    partTwo = (100 * noun + verb).toString()
 }

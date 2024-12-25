@@ -11,9 +11,9 @@ import com.grappenmaker.aoc.product
 fun PuzzleSet.day9() = puzzle(day = 9) {
     with(inputLines.asDigitGrid()) {
         val lowPoints = points.filter { p -> p.adjacentSides().all { this[p] < this[it] } }
-        partOne = lowPoints.sumOf { this[it] + 1 }.s()
+        partOne = lowPoints.sumOf { this[it] + 1 }.toString()
 
         val basins = lowPoints.map { point -> floodFill(point, { this[it] != 9 }).size }.sortedDescending()
-        partTwo = basins.take(3).product().s()
+        partTwo = basins.take(3).product().toString()
     }
 }

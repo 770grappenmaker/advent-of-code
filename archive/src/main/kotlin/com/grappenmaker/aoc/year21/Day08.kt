@@ -13,7 +13,7 @@ fun PuzzleSet.day8() = puzzle(day = 8) {
     val data = inputLines.map { it.split(" | ") }
 
     // All lengths we know
-    partOne = data.sumOf { it[1].split(" ").count { e -> e.length in knownLengths.values } }.s()
+    partOne = data.sumOf { it[1].split(" ").count { e -> e.length in knownLengths.values } }.toString()
 
     // Part two
     partTwo = data.map { line ->
@@ -25,7 +25,7 @@ fun PuzzleSet.day8() = puzzle(day = 8) {
         it.second.foldIndexed(0) { idx, acc, value ->
             acc + mapping.getValue(value) * 10.0.pow((it.second.size - idx - 1).toDouble()).toInt()
         }.toInt()
-    }.s()
+    }.toString()
 }
 
 // Lot of magic going on here

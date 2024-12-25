@@ -110,7 +110,7 @@ fun PuzzleSet.day24() = puzzle {
     fun GameState.won() = immuneSystem.isNotEmpty() && infection.isEmpty()
 
     val (initialImmune, initialInfection) = input.doubleLines().map { it.lines().drop(1).map(String::parseGroup) }
-    partOne = GameState(initialImmune, initialInfection).evaluate().remainingUnits().s()
+    partOne = GameState(initialImmune, initialInfection).evaluate().remainingUnits().toString()
 
     fun List<Group>.boost(amount: Int) = map { it.copy(damage = it.damage + amount) }
     fun evaluateWithBoost(amount: Int) = GameState(initialImmune.boost(amount), initialInfection).evaluate()
@@ -123,5 +123,5 @@ fun PuzzleSet.day24() = puzzle {
         if (evaluateWithBoost(pivot).won()) max = pivot else min = pivot
     }
 
-    partTwo = evaluateWithBoost(max).remainingUnits().s()
+    partTwo = evaluateWithBoost(max).remainingUnits().toString()
 }

@@ -4,8 +4,10 @@ package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import java.util.*
 
+@PuzzleEntry
 fun PuzzleSet.day21() = puzzle(day = 21) {
     data class MemoKey(val left: Int, val p: Point, val t: Char, val ref: NonDataBox<Map<Char, Point>>)
 

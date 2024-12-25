@@ -5,7 +5,9 @@ package com.grappenmaker.aoc.year24
 import com.grappenmaker.aoc.*
 import kotlin.math.*
 import com.grappenmaker.aoc.Direction.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day08() = puzzle(day = 8) {
     val g = inputLines.asCharGrid()
     fun solve(find: (Point, Point) -> Sequence<Point>): Int {

@@ -6,7 +6,7 @@ import com.grappenmaker.aoc.ksp.PuzzleEntry
 @PuzzleEntry
 fun PuzzleSet.day18() = puzzle(day = 18) {
     val insns = inputLines.parseProgram()
-    partOne = VM(insns).also { it.stepUntilHalt() }.recovered.s()
+    partOne = VM(insns).also { it.stepUntilHalt() }.recovered.toString()
 
     val p0 = VM(insns, true, 0L)
     val p1 = VM(insns, true, 1L)
@@ -19,5 +19,5 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
         p1.step()
     }
 
-    partTwo = p1.sends.s()
+    partTwo = p1.sends.toString()
 }

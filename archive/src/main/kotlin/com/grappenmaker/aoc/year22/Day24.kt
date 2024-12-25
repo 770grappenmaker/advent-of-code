@@ -67,6 +67,6 @@ fun PuzzleSet.day24() = puzzle {
         }
     ).end!!.time - 1
 
-    partOne = charGrid.p1().s()
-    partTwo = charGrid.p2().s()
+    partOne = charGrid.p1().toString()
+    partTwo = charGrid.p2().toString()
 }

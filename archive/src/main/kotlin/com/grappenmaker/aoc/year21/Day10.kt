@@ -38,11 +38,11 @@ fun PuzzleSet.day10() = puzzle(day = 10) {
     }
 
     // Calculate scores for part one and two
-    partOne = (incorrectLines.sumOf { partOnePoints.getValue(it) }).s()
+    partOne = (incorrectLines.sumOf { partOnePoints.getValue(it) }).toString()
 
     val partTwoScores = incompleteLines.map {
         it.reversed().fold(0.toLong()) { acc, c -> (acc * 5L) + partTwoPoints.getValue(c).toLong() }
     }.sorted()
 
-    partTwo = (partTwoScores[partTwoScores.size / 2]).s()
+    partTwo = (partTwoScores[partTwoScores.size / 2]).toString()
 }

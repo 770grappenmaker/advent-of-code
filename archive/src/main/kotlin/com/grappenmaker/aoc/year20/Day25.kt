@@ -12,5 +12,5 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
 
     val (a, b) = inputLines.map(String::toBigInteger)
     val loopA = generateSequence(1, Int::inc).first { solve(base, it) == a }
-    partOne = solve(b, loopA).s()
+    partOne = solve(b, loopA).toString()
 }

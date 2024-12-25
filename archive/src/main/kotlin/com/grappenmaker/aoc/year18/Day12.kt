@@ -29,7 +29,7 @@ fun PuzzleSet.day12() = puzzle(day = 12) {
     }
 
     fun seq() = generateSequence(initial) { it.next() }
-    partOne = seq().nth(20).sumOf { it.toLong() }.s()
+    partOne = seq().nth(20).sumOf { it.toLong() }.toString()
 
     fun checkRepeat(old: List<Int>, new: List<Int>) = old.size == new.size &&
             old.mapIndexed { idx, v -> new[idx] - v }.toSet().size == 1
@@ -37,5 +37,5 @@ fun PuzzleSet.day12() = puzzle(day = 12) {
     val (old, new) = seq().withIndex().zipWithNext().first { (a, b) -> checkRepeat(a.value, b.value) }
     val shift = new.value.first() - old.value.first()
     val iterationsLeft = 50000000000 - new.index
-    partTwo = new.value.sumOf { it.toLong() + (shift.toLong() * iterationsLeft) }.s()
+    partTwo = new.value.sumOf { it.toLong() + (shift.toLong() * iterationsLeft) }.toString()
 }

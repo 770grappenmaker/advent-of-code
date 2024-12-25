@@ -33,6 +33,6 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
         return sum
     }
 
-    partOne = solve(40).s()
-    partTwo = solve(400000).s()
+    partOne = solve(40).toString()
+    partTwo = solve(400000).toString()
 }

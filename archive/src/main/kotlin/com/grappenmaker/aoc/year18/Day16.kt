@@ -22,7 +22,7 @@ fun PuzzleSet.day16() = puzzle(day = 16) {
 
     partOne = parsedExample.count { example ->
         allOpcodes.sumOf { op -> op.argumentArrangements.count { example.match(op, it) } } >= 3
-    }.s()
+    }.toString()
 
     val exampleByCode = parsedExample.groupBy { it.opcode }
     val allCallMethods = allOpcodes.flatMap { op -> op.argumentArrangements.map { op to it } }
@@ -47,5 +47,5 @@ fun PuzzleSet.day16() = puzzle(day = 16) {
         op.exec(state, insn.drop(1), poss)
     }
 
-    partTwo = state[0].s()
+    partTwo = state[0].toString()
 }

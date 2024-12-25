@@ -25,8 +25,8 @@ fun PuzzleSet.day9() = puzzle {
         }
     }
 
-    partOne = distances.min().s()
-    partTwo = distances.max().s()
+    partOne = distances.min().toString()
+    partTwo = distances.max().toString()
 }
 
 // basically an edge

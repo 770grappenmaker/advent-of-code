@@ -26,8 +26,8 @@ fun PuzzleSet.day17() = puzzle(day = 17) {
         }
     }
 
-    partOne = paths.maxOf { path -> path.maxOf { it.y } }.s()
-    partTwo = paths.size.s()
+    partOne = paths.maxOf { path -> path.maxOf { it.y } }.toString()
+    partTwo = paths.size.toString()
 }
 
 // Point is a velocity here

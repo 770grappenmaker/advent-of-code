@@ -17,7 +17,7 @@ fun PuzzleSet.day24() = puzzle(day = 24) {
 
     val config = initial.automaton { p, c -> rule(c, p.adjacentSideElements().countTrue()) }.firstNotDistinct()
     partOne = config.points.zip(generateSequence(1) { it * 2 }.asIterable())
-        .sumOf { (p, a) -> if (config[p]) a else 0 }.s()
+        .sumOf { (p, a) -> if (config[p]) a else 0 }.toString()
 
     partTwo = generateSequence(mapOf(0 to initial)) { layers ->
         val new = layers.toMutableMap()
@@ -56,5 +56,5 @@ fun PuzzleSet.day24() = puzzle(day = 24) {
         }
 
         new
-    }.nth(200).values.sumOf { it.countTrue() }.s()
+    }.nth(200).values.sumOf { it.countTrue() }.toString()
 }

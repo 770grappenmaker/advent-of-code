@@ -39,8 +39,8 @@ fun PuzzleSet.day16() = puzzle {
         }
     } + 1)
 
-    partOne = solve(false).s()
-    partTwo = solve(true).s()
+    partOne = solve(false).toString()
+    partTwo = solve(true).toString()
 }
 
 // Is this over-engineering? maybe

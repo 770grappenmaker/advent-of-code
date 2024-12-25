@@ -22,8 +22,8 @@ fun PuzzleSet.day7() = puzzle {
     }
 
     val wireA = insns.solve("a")
-    partOne = wireA.s()
-    partTwo = (insns + ("b" to Connect(Value(wireA)))).solve("a").s()
+    partOne = wireA.toString()
+    partTwo = (insns + ("b" to Connect(Value(wireA)))).solve("a").toString()
 }
 
 fun Map<String, Operator>.solve(forWire: String) = buildMap {

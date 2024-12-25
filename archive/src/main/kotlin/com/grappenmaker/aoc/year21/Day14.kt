@@ -43,6 +43,6 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
 
     // Return the result
     val partOneResult = getResultAfter(polymer, 10)
-    partOne = calculate(partOneResult).s()
-    partTwo = calculate(getResultAfter(partOneResult, 30)).s()
+    partOne = calculate(partOneResult).toString()
+    partTwo = calculate(getResultAfter(partOneResult, 30)).toString()
 }

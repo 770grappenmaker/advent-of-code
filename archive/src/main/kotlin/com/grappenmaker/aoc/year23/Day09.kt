@@ -10,6 +10,6 @@ fun PuzzleSet.day9() = puzzle(day = 9) {
             .takeUntil { it.any { c -> c != 0 } }.toList()
     }
 
-    partOne = seq.sumOf { s -> s.sumOf { it.last() } }.s()
-    partTwo = seq.sumOf { s -> s.foldRight(0L) { c, a -> c.first() - a } }.s()
+    partOne = seq.sumOf { s -> s.sumOf { it.last() } }.toString()
+    partTwo = seq.sumOf { s -> s.foldRight(0L) { c, a -> c.first() - a } }.toString()
 }

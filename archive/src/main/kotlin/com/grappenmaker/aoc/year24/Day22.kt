@@ -3,7 +3,9 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day22() = puzzle(day = 22) {
     val ctr = hashMapOf<Int, Int>().withDefault { 0 }
     var p1 = 0L

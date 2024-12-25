@@ -44,7 +44,7 @@ fun PuzzleSet.day10() = puzzle {
             val low = min(a, b)
             val high = max(a, b)
 
-            if (low == 17 && high == 61) partOne = index.s()
+            if (low == 17 && high == 61) partOne = index.toString()
 
             bots.bot(lowTo).also { assert(it.size < 2) } += low
             bots.bot(highTo).also { assert(it.size < 2) } += high
@@ -52,7 +52,7 @@ fun PuzzleSet.day10() = puzzle {
         }
     }
 
-    partTwo = (0..2).map { bots.bot(it or outputMask).single() }.product().s()
+    partTwo = (0..2).map { bots.bot(it or outputMask).single() }.product().toString()
 }
 
 sealed interface BotInstruction

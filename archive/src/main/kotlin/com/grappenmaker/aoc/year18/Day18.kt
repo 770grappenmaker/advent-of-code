@@ -21,6 +21,6 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
     }
 
     fun Grid<Char>.value() = countContains('|') * countContains('#')
-    partOne = solve(10).value().s()
-    partTwo = solve(1000000000).value().s()
+    partOne = solve(10).value().toString()
+    partTwo = solve(1000000000).value().toString()
 }

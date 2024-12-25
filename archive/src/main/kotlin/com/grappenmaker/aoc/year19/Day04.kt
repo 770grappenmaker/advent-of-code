@@ -13,7 +13,7 @@ fun PuzzleSet.day4() = puzzle {
         digits.windowed(2).filterIndexed { idx, (a, b) ->
             a == b && (!partTwo || digits.getOrNull(idx - 1) != a && digits.getOrNull(idx + 2) != b)
         }.any() && digits.sortedDescending() == digits
-    }.s()
+    }.toString()
 
     partOne = solve(false)
     partTwo = solve(true)

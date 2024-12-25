@@ -11,7 +11,7 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
 
     data class Outcome(val p1: List<Int> = initialP1, val p2: List<Int> = initialP2)
     fun Outcome.score() = (p1.takeIf { it.isNotEmpty() } ?: p2)
-        .asReversed().foldIndexed(0L) { idx, acc, v -> acc + (idx + 1) * v }.s()
+        .asReversed().foldIndexed(0L) { idx, acc, v -> acc + (idx + 1) * v }.toString()
 
     fun Outcome.playerOneWins() = p1.isNotEmpty()
 

@@ -7,5 +7,5 @@ fun PuzzleSet.day03() = puzzle(day = 3) {
     fun Sequence<Sequence<Int>>.solve() = flatten().chunked(3) { it.sorted() }.count { (a, b, c) -> a + b > c }
 
     partOne = nums.solve()
-    partTwo = nums.swapOrder().solve()
+    partTwo = nums.transpose().solve()
 }

@@ -12,7 +12,7 @@ fun PuzzleSet.day17() = puzzle(17) {
     with(grid) {
         partOne = points.filter { p ->
             this[p] == '#' && p.adjacentSides().all { this[it] == '#' }
-        }.sumOf { (x, y) -> x * y }.s()
+        }.sumOf { (x, y) -> x * y }.toString()
 
         val dirs = listOf('^', '>', 'v', '<').zip(enumValues<Direction>()).toMap()
         val starting = points.single { this[it] in dirs }
@@ -38,7 +38,7 @@ fun PuzzleSet.day17() = puzzle(17) {
         val (a, b, c) = regex.matchEntire(joined)!!.groupValues.drop(1).map { it.removeSuffix(",") }
         val seq = pathCommand.replace(a, "A").replace(b, "B").replace(c, "C")
         partTwo = (listOf(2L) + prog.drop(1)).evalProgram(
-            (listOf(seq, a, b, c, "n").joinToString("\n") + "\n").map { it.code.toLong() }).s()
+            (listOf(seq, a, b, c, "n").joinToString("\n") + "\n").map { it.code.toLong() }).toString()
     }
 
     // Why manually? IDK

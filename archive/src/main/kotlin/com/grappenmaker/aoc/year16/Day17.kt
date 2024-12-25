@@ -51,7 +51,7 @@ fun PuzzleSet.day17() = puzzle(day = 17) {
         return neighs().maxOfOrNull { it.reverseOptimize() } ?: Int.MIN_VALUE
     }
 
-    partTwo = PathData().reverseOptimize().s()
+    partTwo = PathData().reverseOptimize().toString()
 }
 
 fun String.md5() = md5.digest(encodeToByteArray()).take(2).map { it.toInt() and 0xFF }

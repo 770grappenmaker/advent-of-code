@@ -30,7 +30,7 @@ fun PuzzleSet.day13() = puzzle {
                 val right = configuration.getRolledOver(idx + 1)
                 findFor(p, left) + findFor(p, right)
             }
-        }.s()
+        }.toString()
     }
 
     val people = exclusiveSeatings.map { it.person }.distinct()

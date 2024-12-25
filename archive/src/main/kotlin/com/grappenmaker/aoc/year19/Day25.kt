@@ -34,5 +34,5 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
     """.trimIndent().lines().flatMap { it.toList().map(Char::code).map(Int::toLong) + 10L }
     
     partOne = startComputer(input, job).also { it.runUntilHalt() }.output
-        .joinToString("") { it.toInt().toChar().toString() }.trim().lines().last().splitInts().max().s()
+        .joinToString("") { it.toInt().toChar().toString() }.trim().lines().last().splitInts().max().toString()
 }

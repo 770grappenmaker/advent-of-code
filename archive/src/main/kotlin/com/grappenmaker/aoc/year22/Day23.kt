@@ -46,6 +46,6 @@ fun PuzzleSet.day23() = puzzle {
     val (newState) = result
     val a = newState.minBound()
     val b = newState.maxBound()
-    partOne = Rectangle(a, b).points.count { it !in newState }.s()
-    partTwo = seq().indexOfFirst { !it.first.anyMoved }.s()
+    partOne = Rectangle(a, b).points.count { it !in newState }.toString()
+    partTwo = seq().indexOfFirst { !it.first.anyMoved }.toString()
 }

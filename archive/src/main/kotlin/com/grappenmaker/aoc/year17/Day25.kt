@@ -37,5 +37,5 @@ fun PuzzleSet.day25() = puzzle(day = 25) {
         (if (tape[cursor] == true) whenTrue else whenFalse).perform()
     }
 
-    partOne = tape.values.countTrue().s()
+    partOne = tape.values.countTrue().toString()
 }

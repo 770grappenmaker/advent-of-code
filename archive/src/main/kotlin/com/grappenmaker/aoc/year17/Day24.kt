@@ -36,7 +36,7 @@ fun PuzzleSet.day24() = puzzle(day = 24) {
     }
 
     // Slow strategy for part two, but it generalizes nicely
-    fun solve(comparator: Comparator<State>) = recurse(State(), comparator).strength().s()
+    fun solve(comparator: Comparator<State>) = recurse(State(), comparator).strength().toString()
     partOne = solve(compareBy { it.strength() })
     partTwo = solve(compareBy<State> { it.components.size }.thenBy { it.strength() })
 }

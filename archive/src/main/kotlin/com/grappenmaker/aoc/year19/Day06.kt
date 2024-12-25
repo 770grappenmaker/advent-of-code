@@ -18,7 +18,7 @@ fun PuzzleSet.day6() = puzzle {
     fun String.orbits(): List<String> = reverse[this]?.let { listOf(it) + it.orbits() } ?: emptyList()
 
     val unique = entries.flatMap { listOf(it.around, it.orbiter) }.toSet()
-    partOne = unique.sumOf { it.orbits().size }.s()
+    partOne = unique.sumOf { it.orbits().size }.toString()
 
     val you = entries.first { it.orbiter == "YOU" }
     val san = entries.first { it.orbiter == "SAN" }
@@ -27,5 +27,5 @@ fun PuzzleSet.day6() = puzzle {
         listOfNotNull(reverse[from]) + entries.filter { it.around == from }.map { it.orbiter }
     }
 
-    partTwo = bfsDistance(you.around, isEnd = { it == san.around }, neighbors = { graph[it]!! }).dist.s()
+    partTwo = bfsDistance(you.around, isEnd = { it == san.around }, neighbors = { graph[it]!! }).dist.toString()
 }

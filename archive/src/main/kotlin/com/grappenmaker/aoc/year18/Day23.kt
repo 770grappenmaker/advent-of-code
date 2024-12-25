@@ -14,7 +14,7 @@ fun PuzzleSet.day23() = puzzle(day = 23) {
     fun Point3D.inRange(bot: Bot) = this manhattanDistanceTo bot.pos <= bot.r
 
     val target = bots.maxBy { it.r }
-    partOne = bots.count { it.pos.inRange(target) }.s()
+    partOne = bots.count { it.pos.inRange(target) }.toString()
 
     // You will have to know, above this single line of code were about 80 lines of ideas written out
     // to solve the problem. Initial idea was to... do a bunch of spatial math to hope to decrease the search area
@@ -79,7 +79,7 @@ fun PuzzleSet.day23() = puzzle(day = 23) {
     // the same if that makes sense (it does not)
     // Check for max because farthest away on circle distance is closest
     // (counterintuitive, did this wrong the first time, math is hard)
-    partTwo = algo().maxOf { it.pos.manhattanDistance - it.r }.s()
+    partTwo = algo().maxOf { it.pos.manhattanDistance - it.r }.toString()
 
     // Hard puzzle, part one was really easy though... how would you come up with this algorithm yourself?
     // It makes sense where it comes from but I would have never thought of doing that...

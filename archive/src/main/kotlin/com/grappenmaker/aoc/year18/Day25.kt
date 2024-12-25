@@ -17,5 +17,5 @@ fun PuzzleSet.day25() = puzzle {
         constellations++
     }
 
-    partOne = constellations.s()
+    partOne = constellations.toString()
 }

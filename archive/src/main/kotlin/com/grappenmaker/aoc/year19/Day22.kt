@@ -22,7 +22,7 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
         }
     }
 
-    partOne = deck.indexOf(2019).s()
+    partOne = deck.indexOf(2019).toString()
 
     // This function has this name for a good reason... i could definitely not figure this out on my own
     // I do understand the underlying concepts, but I would never have come up with this
@@ -53,7 +53,7 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
         step = step.modPow(steps, modulus)
         idx = (idx * (one - step) * (one - singleStep).modPow(modulus.dec().dec(), modulus)).mod(modulus)
 
-        return (idx + step * 2020.toBigInteger()).mod(modulus).s()
+        return (idx + step * 2020.toBigInteger()).mod(modulus).toString()
     }
 
     partTwo = solveThisRidiculousDumpTruckOfAPuzzle()

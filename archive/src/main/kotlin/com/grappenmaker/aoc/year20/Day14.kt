@@ -7,7 +7,7 @@ import com.grappenmaker.aoc.ksp.PuzzleEntry
 fun PuzzleSet.day14() = puzzle(day = 14) {
     // Don't think I can generalize here
     fun solve(solution: (memory: MutableMap<Long, Long>) -> Unit) =
-        mutableMapOf<Long, Long>().also(solution).values.sum().s()
+        mutableMapOf<Long, Long>().also(solution).values.sum().toString()
 
     fun solvePartOne() = solve { memory ->
         var andMask = 0xFFFFFFFFFL

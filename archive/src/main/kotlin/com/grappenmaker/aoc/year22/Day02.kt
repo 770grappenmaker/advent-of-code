@@ -14,12 +14,12 @@ fun PuzzleSet.day2() = puzzle {
     }
 
     val inputs = inputLines.map { it[0] - 'A' to it[2] - 'X' }
-    partOne = inputs.score().s()
+    partOne = inputs.score().toString()
     partTwo = inputs.map { (l, r) ->
         l to (l + when (r) {
             0 -> -1
             2 -> 1
             else -> 0
         }).mod(3)
-    }.score().s()
+    }.score().toString()
 }

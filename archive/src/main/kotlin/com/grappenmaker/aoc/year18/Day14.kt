@@ -32,5 +32,5 @@ fun PuzzleSet.day14() = puzzle(day = 14) {
     partTwo = (recipes.windowed(digits.size).indexOfFirst { it == digits }.takeIf { it != -1 } ?: run {
         update { recipes.takeLast(digits.size) == digits }
         recipes.size - digits.size
-    }).s()
+    }).toString()
 }

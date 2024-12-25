@@ -43,6 +43,6 @@ fun PuzzleSet.day14() = puzzle {
         return sand
     }
 
-    partOne = lines.toHashSet().sim(false).s()
-    partTwo = lines.toHashSet().sim(true).s()
+    partOne = lines.toHashSet().sim(false).toString()
+    partTwo = lines.toHashSet().sim(true).toString()
 }

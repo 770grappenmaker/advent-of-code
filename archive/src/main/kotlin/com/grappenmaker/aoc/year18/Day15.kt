@@ -71,7 +71,7 @@ fun PuzzleSet.day15() = puzzle(day = 15) {
     fun IndexedValue<State>.outcome() = (index - 1) * value.grid.healthSum()
 
     partOne = generateSequence(State(initialGrid)) { it.step() }
-        .takeUntil { it.canContinue }.withIndex().last().outcome().s()
+        .takeUntil { it.canContinue }.withIndex().last().outcome().toString()
 
     partTwo = generateSequence(4, Int::inc).firstNotNullOf { elfPower ->
         val improvedGrid = initialGrid.mapElements { if (it is Battler && it.elf) it.copy(power = elfPower) else it }
@@ -79,7 +79,7 @@ fun PuzzleSet.day15() = puzzle(day = 15) {
             .takeUntil { it.canContinue && !it.elfDied }.withIndex().last()
 
         if (result.value.elfDied) null else result.outcome()
-    }.s()
+    }.toString()
 }
 
 sealed interface Square

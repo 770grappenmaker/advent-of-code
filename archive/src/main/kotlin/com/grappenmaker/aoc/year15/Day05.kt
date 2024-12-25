@@ -15,7 +15,7 @@ fun PuzzleSet.day5() = puzzle {
                 str.windowedSequence(2).any { it[0] == it[1] }
     }
 
-    partOne = partOneNice.size.s()
+    partOne = partOneNice.size.toString()
 
     // This code is naughty
     val partTwoNice = inputLines.filter { str ->
@@ -27,5 +27,5 @@ fun PuzzleSet.day5() = puzzle {
         }
     }
 
-    partTwo = partTwoNice.size.s()
+    partTwo = partTwoNice.size.toString()
 }

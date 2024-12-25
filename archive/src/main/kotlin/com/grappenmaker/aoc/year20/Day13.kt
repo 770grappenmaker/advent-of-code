@@ -11,7 +11,7 @@ fun PuzzleSet.day13() = puzzle(day = 13) {
 
     val ignored = buses.filterNotNull()
     partOne = generateSequence(startTime) { it + 1 }.withIndex()
-        .firstNotNullOf { (i, t) -> ignored.firstOrNull { t % it == 0L }?.let { i.toLong() * it } }.s()
+        .firstNotNullOf { (i, t) -> ignored.firstOrNull { t % it == 0L }?.let { i.toLong() * it } }.toString()
 
     val byIndex = buses.mapIndexedNotNull { idx, v -> v?.let { idx to it } }
     var totalPeriod = 1L
@@ -22,5 +22,5 @@ fun PuzzleSet.day13() = puzzle(day = 13) {
         totalPeriod *= period
     }
 
-    partTwo = totalTime.s()
+    partTwo = totalTime.toString()
 }

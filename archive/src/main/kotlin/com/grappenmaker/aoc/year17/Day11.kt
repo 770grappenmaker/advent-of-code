@@ -19,6 +19,6 @@ fun PuzzleSet.day11() = puzzle(day = 11) {
     }
 
     val route = dirs.scan(Point(0, 0)) { acc, curr -> acc + curr }
-    partOne = (route.last().manhattanDistance / 2).s()
-    partTwo = (route.maxOf { it.manhattanDistance } / 2).s()
+    partOne = (route.last().manhattanDistance / 2).toString()
+    partTwo = (route.maxOf { it.manhattanDistance } / 2).toString()
 }

@@ -30,7 +30,7 @@ fun PuzzleSet.day21() = puzzle {
         }
     }
 
-    partOne = eval("root").toLong().s()
+    partOne = eval("root").toLong().toString()
 
     fun bs(): Long {
         val rootJob = monkeys.getValue("root") as OperatorJob
@@ -54,7 +54,7 @@ fun PuzzleSet.day21() = puzzle {
         }
     }
 
-    partTwo = bs().s()
+    partTwo = bs().toString()
 }
 
 sealed interface Job

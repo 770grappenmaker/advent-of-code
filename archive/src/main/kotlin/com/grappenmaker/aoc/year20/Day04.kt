@@ -15,7 +15,7 @@ fun PuzzleSet.day4() = puzzle {
     }
 
     val filtered = passports.filter { listOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid").all { k -> k in it } }
-    partOne = filtered.size.s()
+    partOne = filtered.size.toString()
     partTwo = filtered.count { p ->
         val hgt by p
         val parsedHeight = hgt.dropLast(2).toIntOrNull()
@@ -28,5 +28,5 @@ fun PuzzleSet.day4() = puzzle {
         p.getValue("byr").toIntOrNull() in 1920..2002 && p.getValue("iyr").toIntOrNull() in 2010..2020 &&
                 p.getValue("eyr").toIntOrNull() in 2020..2030 && validHeight && p.getValue("hcl").matches(colorRegex) &&
                 p.getValue("ecl") in eyeColors && p.getValue("pid").matches(pidRegex)
-    }.s()
+    }.toString()
 }

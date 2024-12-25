@@ -36,6 +36,6 @@ fun PuzzleSet.day8() = puzzle {
         }
     }
 
-    partOne = registers.values.max().s()
-    partTwo = maxAllTime.s()
+    partOne = registers.values.max().toString()
+    partTwo = maxAllTime.toString()
 }

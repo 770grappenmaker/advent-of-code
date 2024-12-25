@@ -18,7 +18,7 @@ fun PuzzleSet.day12() = puzzle(12) {
             'F' -> (p + d * v) to d
             else -> error("Invalid action $a")
         }
-    }.first.manhattanDistance.s()
+    }.first.manhattanDistance.toString()
 
     partTwo = actions.fold(Point(0, 0) to Point(10, -1)) { (s, w), (a, v) ->
         when (a) {
@@ -30,5 +30,5 @@ fun PuzzleSet.day12() = puzzle(12) {
             'F' -> (s + w * v) to w
             else -> error("Invalid action $a")
         }
-    }.first.manhattanDistance.s()
+    }.first.manhattanDistance.toString()
 }

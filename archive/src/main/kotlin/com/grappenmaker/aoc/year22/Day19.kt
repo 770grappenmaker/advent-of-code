@@ -25,8 +25,8 @@ fun PuzzleSet.day19() = puzzle {
     }
 
     fun RobotsCost.geodes(time: Int) = geodes(RobotState(time = time))
-    partOne = costs.withIndex().sumOf { (idx, v) -> (idx + 1) * v.geodes(24) }.s()
-    partTwo = costs.take(3).map { it.geodes(32) }.product().s()
+    partOne = costs.withIndex().sumOf { (idx, v) -> (idx + 1) * v.geodes(24) }.toString()
+    partTwo = costs.take(3).map { it.geodes(32) }.product().toString()
 }
 
 fun RobotState.cap(bp: RobotsCost): RobotState {

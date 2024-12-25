@@ -81,7 +81,7 @@ fun PuzzleSet.day18() = puzzle(day = 18) {
     }
 
     val lexed = inputLines.map { lexer(it) }
-    fun solve(parse: (List<Token>) -> ExprElement) = lexed.sumOf { parse(it).eval() }.s()
+    fun solve(parse: (List<Token>) -> ExprElement) = lexed.sumOf { parse(it).eval() }.toString()
 
     partOne = solve { parser(it) }
     partTwo = solve { parser(partTwoTokens(it)) }

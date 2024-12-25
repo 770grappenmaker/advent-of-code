@@ -37,6 +37,6 @@ fun PuzzleSet.day9() = puzzle(day = 9) {
         idx++
     }
 
-    partOne = partOneCount.s()
-    partTwo = partTwoCount.s()
+    partOne = partOneCount.toString()
+    partTwo = partTwoCount.toString()
 }

@@ -3,6 +3,7 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
 fun fastlog10(num: Long): Long {
     if (num < 1000000000L) {
@@ -114,6 +115,7 @@ class Worker(private val entries: List<Entry>, private val p2: Boolean) : Thread
     }
 }
 
+@PuzzleEntry
 fun PuzzleSet.day07() = puzzle(day = 7) {
     val entries = inputLines.map { l ->
         val parts = l.split(' ')

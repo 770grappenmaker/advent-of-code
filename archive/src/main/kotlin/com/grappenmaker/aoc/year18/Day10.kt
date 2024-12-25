@@ -20,5 +20,5 @@ fun PuzzleSet.day10() = puzzle(day = 10) {
             .zipWithNext().first { (from, to) -> from.first.map().area() < to.first.map().area() }.first
 
     partOne = "\n" + result.map().minimizeEmpty().asBooleanGrid().debug(on = "oo ", off = "   ")
-    partTwo = idx.s()
+    partTwo = idx.toString()
 }

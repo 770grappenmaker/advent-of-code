@@ -7,6 +7,6 @@ import com.grappenmaker.aoc.ksp.PuzzleEntry
 @PuzzleEntry
 fun PuzzleSet.day4() = puzzle {
     val passphrases = inputLines.map { it.split(" ") }
-    partOne = passphrases.count { it.allDistinct() }.s()
-    partTwo = passphrases.count { p -> p.none { word -> (p - word).any { it.toSet() == word.toSet() } } }.s()
+    partOne = passphrases.count { it.allDistinct() }.toString()
+    partTwo = passphrases.count { p -> p.none { word -> (p - word).any { it.toSet() == word.toSet() } } }.toString()
 }

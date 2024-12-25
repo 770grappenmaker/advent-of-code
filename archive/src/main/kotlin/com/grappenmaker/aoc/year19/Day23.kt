@@ -42,8 +42,8 @@ fun PuzzleSet.day23() = puzzle(day = 23) {
         }
     }
     
-    partOne = seq(false).first().s()
+    partOne = seq(false).first().toString()
     
     // I cannot figure out why i have to remove every second element.. apparently i yield too many elements? odd
-    partTwo = seq(true).chunked(2) { (a) -> a }.zipWithNext().first { (a, b) -> a == b }.first.s()
+    partTwo = seq(true).chunked(2) { (a) -> a }.zipWithNext().first { (a, b) -> a == b }.first.toString()
 }

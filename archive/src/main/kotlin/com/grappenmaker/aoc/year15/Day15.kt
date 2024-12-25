@@ -42,8 +42,8 @@ fun PuzzleSet.day15() = puzzle {
     val cookie = Cookie(ingredients.associateWith { cookieSize / ingredients.size })
     val partOneCookie = solve(false, cookie)
 
-    partOne = partOneCookie.score.s()
-    partTwo = solve(true, partOneCookie).score.s()
+    partOne = partOneCookie.score.toString()
+    partTwo = solve(true, partOneCookie).score.toString()
 }
 
 data class Cookie(val ingredients: Map<Ingredient, Int>) {

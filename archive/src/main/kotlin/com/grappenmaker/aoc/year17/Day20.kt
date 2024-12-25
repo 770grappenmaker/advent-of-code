@@ -17,10 +17,10 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
         Particle(pos, vel, acc)
     }
 
-    partOne = particles.withIndex().minBy { it.value.acc.manhattanDistance }.index.s()
+    partOne = particles.withIndex().minBy { it.value.acc.manhattanDistance }.index.toString()
     partTwo = generateSequence(particles) { curr ->
         val newParticles = curr.map(Particle::step)
         val positions = newParticles.map { it.pos }.frequencies()
         newParticles.filter { positions.getValue(it.pos) == 1 }
-    }.drop(30).windowed(10).first { w -> w.allIdenticalBy { it.size } }.first().size.s()
+    }.drop(30).windowed(10).first { w -> w.allIdenticalBy { it.size } }.first().size.toString()
 }

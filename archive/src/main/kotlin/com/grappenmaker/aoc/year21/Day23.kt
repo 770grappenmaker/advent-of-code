@@ -134,7 +134,7 @@ fun PuzzleSet.day23() = puzzle(day = 23) {
             error("Should never happen")
         }
 
-        return adaptedDijkstra().cost.s()
+        return adaptedDijkstra().cost.toString()
     }
 
     partOne = solve(inputLines.parse())

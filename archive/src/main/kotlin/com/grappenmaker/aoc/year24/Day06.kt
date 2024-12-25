@@ -4,7 +4,9 @@ package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.Direction.UP
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day06() = puzzle(day = 6) {
     val g = inputLines.asCharGrid()
     val start = g.findPointsValued('^').single()

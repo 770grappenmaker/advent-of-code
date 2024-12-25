@@ -29,7 +29,7 @@ fun PuzzleSet.day20() = puzzle(20) {
 
         var curr = image
         repeat(n) { curr = curr.step(it % 2 == 0) }
-        return curr.countTrue().s()
+        return curr.countTrue().toString()
     }
 
     partOne = stepN(2)

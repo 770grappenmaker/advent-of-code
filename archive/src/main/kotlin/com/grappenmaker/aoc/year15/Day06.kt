@@ -25,6 +25,6 @@ fun PuzzleSet.day6() = puzzle {
         }
     }
 
-    partOne = toggled.countTrue().s()
-    partTwo = brightness.sum().s()
+    partOne = toggled.countTrue().toString()
+    partTwo = brightness.sum().toString()
 }

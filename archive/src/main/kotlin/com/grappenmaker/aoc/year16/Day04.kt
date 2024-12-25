@@ -19,7 +19,7 @@ fun PuzzleSet.day4() = puzzle {
         chars.take(5).map { it.first }.sorted() == check
     }
 
-    partOne = filtered.sumOf { it.id }.s()
+    partOne = filtered.sumOf { it.id }.toString()
     partTwo = filtered.first { (text, shift) ->
         text.deepen().joinToString("") { c ->
             when {
@@ -28,7 +28,7 @@ fun PuzzleSet.day4() = puzzle {
                 else -> c
             }.toString()
         } == "northpole object storage"
-    }.id.s()
+    }.id.toString()
 }
 
 data class RoomCheck(val name: String, val id: Int, val checksum: List<Char>)

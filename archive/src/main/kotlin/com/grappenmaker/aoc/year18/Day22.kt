@@ -21,7 +21,7 @@ fun PuzzleSet.day22() = puzzle {
     )
 
     val grid = grid(targetX + 1, targetY + 1) { it.caveType(cache, depthBig) }
-    partOne = grid.elements.sum().s()
+    partOne = grid.elements.sum().toString()
 
     data class State(val equipped: Tool = Tool.TORCH, val pos: Point = Point(0, 0), val justEquipped: Boolean = false)
 
@@ -37,7 +37,7 @@ fun PuzzleSet.day22() = puzzle {
             )
         },
         findCost = { if (it.justEquipped) 7 else 1 }
-    )?.cost.s()
+    )?.cost.toString()
 }
 
 private fun Point.geoIndex(cache: MutableMap<Point, BigInteger>, depth: BigInteger): BigInteger = cache.getOrPut(this) {

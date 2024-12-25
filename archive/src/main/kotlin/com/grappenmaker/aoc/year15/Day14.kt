@@ -15,7 +15,7 @@ fun PuzzleSet.day14() = puzzle {
         timeRange.scan(0) { acc, curr -> acc + if (reindeer.isResting(curr)) 0 else reindeer.speed }
     }.toList()
 
-    partOne = travelMap.maxOf { (_, travels) -> travels.last() }.s()
+    partOne = travelMap.maxOf { (_, travels) -> travels.last() }.toString()
 
     val leads = timeRange.map { curr ->
         val sorted = travelMap.map { (reindeer, travels) -> reindeer to travels[curr + 1] }
@@ -25,7 +25,7 @@ fun PuzzleSet.day14() = puzzle {
         sorted.takeWhile { (_, d) -> d == maxDistance }.map { (r) -> r }
     }
 
-    partTwo = travelMap.maxOf { (reindeer) -> leads.count { reindeer in it } }.s()
+    partTwo = travelMap.maxOf { (reindeer) -> leads.count { reindeer in it } }.toString()
 }
 
 data class Reindeer(

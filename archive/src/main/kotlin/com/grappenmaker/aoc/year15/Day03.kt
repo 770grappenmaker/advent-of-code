@@ -9,8 +9,8 @@ fun PuzzleSet.day3() = puzzle {
     fun createPath(startIdx: Int, jump: Int) =
         directions.drop(startIdx).chunked(jump).map { (a) -> a }.scan(Point(0, 0)) { a, d -> a + d }
 
-    partOne = createPath(0, 1).toSet().size.s()
+    partOne = createPath(0, 1).toSet().size.toString()
     val santaPath = createPath(0, 2)
     val roboSantaPath = createPath(1, 2)
-    partTwo = (santaPath + roboSantaPath).toSet().size.s()
+    partTwo = (santaPath + roboSantaPath).toSet().size.toString()
 }

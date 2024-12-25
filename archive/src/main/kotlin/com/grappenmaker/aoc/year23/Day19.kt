@@ -50,7 +50,7 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
         }
     }
 
-    partOne = ps.sumOf { m -> if (find(m)) m.values.sum() else 0 }.s()
+    partOne = ps.sumOf { m -> if (find(m)) m.values.sum() else 0 }.toString()
     val default = "xmas".associate { it.toString() to 1..4000L }
 
     fun Map<String, LongRange>.merge(p: String, nr: LongRange): Map<String, LongRange>? {
@@ -81,5 +81,5 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
         }
     }
 
-    partTwo = (solve(start, default).sumOf { m -> m.values.map { it.width().toBigInteger() }.product() }).s()
+    partTwo = (solve(start, default).sumOf { m -> m.values.map { it.width().toBigInteger() }.product() }).toString()
 }

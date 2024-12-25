@@ -25,7 +25,7 @@ fun PuzzleSet.day6() = puzzle(day = 6) {
     }
 
     partOne = inputLines.map { l -> l.substringAfter(':').trim().split(" ").filter { it.isNotEmpty() }.map { it.toLong() } }
-        .let { (t, d) -> t.zip(d, ::solve).product() }.s()
+        .let { (t, d) -> t.zip(d, ::solve).product() }.toString()
 
-    partTwo = inputLines.map { it.filter(Char::isDigit).toLong() }.let { (t, d) -> solve(t, d) }.s()
+    partTwo = inputLines.map { it.filter(Char::isDigit).toLong() }.let { (t, d) -> solve(t, d) }.toString()
 }

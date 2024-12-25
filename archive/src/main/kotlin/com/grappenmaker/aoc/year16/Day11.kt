@@ -39,7 +39,7 @@ fun PuzzleSet.day11() = puzzle(day = 11) {
         val seen = hashSetOf(initialState.encode())
 
         queue.drain { (curr, dist) ->
-            if (curr.floors.last().size == totalChips) return dist.s()
+            if (curr.floors.last().size == totalChips) return dist.toString()
             val currentFloor = curr.floors[curr.elevator]
             val poss = (currentFloor.permPairsExclusive { a, b -> setOf(a, b) }
                     + currentFloor.map { setOf(it) }).toSet()

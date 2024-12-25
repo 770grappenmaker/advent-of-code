@@ -3,8 +3,9 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
-import kotlin.math.absoluteValue
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day24() = puzzle(day = 24) {
     val (fp, sp) = input.doubleLines()
     val regs: MutableMap<String, () -> Boolean> = hashMapOf()

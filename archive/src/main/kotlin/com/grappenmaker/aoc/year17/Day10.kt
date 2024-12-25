@@ -6,7 +6,7 @@ import com.grappenmaker.aoc.ksp.PuzzleEntry
 @PuzzleEntry
 fun PuzzleSet.day10() = puzzle(day = 10) {
     val (a, b) = knotHash(input.split(",").map(String::toInt)).data
-    partOne = (a * b).s()
+    partOne = (a * b).toString()
     partTwo = totalKnotHash(input.deepen().map { it.code }).display()
 }
 

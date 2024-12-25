@@ -48,8 +48,8 @@ fun PuzzleSet.day12() = puzzle(day = 12) {
     }
 
     // Return the results of the search
-    partOne = result.s()
-    partTwo = (result + additional).s()
+    partOne = result.toString()
+    partTwo = (result + additional).toString()
 }
 
 // Utility to check if full string is lowercase

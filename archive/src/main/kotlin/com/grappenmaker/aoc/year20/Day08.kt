@@ -23,11 +23,11 @@ fun PuzzleSet.day8() = puzzle(8) {
         }
     }
 
-    partOne = insns.seq().untilNotDistinctBy { (_, ptr) -> ptr }.last().first.s()
+    partOne = insns.seq().untilNotDistinctBy { (_, ptr) -> ptr }.last().first.toString()
     partTwo = insns.indices.filter { insns[it].first in listOf(NOP, JMP) }.map { idx ->
         val (op, a) = insns[idx]
         insns.toMutableList().apply { set(idx, (if (op == NOP) JMP else NOP) to a) }.seq()
-    }.first { !it.hasDuplicateBy { (_, ptr) -> ptr } }.last().first.s()
+    }.first { !it.hasDuplicateBy { (_, ptr) -> ptr } }.last().first.toString()
 }
 
 enum class Opcode {

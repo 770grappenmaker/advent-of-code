@@ -5,5 +5,5 @@ plugins {
 
 dependencies {
     implementation(projects.util)
-    implementation(libs.bundles.asm)
+//    implementation(libs.bundles.asm)
 }

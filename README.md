@@ -37,10 +37,12 @@ Day       Time  Rank  Score       Time  Rank  Score
 ```
 
 ## 2024
-Points: 11
+Final leaderboard placement: #519, #173 excluding potential cheaters (according to [this page](https://fuglede.github.io/aoc-full-leaderboard/only_known.html))
+Points: 100
 ```
       -------Part 1--------   -------Part 2--------
 Day       Time  Rank  Score       Time  Rank  Score
+ 25   00:03:11    62     39   00:03:15    51     50
  24   00:06:59   168      0   02:07:50   870      0
  23   00:12:41  1397      0   00:15:17   491      0
  22   00:02:39   124      0   00:22:40   440      0
@@ -67,7 +69,7 @@ Day       Time  Rank  Score       Time  Rank  Score
 ```
 
 ## Progress (as of 2024)
-- [ ] 2024: 24/25 (48 🌟) (96.0%)
+- [x] 2024: 25/25 (50 🌟) (100.0%)
 - [x] 2023: 25/25 (50 🌟) (100.0%)
 - [x] 2022: 25/25 (50 🌟) (100.0%)
 - [x] 2021: 25/25 (50 🌟) (100.0%)
@@ -77,4 +79,6 @@ Day       Time  Rank  Score       Time  Rank  Score
 - [x] 2017: 25/25 (50 🌟) (100.0%)
 - [x] 2016: 25/25 (50 🌟) (100.0%)
 - [x] 2015: 25/25 (50 🌟) (100.0%)
-- [x] Total: 248/250 (496 🌟) (99.6%)
+- [x] Total: 250/250 (500 🌟) (100.0%)
+
+All done!

@@ -56,7 +56,7 @@ fun PuzzleSet.day20() = puzzle(day = 20) {
                 State(p, newLayer)
             }.filterNot { it.layer < 0 }
         }
-    ).dist.s()
+    ).dist.toString()
 
     partOne = solve(false)
     partTwo = solve(true)

@@ -13,9 +13,9 @@ fun PuzzleSet.day4() = puzzle(day = 4) {
         y.intersect(w).size
     }
 
-    partOne = p.sumOf { c -> if (c == 0) 0 else 2.pow(c - 1) }.s()
+    partOne = p.sumOf { c -> if (c == 0) 0 else 2.pow(c - 1) }.toString()
 
     val res = MutableList(p.size) { 1 }
     p.forEachIndexed { idx, c -> (idx + 1..idx + c).forEach { res[it] += res[idx] } }
-    partTwo = res.sum().s()
+    partTwo = res.sum().toString()
 }

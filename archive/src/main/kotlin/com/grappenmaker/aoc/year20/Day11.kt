@@ -20,7 +20,7 @@ fun PuzzleSet.day11() = puzzle(11) {
             s == '#' && adj.countContains('#') >= dist -> 'L'
             else -> s
         }
-    }.firstNotDistinctBy { it.elements }.countContains('#').s()
+    }.firstNotDistinctBy { it.elements }.countContains('#').toString()
 
     partOne = solve(false, 4)
     partTwo = solve(true, 5)

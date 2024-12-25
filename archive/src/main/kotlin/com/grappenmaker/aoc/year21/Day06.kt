@@ -32,8 +32,8 @@ fun PuzzleSet.day6() = puzzle(day = 6) {
     }
 
     val popPartOne = cyclePopulation(fish, 80)
-    partOne = popPartOne.values.sum().s()
+    partOne = popPartOne.values.sum().toString()
 
     // Part two
-    partTwo = cyclePopulation(popPartOne, 256 - 80).values.sum().s()
+    partTwo = cyclePopulation(popPartOne, 256 - 80).values.sum().toString()
 }

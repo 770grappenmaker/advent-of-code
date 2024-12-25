@@ -60,7 +60,7 @@ fun PuzzleSet.day7() = puzzle(day = 7) {
             seconds++
         }
 
-        partTwo = seconds.s()
+        partTwo = seconds.toString()
     }
 
     partOne()

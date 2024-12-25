@@ -17,8 +17,8 @@ fun PuzzleSet.day4() = puzzle {
     }
 
     val partOneEnd = findSolution(0, 5)
-    partOne = partOneEnd.s()
-    partTwo = findSolution(partOneEnd, 6).s()
+    partOne = partOneEnd.toString()
+    partTwo = findSolution(partOneEnd, 6).toString()
 }
 
 // Returns first 3 bytes of md5 digest as int

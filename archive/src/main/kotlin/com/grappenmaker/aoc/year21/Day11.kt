@@ -27,9 +27,9 @@ fun PuzzleSet.day11() = puzzle(day = 11) {
         }
 
         repeat(100) { step() }
-        partOne = flashes.s()
+        partOne = flashes.toString()
 
         while (any { it != 0 }) step()
-        partTwo = steps.s()
+        partTwo = steps.toString()
     }
 }

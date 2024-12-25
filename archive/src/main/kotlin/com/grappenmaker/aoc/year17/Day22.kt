@@ -26,7 +26,7 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
             antPos += antDir
         }
 
-        return ans.s()
+        return ans.toString()
     }
 
     partOne = solve(10000, 2)

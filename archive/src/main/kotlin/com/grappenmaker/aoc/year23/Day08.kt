@@ -15,7 +15,7 @@ fun PuzzleSet.day8() = puzzle(day = 8) {
     fun solve(start: List<String>, partTwo: Boolean) = start.map { p ->
         dirs.asSequence().repeatInfinitely().scan(p) { a, c -> graph.getValue(a)[c] }
             .indexOfFirst { if (partTwo) it.last() == 'Z' else it == "ZZZ" }.toLong()
-    }.lcm().s()
+    }.lcm().toString()
 
     partOne = solve(listOf("AAA"), false)
     partTwo = solve(graph.keys.filter { it.last() == 'A' }, true)

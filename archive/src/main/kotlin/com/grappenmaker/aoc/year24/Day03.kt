@@ -3,7 +3,9 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day03() = puzzle(day = 3) {
 //    var partOne by overwritePartOne(0L)
 //    var partTwo by overwritePartTwo(0L)

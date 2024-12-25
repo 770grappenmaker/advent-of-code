@@ -68,6 +68,6 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
         todo.addLast(curr)
     }
 
-    partOne = corrected.size.s()
-    partTwo = found.maxOf { a -> (found - a).maxOf { b -> a manhattanDistanceTo b } }.s()
+    partOne = corrected.size.toString()
+    partTwo = found.maxOf { a -> (found - a).maxOf { b -> a manhattanDistanceTo b } }.toString()
 }

@@ -29,6 +29,6 @@ fun PuzzleSet.day8() = puzzle {
         }
     }
 
-    partOne = grid.countTrue().s()
+    partOne = grid.countTrue().toString()
     partTwo = "\n" + grid.debug(on = "++ ", off = "   ")
 }

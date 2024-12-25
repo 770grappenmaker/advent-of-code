@@ -12,6 +12,6 @@ fun PuzzleSet.day3() = puzzle {
         sizedRect(w, h, x, y)
     }
 
-    partOne = rects.flatMap { it.points }.notDistinct().distinct().size.s()
-    partTwo = (rects.indexOfFirst { rect -> (rects - rect).none { it.overlapsInclusive(rect) } } + 1).s()
+    partOne = rects.flatMap { it.points }.notDistinct().distinct().size.toString()
+    partTwo = (rects.indexOfFirst { rect -> (rects - rect).none { it.overlapsInclusive(rect) } } + 1).toString()
 }

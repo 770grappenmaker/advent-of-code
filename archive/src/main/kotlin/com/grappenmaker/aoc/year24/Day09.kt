@@ -3,7 +3,9 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day09() = puzzle(day = 9) {
     // do not feel like refactoring nicely today, so two different solutions you shall receive
     val data = input.map { it.digitToInt() }

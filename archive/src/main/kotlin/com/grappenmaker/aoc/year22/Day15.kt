@@ -15,7 +15,7 @@ fun PuzzleSet.day15() = puzzle {
 
     val min = scanners.minOf { it.loc.x - it.distance }
     val max = scanners.maxOf { it.loc.x + it.distance }
-    partOne = (min..max).count { !Point(it, 2000000).isValid() }.s()
+    partOne = (min..max).count { !Point(it, 2000000).isValid() }.toString()
 
     val range = 0..4000000
     val directions = listOf(DOWN + LEFT, DOWN + RIGHT, UP + LEFT, UP + RIGHT)
@@ -27,7 +27,7 @@ fun PuzzleSet.day15() = puzzle {
         }.filter { (x, y) -> x in range && y in range }
     }.first { it.isValid() }
 
-    partTwo = (x.toLong() * 4000000 + y.toLong()).s()
+    partTwo = (x.toLong() * 4000000 + y.toLong()).toString()
 }
 
 data class Scanner(val loc: Point, val beacon: Point) {

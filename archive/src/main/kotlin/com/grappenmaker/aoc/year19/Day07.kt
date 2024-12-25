@@ -9,7 +9,7 @@ fun PuzzleSet.day7() = puzzle(7) {
     val configurations = (0L..4L).toList().permutations()
     partOne = configurations.maxOf { seq ->
         seq.fold(0L) { acc, curr -> startComputer(input, listOf(curr, acc)).stepUntilOutput() }
-    }.s()
+    }.toString()
 
     partTwo = configurations.map { l -> l.map { it + 5 } }.maxOf { conf ->
         val pcs = conf.map { mode -> startComputer(input).also { it.addInput(listOf(mode)) } }
@@ -21,5 +21,5 @@ fun PuzzleSet.day7() = puzzle(7) {
                 pc.stepUntilOutput()
             }
         }.takeWhile { !last.isHalted() }.last()
-    }.s()
+    }.toString()
 }

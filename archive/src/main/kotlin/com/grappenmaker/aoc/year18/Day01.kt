@@ -8,6 +8,6 @@ import com.grappenmaker.aoc.repeatInfinitely
 @PuzzleEntry
 fun PuzzleSet.day1() = puzzle {
     val nums = inputLines.map(String::toInt)
-    partOne = nums.sum().s()
-    partTwo = nums.asSequence().repeatInfinitely().runningReduce { a, i -> a + i }.asIterable().firstNotDistinct().s()
+    partOne = nums.sum().toString()
+    partTwo = nums.asSequence().repeatInfinitely().runningReduce { a, i -> a + i }.asIterable().firstNotDistinct().toString()
 }

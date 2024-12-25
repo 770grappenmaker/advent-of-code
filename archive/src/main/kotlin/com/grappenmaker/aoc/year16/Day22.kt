@@ -18,7 +18,7 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
         Node(x, y, s, u, a)
     }
 
-    partOne = nodes.permPairsExclusive().count { (a, b) -> a.used != 0 && a.used <= b.available }.s()
+    partOne = nodes.permPairsExclusive().count { (a, b) -> a.used != 0 && a.used <= b.available }.toString()
 
     val grid = nodes.associateBy { Point(it.x, it.y) }.asGrid()
     val goal = grid.topLeftCorner
@@ -36,5 +36,5 @@ fun PuzzleSet.day22() = puzzle(day = 22) {
                 .filter { grid[it].used != 0 && grid[it].used <= grid[emptySpot].max }
                 .map { State(if (it == curr) emptySpot else curr, it) }
         }
-    ).dist.s()
+    ).dist.toString()
 }

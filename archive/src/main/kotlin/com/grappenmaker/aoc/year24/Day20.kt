@@ -3,9 +3,11 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlinx.coroutines.runBlocking
 import kotlin.math.absoluteValue
 
+@PuzzleEntry
 fun PuzzleSet.day20() = puzzle(day = 20) {
     val g = inputLines.asCharGrid()
     val start = g.findPointsValued('S').single()

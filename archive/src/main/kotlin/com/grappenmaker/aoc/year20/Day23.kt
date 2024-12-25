@@ -29,5 +29,5 @@ fun PuzzleSet.day23() = puzzle(day = 23) {
     val max = parsed.max()
     partOne = solve(parsed, 100).takeUntilFirst().dropLast(1).joinToString("")
     partTwo = solve(parsed + List(1000000 - parsed.size) { max + it + 1 }, 10000000)
-        .take(2).map { it.value.toLong() }.product().s()
+        .take(2).map { it.value.toLong() }.product().toString()
 }

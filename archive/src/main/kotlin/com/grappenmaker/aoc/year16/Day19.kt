@@ -26,7 +26,7 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
         iter = next
     }
 
-    partOne = (elvesLeft.single() + 1).s()
+    partOne = (elvesLeft.single() + 1).toString()
 
     val halfCircle = amount / 2
     val queue = queueOf((1..halfCircle).toList())
@@ -43,5 +43,5 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
         queue.addLast(stack.removeLast())
     }
 
-    partTwo = queue.single().s()
+    partTwo = queue.single().toString()
 }

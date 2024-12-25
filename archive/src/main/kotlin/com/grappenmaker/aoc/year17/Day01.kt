@@ -7,7 +7,7 @@ import com.grappenmaker.aoc.rotate
 @PuzzleEntry
 fun PuzzleSet.day1() = puzzle {
     val digits = input.map(Char::digitToInt)
-    fun solve(rot: Int) = digits.zip(digits.rotate(rot)).filter { (a, b) -> a == b }.sumOf { (a) -> a }.s()
+    fun solve(rot: Int) = digits.zip(digits.rotate(rot)).filter { (a, b) -> a == b }.sumOf { (a) -> a }.toString()
     partOne = solve(1)
     partTwo = solve(digits.size / 2)
 }

@@ -29,7 +29,7 @@ fun PuzzleSet.day13() = puzzle(day = 13) {
         if (oldPos == 0) severity += idx * layers.getValue(idx)
     }
 
-    partOne = severity.s()
+    partOne = severity.toString()
 
     var target = 0
     val ring = queueOf(seq().take(lastLayer + 1).toList())
@@ -51,5 +51,5 @@ fun PuzzleSet.day13() = puzzle(day = 13) {
         }
     }
 
-    partTwo = (target - 1).s()
+    partTwo = (target - 1).toString()
 }

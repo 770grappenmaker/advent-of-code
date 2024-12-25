@@ -3,8 +3,10 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.absoluteValue
 
+@PuzzleEntry
 fun PuzzleSet.day01() = puzzle(day = 1) {
     val al = mutableListOf<Int>()
     val bl = mutableListOf<Int>()

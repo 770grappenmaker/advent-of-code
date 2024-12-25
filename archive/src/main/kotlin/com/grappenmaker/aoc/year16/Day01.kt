@@ -14,6 +14,6 @@ fun PuzzleSet.day1() = puzzle {
         List(amount) { l.last() + (newDir * (it + 1)) } to newDir
     }.flatMap { (a) -> a }
 
-    partOne = path.last().manhattanDistance.s()
-    partTwo = path.firstNotDistinct().manhattanDistance.s()
+    partOne = path.last().manhattanDistance.toString()
+    partTwo = path.firstNotDistinct().manhattanDistance.toString()
 }

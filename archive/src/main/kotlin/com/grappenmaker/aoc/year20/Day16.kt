@@ -22,7 +22,7 @@ fun PuzzleSet.day16() = puzzle(day = 16) {
     }
 
     val otherTickets = othersPart.drop(1).map { it.split(",").map(String::toInt) }
-    partOne = otherTickets.sumOf { ticket -> ticket.sumOf { v -> if (rules.none { it.isValid(v) }) v else 0 } }.s()
+    partOne = otherTickets.sumOf { ticket -> ticket.sumOf { v -> if (rules.none { it.isValid(v) }) v else 0 } }.toString()
 
     val us = yourPart[1].split(",").map(String::toInt)
     val valid = otherTickets.filter { t -> t.all { v -> rules.any { it.isValid(v) } } }.plusElement(us)
@@ -50,5 +50,5 @@ fun PuzzleSet.day16() = puzzle(day = 16) {
     }
 
     val found = solve()
-    partTwo = found.withIndex().filter { "departure" in it.value }.map { us[it.index].toLong() }.product().s()
+    partTwo = found.withIndex().filter { "departure" in it.value }.map { us[it.index].toLong() }.product().toString()
 }

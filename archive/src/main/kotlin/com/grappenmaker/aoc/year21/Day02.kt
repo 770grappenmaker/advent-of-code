@@ -20,7 +20,7 @@ fun PuzzleSet.day2() = puzzle(day = 2) {
         }
     }
 
-    partOne = (sub1.horizontal * sub1.depth).s()
+    partOne = (sub1.horizontal * sub1.depth).toString()
 
     // Part two
     val sub2 = Submarine()
@@ -35,7 +35,7 @@ fun PuzzleSet.day2() = puzzle(day = 2) {
         }
     }
 
-    partTwo = (sub2.horizontal * sub2.depth).s()
+    partTwo = (sub2.horizontal * sub2.depth).toString()
 }
 
 // Aim is for part two, unused in part one

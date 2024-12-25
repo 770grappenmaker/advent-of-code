@@ -3,7 +3,9 @@
 package com.grappenmaker.aoc.year24
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
+@PuzzleEntry
 fun PuzzleSet.day05() = puzzle(day = 5) {
     val (fp, sp) = input.doubleLines()
     val assoc = Array(100) { hashSetOf<Int>() }

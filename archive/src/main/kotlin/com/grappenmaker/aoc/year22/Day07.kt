@@ -33,9 +33,9 @@ fun PuzzleSet.day7() = puzzle {
     fun getSize(dir: String): Int = (dirs[dir] ?: listOf()).sumOf { v -> normalFiles[v] ?: getSize(v) }
 
     val mapped = dirs.mapValues { (k) -> getSize(k) }
-    partOne = mapped.filter { (_, v) -> v <= 100000 }.values.sum().s()
+    partOne = mapped.filter { (_, v) -> v <= 100000 }.values.sum().toString()
 
     val shouldFree = mapped[""]!! - (70000000 - 30000000)
     val toDelete = mapped.filter { (_, u) -> u > shouldFree }.minBy { (_, u) -> abs(shouldFree - u) }.key
-    partTwo = mapped[toDelete].s()
+    partTwo = mapped[toDelete].toString()
 }

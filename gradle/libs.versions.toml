@@ -1,10 +1,10 @@
 [versions]
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 kxser = "1.7.3"
 coroutines = "1.9.0"
 asm = "9.7.1"
-ksp = "2.0.0-1.0.23"
-poet = "1.18.1"
+ksp = "2.1.0-1.0.29"
+poet = "2.0.0"
 
 [libraries]
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

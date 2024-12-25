@@ -37,7 +37,7 @@ fun PuzzleSet.day7() = puzzle(day = 7) {
             a.l.indices.firstNotNullOf { i -> (o.indexOf(b.l[i]) - o.indexOf(a.l[i])).takeIf { it != 0 } }
         })
 
-        return res.mapIndexed { idx, h -> (h.bid * (idx + 1)) }.sum().s()
+        return res.mapIndexed { idx, h -> (h.bid * (idx + 1)) }.sum().toString()
     }
 
     partOne = solve(false, "A, K, Q, J, T, 9, 8, 7, 6, 5, 4, 3, 2")

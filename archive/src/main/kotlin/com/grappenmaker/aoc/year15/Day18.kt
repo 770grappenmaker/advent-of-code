@@ -14,7 +14,7 @@ fun PuzzleSet.day18() = puzzle {
             !on && onNeighbours == 3 -> true
             else -> false
         }
-    }.nth(100).countTrue().s()
+    }.nth(100).countTrue().toString()
 
     partOne = solve(false)
     partTwo = solve(true)

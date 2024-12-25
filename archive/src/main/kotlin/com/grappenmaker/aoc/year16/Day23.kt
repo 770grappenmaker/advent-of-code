@@ -13,7 +13,7 @@ fun PuzzleSet.day23() = puzzle(day = 23) {
     fun solve(n: Long) = VM(inputLines.parseProgram()).run {
         registers['a'] = n
         stepUntilHalted()
-        registers['a'].s()
+        registers['a'].toString()
     }
 
     partOne = solve(7)

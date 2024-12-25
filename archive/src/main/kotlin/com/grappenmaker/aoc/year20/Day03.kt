@@ -13,7 +13,7 @@ fun PuzzleSet.day3() = puzzle {
                 .sumOf { if (this[it]) 1.toInt() else 0 }
         }
 
-        partOne = countTrees(Point(3, 1)).s()
-        partTwo = listOf(1 to 1, 3 to 1, 5 to 1, 7 to 1, 1 to 2).map { countTrees(it.toPoint()) }.product().s()
+        partOne = countTrees(Point(3, 1)).toString()
+        partTwo = listOf(1 to 1, 3 to 1, 5 to 1, 7 to 1, 1 to 2).map { countTrees(it.toPoint()) }.product().toString()
     }
 }

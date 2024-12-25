@@ -19,7 +19,7 @@ fun PuzzleSet.day1() = puzzle(day = 1) {
         // l.windowed(5, partialWindows = true).mapNotNull { w ->
         //     w.first().digitToIntOrNull() ?: if (partTwo) d.findIndexOf { w.startsWith(it) }?.let(Int::inc) else null
         // }.let { 10 * it.first() + it.last() }
-    }.s()
+    }.toString()
 
     partOne = solve(false)
     partTwo = solve(true)

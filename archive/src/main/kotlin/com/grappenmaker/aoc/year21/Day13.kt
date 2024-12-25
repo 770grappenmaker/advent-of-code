@@ -26,7 +26,7 @@ fun PuzzleSet.day13() = puzzle(day = 13) {
 
     // Part two
     val allFolded = folds.fold(points) { cur, fold -> doFold(cur, fold) }
-    partOne = doFold(points, folds.first()).size.s()
+    partOne = doFold(points, folds.first()).size.toString()
     partTwo = "\n" + allFolded.asBooleanGrid().debug(off = " ")
 }
 

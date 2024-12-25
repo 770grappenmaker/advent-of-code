@@ -57,7 +57,7 @@ fun PuzzleSet.day16() = puzzle(day = 16) {
         return seen.size
     }
 
-    partOne = solve(State()).s()
+    partOne = solve(State()).toString()
     partTwo = g.edges.flatMapTo(hashSetOf()) { it.allPoints() }.maxOf { p ->
         buildList {
             if (p.x == 0) add(RIGHT)
@@ -65,5 +65,5 @@ fun PuzzleSet.day16() = puzzle(day = 16) {
             if (p.x == g.maxX) add(LEFT)
             if (p.y == g.maxY) add(UP)
         }.maxOf { solve(State(p, it)) }
-    }.s()
+    }.toString()
 }

@@ -92,6 +92,6 @@ fun PuzzleSet.day17() = puzzle {
         return abs(height + repeatedHeight)
     }
 
-    partOne = solve(2022).s()
-    partTwo = solve(1000000000000).s()
+    partOne = solve(2022).toString()
+    partTwo = solve(1000000000000).toString()
 }

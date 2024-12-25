@@ -21,7 +21,7 @@ fun PuzzleSet.day9() = puzzle(day = 9) {
             }
         }
 
-        return scores.max().s()
+        return scores.max().toString()
     }
 
     partOne = step(1..totalMarbles)

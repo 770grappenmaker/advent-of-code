@@ -17,7 +17,7 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
         } else null
     }
 
-    partOne = rules.fold(setOf<String>()) { acc, curr -> acc + curr.replacements(molecule) }.size.s()
+    partOne = rules.fold(setOf<String>()) { acc, curr -> acc + curr.replacements(molecule) }.size.toString()
 
     fun Pair<String, String>.replaceOnce(on: String) = if (first !in on) null else on.replaceFirst(first, second)
     val reverseRules = rules.map { (a, b) -> b to a }
@@ -56,7 +56,7 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
                 curr = updated
             }
 
-            if (curr == "e") return result.s()
+            if (curr == "e") return result.toString()
         }
     }
 

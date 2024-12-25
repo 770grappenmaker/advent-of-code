@@ -29,6 +29,6 @@ fun PuzzleSet.day19() = puzzle(day = 19) {
         }
 
         partOne = seenLetters.joinToString("")
-        partTwo = steps.s()
+        partTwo = steps.toString()
     }
 }
