@@ -204,6 +204,7 @@ fun <T> Iterable<T>.powerSet(filter: (Set<T>) -> Boolean = { true }): Set<Set<T>
     return (recurse + recurse.map { it + next }).filterTo(hashSetOf(), filter)
 }
 
+@Deprecated("Includes (x, x) for every x in iterable", ReplaceWith("permPairsExclusive()"))
 fun <T> Iterable<T>.permPairs(): List<Pair<T, T>> {
     val result = mutableListOf<Pair<T, T>>()
     forEach { a -> mapTo(result) { a to it } }
@@ -819,6 +820,7 @@ inline fun <T> Iterable<T>.sumOfIndexed(block: (idx: Int, T) -> Long): Long {
 }
 
 inline fun <T, R> Iterable<T>.mapToSet(block: (T) -> R): Set<R> = mapTo(hashSetOf(), block)
+inline fun <T> Iterable<T>.filterToSet(block: (T) -> Boolean): Set<T> = filterTo(hashSetOf(), block)
 inline fun <T, R> Iterable<T>.flatMapToSet(block: (T) -> Iterable<R>): Set<R> = flatMapTo(hashSetOf(), block)
 
 data class Edge<T>(val to: T, val weight: Int = 1)

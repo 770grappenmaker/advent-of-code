@@ -3,7 +3,11 @@ package com.grappenmaker.aoc
 import com.grappenmaker.aoc.Direction.*
 import java.util.*
 import kotlin.collections.ArrayDeque
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.absoluteValue
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sqrt
 
 val dAdjacentSides = enumValues<Direction>().map { it.toPoint() }
 val dAdjacentDiagonals = listOf(DOWN + RIGHT, UP + RIGHT, DOWN + LEFT, UP + LEFT)
@@ -143,13 +147,13 @@ interface Plane {
     val width: Int
     val height: Int
 
-    fun Point.adjacentSides() = getAdjacent(dAdjacentSides, width, height)
+    fun Point.adjacentSides() = if (this@Plane is InfiniteGrid<*>) adjacentSidesInf() else adjacentSides(width, height)
     fun Point.adjacentSideIndices() = adjacentSides().toIndices()
 
-    fun Point.adjacentDiagonals() = getAdjacent(dAdjacentDiagonals, width, height)
+    fun Point.adjacentDiagonals() = if (this@Plane is InfiniteGrid<*>) adjacentDiagonalsInf() else adjacentDiagonals(width, height)
     fun Point.adjacentDiagonalIndices() = adjacentDiagonals().toIndices()
 
-    fun Point.allAdjacent() = getAdjacent(dAllAdjacent, width, height)
+    fun Point.allAdjacent() = if (this@Plane is InfiniteGrid<*>) allAdjacentInf() else allAdjacent(width, height)
     fun Point.allAdjacentIndices() = allAdjacent().toIndices()
     fun Point.clamp() = Point(x.coerceIn(xRange), y.coerceIn(yRange))
 
@@ -193,12 +197,13 @@ val Plane.topRightCorner get() = Point(width - 1, 0)
 val Plane.bottomLeftCorner get() = Point(0, height - 1)
 val Plane.bottomRightCorner get() = Point(width - 1, height - 1)
 val Plane.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner)
-val Plane.edges get() = listOf(
-    topLeftCorner..topRightCorner,
-    topRightCorner..bottomRightCorner,
-    topLeftCorner..bottomLeftCorner,
-    bottomLeftCorner..bottomRightCorner
-)
+val Plane.edges
+    get() = listOf(
+        topLeftCorner..topRightCorner,
+        topRightCorner..bottomRightCorner,
+        topLeftCorner..bottomLeftCorner,
+        bottomLeftCorner..bottomRightCorner
+    )
 
 val Plane.area get() = width * height
 val Plane.areaLong get() = width.toLong() * height.toLong()
@@ -320,7 +325,9 @@ fun <T> MutableGrid<T>.insert(other: GridLike<T>, at: Point) {
     }
 }
 
-fun <T> GridLike<T>.asGrid() = Grid(width, height, elements.toList())
+fun <T> GridLike<T>.asGrid() =
+    if (this is InfiniteGrid<T>) infiniteAsGrid { error("Could not turn infinite grid with gaps into regular grid") }
+    else Grid(width, height, elements.toList())
 
 data class Grid<T>(
     override val width: Int,
@@ -549,13 +556,17 @@ fun IntGrid.dijkstra(initial: Point, end: Point, diagonals: Boolean = false) =
     dijkstra(initial, end, { this[it] }, diagonals)
 
 @JvmName("debugAny")
-fun <T> GridLike<T>.debug() = rows.joinToString("\n") { row -> row.joinToString("") { this[it].toString() } }
+fun <T> GridLike<T>.debug(
+    perRow: String = "\n",
+    perCol: String = "",
+    display: (T) -> String = { it.toString() }
+) = rows.joinToString(perRow) { row -> row.joinToString(perCol) { display(this[it]) } }
 
 @JvmName("debugBooleans")
 fun BooleanGrid.debug(
     on: String = "#",
     off: String = ".",
-) = rows.joinToString("\n") { row -> row.joinToString("") { if (this[it]) on else off } }
+) = debug { if (it) on else off }
 
 typealias Graph<T> = Map<T, List<T>>
 
@@ -653,7 +664,9 @@ fun BooleanGrid.expandEmpty(x: Int = 1, y: Int = 1) = expand(x, y, false)
 
 fun <T> GridLike<T>.asInfiniteGrid() = InfiniteGrid(points.associateWith { this[it] }.toMutableMap())
 fun <T> Map<Point, T>.asInfiniteGrid() = InfiniteGrid(toMutableMap())
-fun <T> Map<Point, T>.asGrid() = grid(keys.maxX() + 1, keys.maxY() + 1) { getValue(it) }
+fun <T> Map<Point, T>.mapAsGrid() = grid(keys.maxX() + 1, keys.maxY() + 1) { getValue(it) }
+
+fun <T> emptyGrid(): Grid<T> = Grid(0, 0, emptyList())
 
 // Experimental, do not use D:
 class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>, MutableMap<Point, T> by map {
@@ -676,6 +689,33 @@ class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>
     override fun pointFromIndex(index: Int) = infiniError()
     override fun List<Point>.toIndices() = infiniError()
     override fun iterator() = infiniError()
+
+    fun infiniteAsGrid(default: (Point) -> T): Grid<T> {
+        if (keys.isEmpty()) return emptyGrid()
+
+        var sx = Int.MAX_VALUE
+        var sy = Int.MAX_VALUE
+        var gx = Int.MIN_VALUE
+        var gy = Int.MIN_VALUE
+
+        for (k in keys) {
+            sx = min(k.x, sx)
+            sy = min(k.y, sy)
+            gx = max(k.x, gx)
+            gy = max(k.y, gy)
+        }
+
+        val width = gx - sx + 1
+        val height = gy - sy + 1
+        val entries = buildList {
+            for (y in 0..<height) for (x in 0..<width) {
+                val target = Point(x + sx, y + sy)
+                add(getOrNull(target) ?: default(target))
+            }
+        }
+
+        return Grid(width, height, entries)
+    }
 }
 
 // Extra 3d stuffs

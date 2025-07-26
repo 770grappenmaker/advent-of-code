@@ -1,19 +1,19 @@
 plugins {
     id("kotlin")
-    id("ksp")
+//    id("ksp")
 }
 
 dependencies {
-    implementation(projects.archive)
-//    implementation(projects.current)
+//    implementation(projects.archive)
+    implementation(projects.current)
     implementation(projects.util)
 //    implementation(libs.bundles.asm)
 }
 
-ksp {
-    arg("generatePuzzleSets", "false")
-    arg("generateYearSet", "true")
-}
+//ksp {
+//    arg("generatePuzzleSets", "false")
+//    arg("generateYearSet", "true")
+//}
 
 tasks {
     val jarProvider = named<Jar>("jar") {

@@ -9,9 +9,12 @@ build
 
 # Ignore personal inputs
 inputs/*/day-*.txt
+inputs/everybodycodes
 
 # Ignore personal token
 .TOKEN
+.EVERYBODY-CODES-TOKEN
+.EVERYBODY-CODES-SEED
 
 # Ignore .kotlin
 .kotlin

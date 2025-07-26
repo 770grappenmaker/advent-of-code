@@ -1,35 +1,49 @@
 package com.grappenmaker.aoc.year20
 
-import com.grappenmaker.aoc.PuzzleSet
-import com.grappenmaker.aoc.year20.Opcode.*
-import com.grappenmaker.aoc.hasDuplicateBy
+import com.grappenmaker.aoc.*
 import com.grappenmaker.aoc.ksp.PuzzleEntry
-import com.grappenmaker.aoc.untilNotDistinctBy
 
 @PuzzleEntry
 fun PuzzleSet.day8() = puzzle(8) {
-    val insns = inputLines.map { l ->
-        val (a, b) = l.split(" ")
-        enumValueOf<Opcode>(a.uppercase()) to b.toInt()
+    fun run(program: List<String>, returnAnyways: Boolean): Int? {
+        var acc = 0
+        var pos = 0
+        val seen = hashSetOf<Int>()
+
+        outer@ while (seen.add(pos) && pos < program.size) {
+            val l = program[pos]
+            val p = l.split(' ')
+            val n = p[1].toInt()
+
+            when (p[0]) {
+                "nop" -> {}
+                "acc" -> acc += n
+                "jmp" -> pos += (n - 1)
+            }
+
+            pos++
+        }
+
+        if (pos >= program.size || returnAnyways) return acc
+        return null
     }
 
-    fun List<Pair<Opcode, Int>>.seq() = generateSequence(0 to 0) { (acc, ptr) ->
-        getOrNull(ptr)?.let { (op, a) ->
-            when (op) {
-                NOP -> acc to ptr + 1
-                ACC -> acc + a to ptr + 1
-                JMP -> acc to ptr + a
-            }
+    partOne = run(inputLines, true).toString()
+
+    for ((idx, l) in inputLines.withIndex()) {
+        val cmd = l.substringBefore(' ')
+        if (cmd == "acc") continue
+
+        val program = buildList {
+            addAll(inputLines.take(idx))
+            add((if (cmd == "nop") "jmp " else "nop ") + l.substringAfter(' '))
+            addAll(inputLines.drop(idx + 1))
+        }
+
+        val res = run(program, false)
+        if (res != null) {
+            partTwo = res
+            break
         }
     }
-
-    partOne = insns.seq().untilNotDistinctBy { (_, ptr) -> ptr }.last().first.toString()
-    partTwo = insns.indices.filter { insns[it].first in listOf(NOP, JMP) }.map { idx ->
-        val (op, a) = insns[idx]
-        insns.toMutableList().apply { set(idx, (if (op == NOP) JMP else NOP) to a) }.seq()
-    }.first { !it.hasDuplicateBy { (_, ptr) -> ptr } }.last().first.toString()
-}
-
-enum class Opcode {
-    NOP, ACC, JMP
 }

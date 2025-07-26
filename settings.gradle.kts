@@ -1,6 +1,6 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include("archive", "ksp", "runner", "util")
+include("current", "runner", "util")
 
 pluginManagement {
     plugins {
