@@ -286,6 +286,10 @@ interface GridLike<T> : Plane, Iterable<T> {
     fun getOrNull(by: Point) = if (by !in this) null else get(by)
 }
 
+interface MutableGridLike<T> : GridLike<T> {
+    operator fun set(by: Point, value: T): T
+}
+
 val <T> GridLike<T>.rowsValues get() = yRange.map { rowValues(it) }
 val <T> GridLike<T>.columnsValues get() = xRange.map { columnValues(it) }
 
@@ -293,12 +297,12 @@ data class MutableGrid<T>(
     override val width: Int,
     override val height: Int,
     override val elements: MutableList<T>
-) : MutableList<T> by elements, GridLike<T> {
+) : MutableList<T> by elements, MutableGridLike<T> {
     init {
         assertDimensions(width, height)
     }
 
-    operator fun set(by: Point, value: T) = set(by.toIndex(), value)
+    override operator fun set(by: Point, value: T) = set(by.toIndex(), value)
 }
 
 inline fun <T> MutableGrid<T>.mapInPlaceIndexedElements(transform: (Point, T) -> T) =
@@ -426,11 +430,11 @@ inline fun <T> mutableGrid(width: Int, height: Int, init: (Point) -> T) =
     MutableGrid(width, height, (0..<width * height).map { init(pointFromIndex(it, width)) }.toMutableList())
 
 typealias BooleanGrid = GridLike<Boolean>
-typealias MutableBooleanGrid = MutableGrid<Boolean>
+typealias MutableBooleanGrid = MutableGridLike<Boolean>
 typealias IntGrid = GridLike<Int>
-typealias MutableIntGrid = MutableGrid<Int>
+typealias MutableIntGrid = MutableGridLike<Int>
 typealias CharGrid = GridLike<Char>
-typealias MutableCharGrid = MutableGrid<Char>
+typealias MutableCharGrid = MutableGridLike<Char>
 
 fun MutableBooleanGrid.toggle(point: Point) {
     this[point] = !this[point]
@@ -879,3 +883,172 @@ fun <T> GridLike<T>.flip() = rowsValues.asReversed().asGrid()
 fun <T> GridLike<T>.rotate() = columnsValues.map { it.asReversed() }.asGrid()
 fun <T> GridLike<T>.orientations() =
     generateSequence(this) { it.rotate() }.take(4).flatMap { listOf(it, it.flip()) }.toSet()
+
+fun <T> Grid<T>.subGrid(start: Point, width: Int, height: Int) = SubGrid(this, width, height, start)
+fun <T> MutableGrid<T>.mutableSubGrid(start: Point, width: Int, height: Int) =
+    MutableSubGrid(this, width, height, start)
+
+class SubGrid<T>(
+    val parent: Grid<T>,
+    override val width: Int,
+    override val height: Int,
+    val start: Point
+) : GridLike<T> {
+    init {
+        if (Point(start.x + width - 1, start.y + height - 1) !in parent) {
+            error("Invalid width=$width and height=$height at $start, does not fit into parent grid (${parent.width}x${parent.height})")
+        }
+    }
+
+    override val elements = object : List<T> {
+        override val size = width * height
+        override fun get(index: Int): T = parent[pointFromIndex(index, width) + start]
+        override fun isEmpty() = size == 0
+
+        inner class Iter(startIdx: Int) : ListIterator<T> {
+            private var curr = startIdx
+
+            override fun hasNext() = curr < size
+            override fun hasPrevious() = curr > 0
+            override fun next(): T = get(curr++)
+            override fun nextIndex() = curr
+            override fun previous(): T = get(--curr)
+            override fun previousIndex() = curr - 1
+        }
+
+        override fun iterator() = listIterator()
+        override fun listIterator() = listIterator(0)
+        override fun listIterator(index: Int) = Iter(index)
+
+        override fun subList(fromIndex: Int, toIndex: Int): List<T> {
+            TODO("Not yet implemented")
+        }
+
+        override fun lastIndexOf(element: T): Int {
+            TODO("Not yet implemented")
+        }
+
+        override fun indexOf(element: T): Int {
+            TODO("Not yet implemented")
+        }
+
+        override fun containsAll(elements: Collection<T>): Boolean {
+            TODO("Not yet implemented")
+        }
+
+        override fun contains(element: T): Boolean {
+            TODO("Not yet implemented")
+        }
+    }
+
+    override fun iterator() = elements.iterator()
+}
+
+class MutableSubGrid<T>(
+    val parent: MutableGrid<T>,
+    override val width: Int,
+    override val height: Int,
+    val start: Point
+) : MutableGridLike<T> {
+    init {
+        if (Point(start.x + width - 1, start.y + height - 1) !in parent) {
+            error("Invalid width=$width and height=$height at $start, does not fit into parent grid (${parent.width}x${parent.height})")
+        }
+    }
+
+    override fun set(by: Point, value: T) = parent.set(by + start, value)
+
+    override val elements = object : MutableList<T> {
+        override val size = width * height
+
+        override fun get(index: Int): T = parent[pointFromIndex(index, width) + start]
+        override fun isEmpty() = size == 0
+
+        inner class Iter(startIdx: Int) : MutableListIterator<T> {
+            private var curr = startIdx
+
+            override fun hasNext() = curr < size
+            override fun hasPrevious() = curr > 0
+            override fun next(): T = get(curr++)
+            override fun nextIndex() = curr
+            override fun previous(): T = get(--curr)
+            override fun previousIndex() = curr - 1
+
+            override fun add(element: T) {
+                error("Not possible with subgrids")
+            }
+
+            override fun remove() {
+                error("Not possible with subgrids")
+            }
+
+            override fun set(element: T) {
+                set(curr - 1, element)
+            }
+        }
+
+        override fun iterator() = listIterator()
+        override fun listIterator() = listIterator(0)
+        override fun listIterator(index: Int) = Iter(index)
+
+        override fun removeAt(index: Int): T {
+            error("Not possible with subgrids")
+        }
+
+        override fun set(index: Int, element: T) = set(pointFromIndex(index), element)
+
+        override fun retainAll(elements: Collection<T>): Boolean {
+            error("Not possible with subgrids")
+        }
+
+        override fun removeAll(elements: Collection<T>): Boolean {
+            error("Not possible with subgrids")
+        }
+
+        override fun remove(element: T): Boolean {
+            error("Not possible with subgrids")
+        }
+
+        override fun subList(fromIndex: Int, toIndex: Int): MutableList<T> {
+            error("Not possible with subgrids")
+        }
+
+        override fun lastIndexOf(element: T): Int {
+            TODO("Not yet implemented")
+        }
+
+        override fun indexOf(element: T): Int {
+            TODO("Not yet implemented")
+        }
+
+        override fun containsAll(elements: Collection<T>): Boolean {
+            TODO("Not yet implemented")
+        }
+
+        override fun contains(element: T): Boolean {
+            TODO("Not yet implemented")
+        }
+
+        override fun clear() {
+            error("Not possible with subgrids")
+        }
+
+        override fun addAll(index: Int, elements: Collection<T>): Boolean {
+            error("Not possible with subgrids")
+        }
+
+        override fun addAll(elements: Collection<T>): Boolean {
+            error("Not possible with subgrids")
+        }
+
+        override fun add(index: Int, element: T) {
+            error("Not possible with subgrids")
+        }
+
+        override fun add(element: T): Boolean {
+            error("Not possible with subgrids")
+        }
+    }
+
+    override fun iterator() = elements.iterator()
+}
