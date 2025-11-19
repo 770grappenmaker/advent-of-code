@@ -19,3 +19,4 @@ inputs/everybodycodes
 # Ignore .kotlin
 .kotlin
 *.dll
+out

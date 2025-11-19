@@ -98,6 +98,10 @@ val years: Map<Int, Map<Int, ECSolveContext.() -> Unit>> = mapOf(
         1 to ECSolveContext::day01,
         2 to ECSolveContext::day02,
         3 to ECSolveContext::day03,
+    ),
+    2025 to mapOf(
+        1 to ECSolveContext::y25day01,
+        2 to ECSolveContext::y25day02,
     )
 )
 
