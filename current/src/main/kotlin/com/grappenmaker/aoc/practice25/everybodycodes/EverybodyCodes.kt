@@ -70,7 +70,12 @@ fun getInputsFile(year: Int, quest: Int) =
 fun getInputFile(year: Int, quest: Int, part: Int) =
     getEveryoneCodesDir(year).resolve("${quest.toString().padStart(2, '0')}-input-$part.txt")
 
-fun downloadAndParse(target: Path, url: String, exists: Boolean = true, extra: URLConnection.() -> Unit = {}): Map<String, String> {
+fun downloadAndParse(
+    target: Path,
+    url: String,
+    exists: Boolean = true,
+    extra: URLConnection.() -> Unit = {}
+): Map<String, String> {
     if (exists && target.exists()) return cursedParseJSONMap(target.readText())
 
     with(URI(url).toURL().openConnection()) {
@@ -105,6 +110,7 @@ val years: Map<Int, Map<Int, ECSolveContext.() -> Unit>> = mapOf(
         8 to ECSolveContext::day08,
         9 to ECSolveContext::day09,
         10 to ECSolveContext::day10,
+        11 to ECSolveContext::day11,
     ),
     2025 to mapOf(
         1 to ECSolveContext::y25day01,
@@ -123,23 +129,20 @@ fun main(args: Array<String>) {
     println("Day ${puzzle.quest}")
     val timeTaken = measureNanoTime { puzzle.implementation(context) }
 
-    println()
-    println(
-        """
-        |Part 1: ${context.partOneDelegate.underlying}
-        |Part 2: ${context.partTwoDelegate.underlying}
-        |Part 3: ${context.partThreeDelegate.underlying}
-        """.trimMargin()
+    val answers = fetchAnswers(year, quest)
+    val delegates = listOf(
+        context.partOneDelegate,
+        context.partTwoDelegate,
+        context.partThreeDelegate
     )
+
+    println()
+    for (delegate in delegates) println(delegate.display(answers))
 
     println()
     println("Took ${timeTaken / 1_000_000}ms to calculate the solution")
 
-    listOf(
-        context.partOneDelegate,
-        context.partTwoDelegate,
-        context.partThreeDelegate
-    ).findLast { it.touched }?.let { d ->
+    delegates.findLast { it.touched }?.let { d ->
         runCatching {
             val selection = StringSelection(d.underlying)
             Toolkit.getDefaultToolkit().systemClipboard.setContents(selection, selection)
@@ -168,6 +171,20 @@ fun fetchKey(year: Int, quest: Int, part: Int): String {
     if ("key$part" in fetched) return fetched.getValue("key$part")
 
     error("Part not unlocked yet it seems!")
+}
+
+fun fetchAnswers(year: Int, quest: Int): List<String?> {
+    val file = getKeysFile(year, quest)
+    val res = MutableList<String?>(3) { null }
+    if (!file.exists()) return res
+
+    val keys = cursedParseJSONMap(file.readText())
+
+    for ((k, v) in keys) {
+        if (k.startsWith("answer")) res[k.drop(6).toInt() - 1] = v
+    }
+
+    return res
 }
 
 class ECInput(private val year: Int, private val quest: Int, private val part: Int) {
@@ -199,7 +216,7 @@ class ECInput(private val year: Int, private val quest: Int, private val part: I
 }
 
 class ECSolveContext(puzzle: ECPuzzle) {
-    inner class PartDelegate {
+    inner class PartDelegate(private val part: Int) {
         var underlying = "Not implemented"
 
         var touched = false
@@ -210,15 +227,25 @@ class ECSolveContext(puzzle: ECPuzzle) {
             touched = true
             underlying = value.toString()
         }
+
+        fun display(answers: List<String?>) = buildString {
+            append("Part ").append(part).append(": ").append(underlying)
+
+            val answer = answers[part - 1]
+            if (answer != null) {
+                append(' ')
+                if (answer == underlying) append("(correct)") else append("(incorrect)")
+            }
+        }
     }
 
     val partOneInput = ECInput(puzzle.year, puzzle.quest, 1)
     val partTwoInput = ECInput(puzzle.year, puzzle.quest, 2)
     val partThreeInput = ECInput(puzzle.year, puzzle.quest, 3)
 
-    val partOneDelegate = PartDelegate()
-    val partTwoDelegate = PartDelegate()
-    val partThreeDelegate = PartDelegate()
+    val partOneDelegate = PartDelegate(1)
+    val partTwoDelegate = PartDelegate(2)
+    val partThreeDelegate = PartDelegate(3)
 
     var partOne: Any by partOneDelegate
     var partTwo: Any by partTwoDelegate

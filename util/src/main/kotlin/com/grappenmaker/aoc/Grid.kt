@@ -9,6 +9,10 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
+// TODO: refactor all of this more
+// TODO: due to moving away from the distiction between mutable and regular grids in implementation,
+// TODO: we could remove a lot of duplicate code
+
 val dAdjacentSides = enumValues<Direction>().map { it.toPoint() }
 val dAdjacentDiagonals = listOf(DOWN + RIGHT, UP + RIGHT, DOWN + LEFT, UP + LEFT)
 val dAllAdjacent = dAdjacentSides + dAdjacentDiagonals
@@ -17,10 +21,14 @@ data class Point(val x: Int, val y: Int)
 data class PointL(val x: Long, val y: Long)
 
 val Point.r get() = y
+val Point.row get() = y
 val Point.c get() = x
+val Point.column get() = x
 
 val PointL.r get() = y
+val PointL.row get() = y
 val PointL.c get() = x
+val PointL.column get() = x
 
 fun Point.toL() = PointL(x.toLong(), y.toLong())
 
@@ -329,25 +337,15 @@ fun <T> MutableGrid<T>.insert(other: GridLike<T>, at: Point) {
     }
 }
 
-fun <T> GridLike<T>.asGrid() =
+fun <T> GridLike<T>.asGrid(): GridLike<T> =
     if (this is InfiniteGrid<T>) infiniteAsGrid { error("Could not turn infinite grid with gaps into regular grid") }
-    else Grid(width, height, elements.toList())
-
-data class Grid<T>(
-    override val width: Int,
-    override val height: Int,
-    override val elements: List<T>
-) : List<T> by elements, GridLike<T> {
-    init {
-        assertDimensions(width, height)
-    }
-}
+    else MutableGrid(width, height, elements.toMutableList())
 
 fun <T> GridLike<T>.asMutableGrid() = MutableGrid(width, height, elements.toMutableList())
 fun <T> GridLike<T>.asPseudoGrid(scale: Int) = PseudoGrid(width, height, elements, scale)
 fun <T> GridLike<T>.asPseudoGridMut(scale: Int) = PseudoGrid(width, height, elements.toMutableList(), scale)
 
-inline fun <T> List<String>.asGrid(transform: (Char) -> T) = Grid(
+inline fun <T> List<String>.asGrid(transform: (Char) -> T): GridLike<T> = MutableGrid(
     width = this[0].length,
     height = size,
     elements = flatMap { it.map(transform) }.toMutableList()
@@ -358,7 +356,7 @@ fun List<String>.asCharGrid() = asGrid { it }
 inline fun <T> List<String>.asMutableGrid(transform: (Char) -> T) = asGrid(transform).asMutableGrid()
 
 fun <T> List<List<T>>.asGrid() = flatten().asGrid(this[0].size)
-fun <T> List<T>.asGrid(width: Int) = Grid(width, size / width, this)
+fun <T> List<T>.asGrid(width: Int) = MutableGrid(width, size / width, toMutableList())
 
 fun List<String>.asDigitGrid() = asGrid { it.code - 48 }
 fun List<String>.asMutableDigitGrid() = asDigitGrid().asMutableGrid()
@@ -389,10 +387,10 @@ private fun <T> List<T>.assertDimensions(width: Int, height: Int) = require(size
     "Dimensions of list does not match ($width x $height = ${width * height} != $size)"
 }
 
-fun intGrid(width: Int, height: Int) = Grid(width, height, IntArray(width * height).toList())
-fun mutableIntGrid(width: Int, height: Int) = MutableGrid(width, height, IntArray(width * height).toMutableList())
-fun booleanGrid(width: Int, height: Int) = Grid(width, height, BooleanArray(width * height).toList())
-fun mutableBooleanGrid(width: Int, height: Int) =
+fun intGrid(width: Int, height: Int): GridLike<Int> = MutableGrid(width, height, IntArray(width * height).toMutableList())
+fun mutableIntGrid(width: Int, height: Int): MutableGridLike<Int> = MutableGrid(width, height, IntArray(width * height).toMutableList())
+fun booleanGrid(width: Int, height: Int): GridLike<Boolean> = MutableGrid(width, height, BooleanArray(width * height).toMutableList())
+fun mutableBooleanGrid(width: Int, height: Int): MutableGridLike<Boolean> =
     MutableGrid(width, height, BooleanArray(width * height).toMutableList())
 
 inline fun <T> buildGrid(
@@ -400,10 +398,10 @@ inline fun <T> buildGrid(
     height: Int,
     default: (Point) -> T,
     block: MutableGrid<T>.() -> Unit
-): Grid<T> {
+): GridLike<T> {
     val tempGrid = mutableGrid(width, height, default)
     tempGrid.block()
-    return tempGrid.asGrid()
+    return tempGrid
 }
 
 inline fun <T> buildGridDefault(width: Int, height: Int, default: T, block: MutableGrid<T>.() -> Unit) =
@@ -423,11 +421,11 @@ inline fun buildIntGrid(
     block: MutableIntGrid.() -> Unit
 ) = buildGrid(width, height, { default }, block)
 
-inline fun <T> grid(width: Int, height: Int, init: (Point) -> T) =
-    Grid(width, height, (0..<width * height).map { init(pointFromIndex(it, width)) })
+inline fun <T> grid(width: Int, height: Int, init: (Point) -> T): GridLike<T> =
+    MutableGrid(width, height, (0..<width * height).mapTo(mutableListOf()) { init(pointFromIndex(it, width)) })
 
 inline fun <T> mutableGrid(width: Int, height: Int, init: (Point) -> T) =
-    MutableGrid(width, height, (0..<width * height).map { init(pointFromIndex(it, width)) }.toMutableList())
+    MutableGrid(width, height, (0..<width * height).mapTo(mutableListOf()) { init(pointFromIndex(it, width)) })
 
 typealias BooleanGrid = GridLike<Boolean>
 typealias MutableBooleanGrid = MutableGridLike<Boolean>
@@ -458,9 +456,11 @@ fun MutableIntGrid.decrement(point: Point) {
     this[point]--
 }
 
-inline fun <T, N> GridLike<T>.mapElements(transform: (T) -> N) = Grid(width, height, elements.map(transform))
-inline fun <T, N> GridLike<T>.mapIndexedElements(transform: (Point, T) -> N) =
-    Grid(width, height, elements.mapIndexed { idx, t -> transform(pointFromIndex(idx), t) })
+inline fun <T, N> GridLike<T>.mapElements(transform: (T) -> N): GridLike<N> =
+    MutableGrid(width, height, elements.mapTo(mutableListOf(), transform))
+
+inline fun <T, N> GridLike<T>.mapIndexedElements(transform: (Point, T) -> N): GridLike<N> =
+    MutableGrid(width, height, elements.mapIndexedTo(mutableListOf()) { idx, t -> transform(pointFromIndex(idx), t) })
 
 inline fun <T> GridLike<T>.findPoints(check: (T) -> Boolean) = points.filter { check(this[it]) }
 fun <T> GridLike<T>.findPointsValued(value: T): List<Point> = findPoints { it == value }
@@ -654,12 +654,22 @@ inline fun <T> GridLike<T>.extendDir(x: Int = 0, y: Int = 0, default: (Point) ->
     extend(width + x, height + y, default)
 
 // "in all directions"
-fun <T> GridLike<T>.expand(x: Int = 1, y: Int = 1, default: T): Grid<T> {
+fun <T> GridLike<T>.expand(x: Int = 1, y: Int = 1, default: T): GridLike<T> {
     val newW = width + x * 2
     val newH = height + y * 2
-    val emptyX = List(newW * y) { default }
-    val emptyY = List(x) { default }
-    return Grid(newW, newH, emptyX + rows.flatMap { emptyY + it.map(this::get) + emptyY } + emptyX)
+    val elements = buildMutableList {
+        addN(newW * y, default)
+
+        for (row in yRange) {
+            addN(x, default)
+            addAll(elements.slice(row * width..<(row + 1) * width))
+            addN(x, default)
+        }
+
+        addN(newW * y, default)
+    }
+
+    return MutableGrid(newW, newH, elements)
 }
 
 fun <T> GridLike<T>.move(dx: Int, dy: Int) = grid(width + dx, height + dy) { (x, y) -> this[Point(x - dx, y - dy)] }
@@ -670,7 +680,14 @@ fun <T> GridLike<T>.asInfiniteGrid() = InfiniteGrid(points.associateWith { this[
 fun <T> Map<Point, T>.asInfiniteGrid() = InfiniteGrid(toMutableMap())
 fun <T> Map<Point, T>.mapAsGrid() = grid(keys.maxX() + 1, keys.maxY() + 1) { getValue(it) }
 
-fun <T> emptyGrid(): Grid<T> = Grid(0, 0, emptyList())
+fun <T> emptyGrid(): GridLike<T> = EmptyGrid()
+
+class EmptyGrid<T> : GridLike<T> {
+    override val width = 0
+    override val height = 0
+    override val elements = emptyList<T>()
+    override fun iterator() = elements.iterator()
+}
 
 // Experimental, do not use D:
 class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>, MutableMap<Point, T> by map {
@@ -694,7 +711,7 @@ class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>
     override fun List<Point>.toIndices() = infiniError()
     override fun iterator() = infiniError()
 
-    fun infiniteAsGrid(default: (Point) -> T): Grid<T> {
+    fun infiniteAsGrid(default: (Point) -> T): GridLike<T> {
         if (keys.isEmpty()) return emptyGrid()
 
         var sx = Int.MAX_VALUE
@@ -711,14 +728,14 @@ class InfiniteGrid<T>(val map: MutableMap<Point, T> = hashMapOf()) : GridLike<T>
 
         val width = gx - sx + 1
         val height = gy - sy + 1
-        val entries = buildList {
+        val entries = buildMutableList {
             for (y in 0..<height) for (x in 0..<width) {
                 val target = Point(x + sx, y + sy)
                 add(getOrNull(target) ?: default(target))
             }
         }
 
-        return Grid(width, height, entries)
+        return MutableGrid(width, height, entries)
     }
 }
 
@@ -884,12 +901,12 @@ fun <T> GridLike<T>.rotate() = columnsValues.map { it.asReversed() }.asGrid()
 fun <T> GridLike<T>.orientations() =
     generateSequence(this) { it.rotate() }.take(4).flatMap { listOf(it, it.flip()) }.toSet()
 
-fun <T> Grid<T>.subGrid(start: Point, width: Int, height: Int) = SubGrid(this, width, height, start)
-fun <T> MutableGrid<T>.mutableSubGrid(start: Point, width: Int, height: Int) =
+fun <T> GridLike<T>.subGrid(start: Point, width: Int, height: Int) = SubGrid(this, width, height, start)
+fun <T> MutableGridLike<T>.mutableSubGrid(start: Point, width: Int, height: Int) =
     MutableSubGrid(this, width, height, start)
 
 class SubGrid<T>(
-    val parent: Grid<T>,
+    val parent: GridLike<T>,
     override val width: Int,
     override val height: Int,
     val start: Point
@@ -945,7 +962,7 @@ class SubGrid<T>(
 }
 
 class MutableSubGrid<T>(
-    val parent: MutableGrid<T>,
+    val parent: MutableGridLike<T>,
     override val width: Int,
     override val height: Int,
     val start: Point

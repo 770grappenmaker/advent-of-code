@@ -94,8 +94,8 @@ fun ECSolveContext.day10() {
         sum
     }
 
-//    val p1g = partOneInput.solve(8).single()
-//    partOne = p1g.pts().joinToString("") { p1g[it].toString() }
-//    partTwo = partTwoInput.solveLater(9)
+    val p1g = partOneInput.solve(8).single()
+    partOne = p1g.pts().joinToString("") { p1g[it].toString() }
+    partTwo = partTwoInput.solveLater(9)
     partThree = partThreeInput.solveLater(6, difficult = true)
 }

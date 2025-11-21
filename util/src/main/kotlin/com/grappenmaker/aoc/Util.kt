@@ -916,3 +916,10 @@ fun Iterable<String>.padSameLength(): List<String> {
     val len = maxOf { it.length }
     return map { it.padEnd(len, ' ') }
 }
+
+fun <T> MutableList<T>.addN(n: Int, el: T) {
+    repeat(n) { add(el) }
+}
+
+inline fun <E> buildMutableList(@BuilderInference builderAction: MutableList<E>.() -> Unit) =
+    mutableListOf<E>().apply(builderAction)
