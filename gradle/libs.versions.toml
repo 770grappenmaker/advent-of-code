@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.1.0"
+kotlin = "2.2.21"
 kxser = "1.7.3"
 coroutines = "1.9.0"
 asm = "9.7.1"
