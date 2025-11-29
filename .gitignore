@@ -4,9 +4,6 @@
 # Ignore Gradle build output directory
 build
 
-# Ignore .idea configuration folder
-.idea
-
 # Ignore personal token
 .TOKEN
 

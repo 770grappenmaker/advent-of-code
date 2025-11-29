@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Advent of Code" pattern="file[advent-of-code]:inputs/2025//*||file[advent-of-code]:.TOKEN||file[advent-of-code]:Checklist.md||file[advent-of-code]:startDay.sh||file[advent-of-code.current*]:*//*||file[advent-of-code.util*]:*//*" />
+</component>
