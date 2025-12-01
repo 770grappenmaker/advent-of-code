@@ -390,8 +390,10 @@ fun <T> Sequence<T>.takeUntilGraceful(cond: (T) -> Boolean): Sequence<T> {
 }
 
 fun String.splitInts() = "-?\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
+fun String.splitLongs() = "-?\\d+".toRegex().findAll(this).map { it.value.toLong() }.toList()
 fun String.splitIntsPos() = "\\d+".toRegex().findAll(this).map { it.value.toInt() }.toList()
 fun String.ints() = splitInts() // shortcut
+fun String.longs() = splitLongs() // shortcut
 fun String.intsPos() = splitIntsPos() // shortcut
 
 fun String.onceSplit(at: String, default: String = this) = substringBefore(at, default) to substringAfter(at, default)

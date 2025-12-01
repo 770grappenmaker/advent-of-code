@@ -1,7 +1,10 @@
+@file:Suppress("unused")
+
 package com.grappenmaker.aoc
 
 import com.grappenmaker.aoc.Direction.*
-import java.util.*
+import java.util.PriorityQueue
+import java.util.Queue
 import kotlin.collections.ArrayDeque
 import kotlin.math.abs
 import kotlin.math.absoluteValue
@@ -10,7 +13,7 @@ import kotlin.math.min
 import kotlin.math.sqrt
 
 // TODO: refactor all of this more
-// TODO: due to moving away from the distiction between mutable and regular grids in implementation,
+// TODO: due to moving away from the distinction between mutable and regular grids in implementation,
 // TODO: we could remove a lot of duplicate code
 
 val dAdjacentSides = enumValues<Direction>().map { it.toPoint() }
@@ -311,6 +314,14 @@ data class MutableGrid<T>(
     }
 
     override operator fun set(by: Point, value: T) = set(by.toIndex(), value)
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is GridLike<*>) return false
+
+        return width == other.width && height == other.height && elements == other.elements
+    }
+
+    override fun hashCode() = java.util.Objects.hash(width, height, elements)
 }
 
 inline fun <T> MutableGrid<T>.mapInPlaceIndexedElements(transform: (Point, T) -> T) =
@@ -687,6 +698,15 @@ class EmptyGrid<T> : GridLike<T> {
     override val height = 0
     override val elements = emptyList<T>()
     override fun iterator() = elements.iterator()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is GridLike<*>) return false
+
+        return other.width == 0 && other.height == 0 && other.elements.isEmpty()
+    }
+
+    override fun hashCode() = elements.hashCode()
 }
 
 // Experimental, do not use D:
@@ -917,48 +937,21 @@ class SubGrid<T>(
         }
     }
 
-    override val elements = object : List<T> {
+    override val elements: List<T> = object : AbstractList<T>(), List<T> {
         override val size = width * height
         override fun get(index: Int): T = parent[pointFromIndex(index, width) + start]
         override fun isEmpty() = size == 0
-
-        inner class Iter(startIdx: Int) : ListIterator<T> {
-            private var curr = startIdx
-
-            override fun hasNext() = curr < size
-            override fun hasPrevious() = curr > 0
-            override fun next(): T = get(curr++)
-            override fun nextIndex() = curr
-            override fun previous(): T = get(--curr)
-            override fun previousIndex() = curr - 1
-        }
-
-        override fun iterator() = listIterator()
-        override fun listIterator() = listIterator(0)
-        override fun listIterator(index: Int) = Iter(index)
-
-        override fun subList(fromIndex: Int, toIndex: Int): List<T> {
-            TODO("Not yet implemented")
-        }
-
-        override fun lastIndexOf(element: T): Int {
-            TODO("Not yet implemented")
-        }
-
-        override fun indexOf(element: T): Int {
-            TODO("Not yet implemented")
-        }
-
-        override fun containsAll(elements: Collection<T>): Boolean {
-            TODO("Not yet implemented")
-        }
-
-        override fun contains(element: T): Boolean {
-            TODO("Not yet implemented")
-        }
     }
 
     override fun iterator() = elements.iterator()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is GridLike<*>) return false
+
+        return width == other.width && height == other.height && elements == other.elements
+    }
+
+    override fun hashCode() = java.util.Objects.hash(width, height, elements)
 }
 
 class MutableSubGrid<T>(
@@ -975,38 +968,11 @@ class MutableSubGrid<T>(
 
     override fun set(by: Point, value: T) = parent.set(by + start, value)
 
-    override val elements = object : MutableList<T> {
+    override val elements: MutableList<T> = object : AbstractMutableList<T>(), MutableList<T> {
         override val size = width * height
 
         override fun get(index: Int): T = parent[pointFromIndex(index, width) + start]
         override fun isEmpty() = size == 0
-
-        inner class Iter(startIdx: Int) : MutableListIterator<T> {
-            private var curr = startIdx
-
-            override fun hasNext() = curr < size
-            override fun hasPrevious() = curr > 0
-            override fun next(): T = get(curr++)
-            override fun nextIndex() = curr
-            override fun previous(): T = get(--curr)
-            override fun previousIndex() = curr - 1
-
-            override fun add(element: T) {
-                error("Not possible with subgrids")
-            }
-
-            override fun remove() {
-                error("Not possible with subgrids")
-            }
-
-            override fun set(element: T) {
-                set(curr - 1, element)
-            }
-        }
-
-        override fun iterator() = listIterator()
-        override fun listIterator() = listIterator(0)
-        override fun listIterator(index: Int) = Iter(index)
 
         override fun removeAt(index: Int): T {
             error("Not possible with subgrids")
@@ -1014,58 +980,18 @@ class MutableSubGrid<T>(
 
         override fun set(index: Int, element: T) = set(pointFromIndex(index), element)
 
-        override fun retainAll(elements: Collection<T>): Boolean {
-            error("Not possible with subgrids")
-        }
-
-        override fun removeAll(elements: Collection<T>): Boolean {
-            error("Not possible with subgrids")
-        }
-
-        override fun remove(element: T): Boolean {
-            error("Not possible with subgrids")
-        }
-
-        override fun subList(fromIndex: Int, toIndex: Int): MutableList<T> {
-            error("Not possible with subgrids")
-        }
-
-        override fun lastIndexOf(element: T): Int {
-            TODO("Not yet implemented")
-        }
-
-        override fun indexOf(element: T): Int {
-            TODO("Not yet implemented")
-        }
-
-        override fun containsAll(elements: Collection<T>): Boolean {
-            TODO("Not yet implemented")
-        }
-
-        override fun contains(element: T): Boolean {
-            TODO("Not yet implemented")
-        }
-
-        override fun clear() {
-            error("Not possible with subgrids")
-        }
-
-        override fun addAll(index: Int, elements: Collection<T>): Boolean {
-            error("Not possible with subgrids")
-        }
-
-        override fun addAll(elements: Collection<T>): Boolean {
-            error("Not possible with subgrids")
-        }
-
         override fun add(index: Int, element: T) {
-            error("Not possible with subgrids")
-        }
-
-        override fun add(element: T): Boolean {
             error("Not possible with subgrids")
         }
     }
 
     override fun iterator() = elements.iterator()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is GridLike<*>) return false
+
+        return width == other.width && height == other.height && elements == other.elements
+    }
+
+    override fun hashCode() = java.util.Objects.hash(width, height, elements)
 }
