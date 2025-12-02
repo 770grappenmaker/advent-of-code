@@ -234,6 +234,7 @@ inline fun <T, N> Iterable<T>.permPairsExclusive(transform: (T, T) -> N): List<N
 
 fun String.parseRange(inclusive: Boolean = true) = split("-").map(String::toInt).asPair().toRange(inclusive)
 fun Pair<Int, Int>.toRange(inclusive: Boolean = true) = IntRange(first, if (inclusive) second else second - 1)
+fun Pair<Long, Long>.toRange(inclusive: Boolean = true) = LongRange(first, if (inclusive) second else second - 1)
 
 fun <T> Iterable<T>.countContains(value: T) = count { it == value }
 fun String.countContains(value: Char) = count { it == value }
