@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalTypeInference::class)
+@file:Suppress("unused")
 
 package com.grappenmaker.aoc
 
@@ -8,7 +9,6 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import java.math.BigInteger
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 import kotlin.experimental.ExperimentalTypeInference
 import kotlin.properties.ReadOnlyProperty
@@ -84,11 +84,15 @@ fun <T> Iterable<T>.allDistinct(): Boolean {
     return true
 }
 
+fun <T> Sequence<T>.allDistinct() = asIterable().allDistinct()
+
 fun <T, M> Iterable<T>.allDistinctBy(map: (T) -> M): Boolean {
     val set = hashSetOf<M>()
     iterator().drain { if (!set.add(map(it))) return false }
     return true
 }
+
+fun <T, M> Sequence<T>.allDistinctBy(map: (T) -> M) = asIterable().allDistinctBy(map)
 
 fun <T> Iterable<T>.allIdentical(): Boolean {
     val iter = iterator()
@@ -99,6 +103,8 @@ fun <T> Iterable<T>.allIdentical(): Boolean {
     return true
 }
 
+fun <T> Sequence<T>.allIdentical() = asIterable().allIdentical()
+
 fun <T, M> Iterable<T>.allIdenticalBy(map: (T) -> M): Boolean {
     val iter = iterator()
     if (!iter.hasNext()) return true
@@ -107,6 +113,8 @@ fun <T, M> Iterable<T>.allIdenticalBy(map: (T) -> M): Boolean {
     iter.drain { if (map(it) != first) return false }
     return true
 }
+
+fun <T, M> Sequence<T>.allIdenticalBy(map: (T) -> M) = asIterable().allIdenticalBy(map)
 
 fun <T> List<T>.rotate(amount: Int): List<T> {
     val actualShift = amount.mod(size)
