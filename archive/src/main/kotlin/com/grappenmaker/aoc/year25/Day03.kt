@@ -6,7 +6,7 @@ fun main() = simplePuzzle(3, 2025) {
     fun solve(n: Int) = inputLines.sumOf { l ->
         (n downTo 1).fold(l.map { it.digitToInt() } to 0L) { (digits, soFar), left ->
             val nextIdx = (0..digits.size - left).maxBy { digits[it] }
-            digits.drop(nextIdx + 1) to 10 * soFar + digits[nextIdx]
+            digits.subList(nextIdx + 1, digits.size) to 10 * soFar + digits[nextIdx]
         }.second
     }
 
