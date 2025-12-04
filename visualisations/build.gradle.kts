@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":"))
+    implementation(projects.util)
 
     // TODO: convert to version catalog
     val gdxVersion = "1.11.0"
@@ -15,5 +15,3 @@ dependencies {
 
 fun DependencyHandlerScope.ktxImplementation(vararg names: String) =
     names.forEach { implementation("io.github.libktx:ktx-$it:1.11.0-rc3") }
-
-kotlin { jvmToolchain(16) }
