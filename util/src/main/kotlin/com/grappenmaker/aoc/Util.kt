@@ -934,3 +934,39 @@ fun <T> MutableList<T>.addN(n: Int, el: T) {
 
 inline fun <E> buildMutableList(@BuilderInference builderAction: MutableList<E>.() -> Unit) =
     mutableListOf<E>().apply(builderAction)
+
+fun <T> Sequence<T>.split(cond: (T) -> Boolean): Sequence<List<T>> = sequence {
+    var soFar = mutableListOf<T>()
+
+    for (p in this@split) {
+        if (cond(p)) {
+            if (soFar.isNotEmpty()) yield(soFar)
+            soFar = mutableListOf()
+        } else {
+            soFar += p
+        }
+    }
+
+    if (soFar.isNotEmpty()) yield(soFar)
+}
+
+fun <T> Sequence<T>.split(v: T): Sequence<List<T>> = split { it == v }
+
+fun <T> Iterable<T>.split(cond: (T) -> Boolean): List<List<T>> {
+    val res = mutableListOf<List<T>>()
+    var soFar = mutableListOf<T>()
+
+    for (p in this) {
+        if (cond(p)) {
+            if (soFar.isNotEmpty()) res += soFar
+            soFar = mutableListOf()
+        } else {
+            soFar += p
+        }
+    }
+
+    if (soFar.isNotEmpty()) res += soFar
+    return res
+}
+
+fun <T> Iterable<T>.split(v: T): List<List<T>> = split { it == v }
