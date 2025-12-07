@@ -1,5 +1,6 @@
 package com.grappenmaker.aoc.vis
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.Disposable
 import ktx.app.KtxScreen
 import kotlin.properties.ReadWriteProperty
@@ -28,3 +29,10 @@ open class DisposableScreen : KtxScreen {
     override fun resize(width: Int, height: Int) = reset()
     override fun dispose() = disposables.forEach { (it.current as? Disposable)?.dispose() }
 }
+
+fun Color.coerceAtLeast(other: Color) = Color(
+    maxOf(r, other.r),
+    maxOf(g, other.g),
+    maxOf(b, other.b),
+    maxOf(a, other.a),
+)

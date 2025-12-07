@@ -26,17 +26,10 @@ fun main() {
     })
 }
 
-val activeColor = Color(.9f, .9f, .9f, 1f)
-val historyColor = Color(.9f, 0f, 0f, 1f)
-val background = Color(.15f, .15f, .2f, 1f)
-val markedColor = Color(.5f, .93f, .5f, 1f)
-
-fun Color.coerceAtLeast(other: Color) = Color(
-    maxOf(r, other.r),
-    maxOf(g, other.g),
-    maxOf(b, other.b),
-    maxOf(a, other.a),
-)
+private val activeColor = Color(.9f, .9f, .9f, 1f)
+private val historyColor = Color(.9f, 0f, 0f, 1f)
+private val background = Color(.15f, .15f, .2f, 1f)
+private val markedColor = Color(.5f, .93f, .5f, 1f)
 
 object Y25Day04Visualisation : KtxGame<KtxScreen>(clearScreen = true) {
     override fun create() {
