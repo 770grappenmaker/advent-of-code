@@ -244,11 +244,26 @@ val Rectangle.bottomRightCorner get() = Point(maxX, maxY)
 val Rectangle.corners get() = listOf(topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner)
 
 fun Rectangle.asPlane() = SimplePlane(width, height)
-val Rectangle.points get() = (a.x..b.x).flatMap { x -> (a.y..b.y).map { Point(x, it) } }
+val Rectangle.points get() = (xRange).flatMap { x -> (yRange).map { Point(x, it) } }
 val Rectangle.pointsSequence
     get() = sequence {
-        for (x in a.x..b.x) for (y in a.y..b.y) yield(Point(x, y))
+        for (x in xRange) for (y in yRange) yield(Point(x, y))
     }
+
+fun Rectangle.contract(amount: Int) = Rectangle(
+    Point(a.x + amount, a.y + amount),
+    Point(b.x - amount, b.y - amount),
+)
+
+fun Rectangle.reorder() = Rectangle(
+    Point(minOf(a.x, b.x), minOf(a.y, b.y)),
+    Point(maxOf(a.x, b.x), maxOf(a.y, b.y)),
+)
+
+fun Line.reorder() = Line(
+    Point(minOf(a.x, b.x), minOf(a.y, b.y)),
+    Point(maxOf(a.x, b.x), maxOf(a.y, b.y)),
+)
 
 operator fun Rectangle.contains(point: Point) = point.x in xRange && point.y in yRange
 fun Rectangle.overlaps(other: Rectangle) =
@@ -995,3 +1010,16 @@ class MutableSubGrid<T>(
 
     override fun hashCode() = java.util.Objects.hash(width, height, elements)
 }
+
+fun Rectangle.intersects(line: Line) = when {
+    line.isVertical -> intersectsStraight(line, Point::x, Point::y, Rectangle::xRange)
+    line.isHorizontal -> intersectsStraight(line, Point::y, Point::x, Rectangle::yRange)
+    else -> error("Impossible")
+}
+
+private fun Rectangle.intersectsStraight(
+    line: Line,
+    coord: (Point) -> Int,
+    opposite: (Point) -> Int,
+    range: (Rectangle) -> IntRange
+) = coord(line.a) in range(contract(1)) && maxOf(opposite(a), opposite(line.a)) < minOf(opposite(b), opposite(line.b))
