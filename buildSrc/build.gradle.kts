@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation(libs.kotlin)
-//    implementation(libs.ksp)
+    implementation(libs.ksp)
 }
 
 kotlin {

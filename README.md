@@ -1,8 +1,73 @@
 # advent-of-code 🎄
 This repo contains all of my solutions for [Advent of Code](https://adventofcode.com/), written in [Kotlin](https://kotlinlang.org).
 
+## Years
+- [2025](current/src/main/kotlin/com/grappenmaker/aoc/year25)
+- [2024](archive/src/main/kotlin/com/grappenmaker/aoc/year24)
+- [2023](archive/src/main/kotlin/com/grappenmaker/aoc/year23)
+- [2022](archive/src/main/kotlin/com/grappenmaker/aoc/year22)
+- [2021](archive/src/main/kotlin/com/grappenmaker/aoc/year21)
+- [2020](archive/src/main/kotlin/com/grappenmaker/aoc/year20)
+- [2019](archive/src/main/kotlin/com/grappenmaker/aoc/year19)
+- [2018](archive/src/main/kotlin/com/grappenmaker/aoc/year18)
+- [2017](archive/src/main/kotlin/com/grappenmaker/aoc/year17)
+- [2016](archive/src/main/kotlin/com/grappenmaker/aoc/year16)
+- [2015](archive/src/main/kotlin/com/grappenmaker/aoc/year15)
+
 ## Leaderboard positions
-### 2023
+From 2025 onward, there was no more global leaderboard.
+
+### [2025](current/src/main/kotlin/com/grappenmaker/aoc/year25)
+My times:
+```
+Day   -Part 1-   -Part 2-
+ 12   00:22:46   00:22:48
+ 11   00:02:39   00:29:18
+ 10   00:06:22   00:25:29
+  9   00:01:07   00:48:12
+  8   00:13:41   00:16:53
+  7   00:03:12   00:12:50
+  6   00:02:35   00:14:30
+  5   00:01:24   00:03:00
+  4   00:01:13   00:02:09
+  3   00:02:36   00:25:43
+  2   00:06:31   00:13:24
+  1   00:03:13   00:04:28
+```
+
+### [2024](archive/src/main/kotlin/com/grappenmaker/aoc/year24)
+Final leaderboard placement: #519, #173 excluding potential cheaters (according to [this page](https://fuglede.github.io/aoc-full-leaderboard/only_known.html))
+Points: 100
+```
+      -------Part 1--------   -------Part 2--------
+Day       Time  Rank  Score       Time  Rank  Score
+ 25   00:03:11    62     39   00:03:15    51     50
+ 24   00:06:59   168      0   02:07:50   870      0
+ 23   00:12:41  1397      0   00:15:17   491      0
+ 22   00:02:39   124      0   00:22:40   440      0
+ 21   01:11:36   598      0   02:04:51   673      0
+ 20   00:46:30  2468      0   00:51:17  1098      0
+ 18   00:02:46    90     11   00:07:10   142      0
+ 17   00:07:34   229      0   00:57:38   200      0
+ 16   00:06:19   240      0   00:28:39   633      0
+ 15   00:09:33   102      0   00:38:47   281      0
+ 14   00:08:22   429      0   00:26:24   486      0
+ 13   00:03:41   104      0   00:19:45   446      0
+ 12   00:08:41   574      0   00:23:31   272      0
+ 11   00:03:50   342      0   00:11:38   466      0
+ 10   00:07:31   625      0   00:09:17   479      0
+  9   00:12:53   789      0   00:22:31   284      0
+  8   00:08:37   503      0   00:12:30   401      0
+  7   00:14:00  2419      0   00:15:06  1486      0
+  6   00:02:46   104      0   00:11:02   176      0
+  5   00:07:25   734      0   00:10:43   436      0
+  4   00:02:13   169      0   00:07:04   167      0
+  3   00:06:01  2041      0   00:21:46  4026      0
+  2   00:03:44   202      0   00:06:16   243      0
+  1   00:01:31   126      0   00:02:57   166      0
+```
+
+### [2023](archive/src/main/kotlin/com/grappenmaker/aoc/year23)
 Final leaderboard placement: #121  
 Total: 552 points  
 First time getting onto the official global leaderboards:  
@@ -36,49 +101,18 @@ Day       Time  Rank  Score       Time  Rank  Score
   1   00:00:56    12     89   00:14:28   953      0
 ```
 
-## 2024
-Final leaderboard placement: #519, #173 excluding potential cheaters (according to [this page](https://fuglede.github.io/aoc-full-leaderboard/only_known.html))
-Points: 100
-```
-      -------Part 1--------   -------Part 2--------
-Day       Time  Rank  Score       Time  Rank  Score
- 25   00:03:11    62     39   00:03:15    51     50
- 24   00:06:59   168      0   02:07:50   870      0
- 23   00:12:41  1397      0   00:15:17   491      0
- 22   00:02:39   124      0   00:22:40   440      0
- 21   01:11:36   598      0   02:04:51   673      0
- 20   00:46:30  2468      0   00:51:17  1098      0
- 18   00:02:46    90     11   00:07:10   142      0
- 17   00:07:34   229      0   00:57:38   200      0
- 16   00:06:19   240      0   00:28:39   633      0
- 15   00:09:33   102      0   00:38:47   281      0
- 14   00:08:22   429      0   00:26:24   486      0
- 13   00:03:41   104      0   00:19:45   446      0
- 12   00:08:41   574      0   00:23:31   272      0
- 11   00:03:50   342      0   00:11:38   466      0
- 10   00:07:31   625      0   00:09:17   479      0
-  9   00:12:53   789      0   00:22:31   284      0
-  8   00:08:37   503      0   00:12:30   401      0
-  7   00:14:00  2419      0   00:15:06  1486      0
-  6   00:02:46   104      0   00:11:02   176      0
-  5   00:07:25   734      0   00:10:43   436      0
-  4   00:02:13   169      0   00:07:04   167      0
-  3   00:06:01  2041      0   00:21:46  4026      0
-  2   00:03:44   202      0   00:06:16   243      0
-  1   00:01:31   126      0   00:02:57   166      0
-```
-
-## Progress (as of 2024)
-- [x] 2024: 25/25 (50 🌟) (100.0%)
-- [x] 2023: 25/25 (50 🌟) (100.0%)
-- [x] 2022: 25/25 (50 🌟) (100.0%)
-- [x] 2021: 25/25 (50 🌟) (100.0%)
-- [x] 2020: 25/25 (50 🌟) (100.0%)
-- [x] 2019: 25/25 (50 🌟) (100.0%)
-- [x] 2018: 25/25 (50 🌟) (100.0%)
-- [x] 2017: 25/25 (50 🌟) (100.0%)
-- [x] 2016: 25/25 (50 🌟) (100.0%)
-- [x] 2015: 25/25 (50 🌟) (100.0%)
-- [x] Total: 250/250 (500 🌟) (100.0%)
+## Progress (as of 2025)
+- [x] 2025:    12/12 (24/24 🌟)   (100.0%)
+- [x] 2024:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2023:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2022:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2021:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2020:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2019:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2018:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2017:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2016:    25/25 (50/50 🌟)   (100.0%)
+- [x] 2015:    25/25 (50/50 🌟)   (100.0%)
+- [x] Total: 262/262 (524/524 🌟) (100.0%)
 
 All done!

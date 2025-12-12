@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year25
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-fun main() = simplePuzzle(7, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day07() = puzzle(day = 7) {
     var p1 = 0
     val g = inputLines.asCharGrid()
     val s = g.findPointsValued('S').single()

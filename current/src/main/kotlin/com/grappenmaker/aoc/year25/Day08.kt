@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year25
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-fun main() = simplePuzzle(8, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day08() = puzzle(day = 8) {
     val pts = inputLines.map { l ->
         val (x, y, z) = l.split(",").map(String::toInt)
         Point3D(x, y, z)

@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year25
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-fun main() = simplePuzzle(9, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day09() = puzzle(day = 9) {
     val pts = inputLines.map { it.split(",").map(String::toInt).asPair().toPoint() }
     val combs = pts.combinations(2).map { (a, b) -> Rectangle(a, b).reorder() }.sortedByDescending { it.areaLong }
     partOne = combs.first().areaLong

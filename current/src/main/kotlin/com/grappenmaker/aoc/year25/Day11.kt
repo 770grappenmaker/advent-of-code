@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year25
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-fun main() = simplePuzzle(11, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day11() = puzzle(day = 11) {
     val g = hashMapOf<String, MutableSet<String>>()
 
     for (l in inputLines) {

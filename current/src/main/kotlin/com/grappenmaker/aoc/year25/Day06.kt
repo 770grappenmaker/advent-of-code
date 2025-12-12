@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year25
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-fun main() = simplePuzzle(6, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day06() = puzzle(day = 6) {
     fun Sequence<List<Long>>.solve() = zip(inputLines.last().splitToSequence("\\s+".toRegex())).sumOf { (nums, op) ->
         nums.reduce(
             when (op) {

@@ -1,11 +1,13 @@
 package com.grappenmaker.aoc.year25
 
-import com.grappenmaker.aoc.simplePuzzle
+import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import com.microsoft.z3.Expr
 import com.microsoft.z3.IntSort
-import com.sschr15.z3kt.*
+import com.sschr15.z3kt.z3
 
-fun main() = simplePuzzle(10, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day10() = puzzle(day = 10) {
     partOne = inputLines.sumOf { l ->
         val parts = l.split(" ")
         val goal = parts.first().drop(1).dropLast(1).map { it == '#' }

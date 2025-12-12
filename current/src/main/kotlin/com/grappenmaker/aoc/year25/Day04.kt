@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year25
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-fun main() = simplePuzzle(4, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day04() = puzzle(day = 4) {
     val g = inputLines.asGrid { it == '@' }.asMutableGrid()
     fun MutableBooleanGrid.iter() = pointsSequence.filter { this[it] && it.allAdjacent().count { p -> this[p] } < 4 }
 

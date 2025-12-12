@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year25
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-fun main() = simplePuzzle(2, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day02() = puzzle(day = 2) {
     fun solve(range: (String) -> IntRange) = input.split(",").sumOf { p ->
         p.split("-").map { it.toLong() }.asPair().toRange().asSequence().filter { i ->
             i.toString().let { c -> range(c).any { c.length % it == 0 && c.chunkedSequence(it).allIdentical() } }

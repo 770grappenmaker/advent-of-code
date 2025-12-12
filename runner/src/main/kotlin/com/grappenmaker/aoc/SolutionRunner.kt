@@ -2,13 +2,13 @@
 
 package com.grappenmaker.aoc
 
+import com.grappenmaker.aoc.years.year2025
 import java.nio.file.Files
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.readLines
 import kotlin.system.exitProcess
 
-// TODO: we will get to this system later, no need to worry about it right now
-val years = emptyList<PuzzleSet>()
+val years = listOf(year2025)
 val puzzles = years.flatMap { it.puzzles }
 
 fun main(args: Array<String>) {

@@ -1,8 +1,10 @@
 package com.grappenmaker.aoc.year25
 
 import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 
-fun main() = simplePuzzle(5, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day05() = puzzle(day = 5) {
     val (ranges, nums) = input.split("\n\n")
     val rs = ranges.lines().map { it.split("-").map(String::toLong).let { (a, b) -> a..b } }
 

@@ -1,9 +1,11 @@
 package com.grappenmaker.aoc.year25
 
-import com.grappenmaker.aoc.simplePuzzle
+import com.grappenmaker.aoc.*
+import com.grappenmaker.aoc.ksp.PuzzleEntry
 import kotlin.math.absoluteValue
 
-fun main() = simplePuzzle(1, 2025) {
+@PuzzleEntry
+fun PuzzleSet.day01() = puzzle(day = 1) {
     var p1 = 0
     var p2 = 0
     var cur = 50
